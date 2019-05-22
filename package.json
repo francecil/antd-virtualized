@@ -1,0 +1,23 @@
+{
+  "name": "antd-virtualized-select",
+  "version": "1.0.0",
+  "description": "select component with support large data",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Francecil/antd-virtualized-select.git"
+  },
+  "keywords": [
+    "react-virtualized",
+    "select"
+  ],
+  "author": "gahing",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Francecil/antd-virtualized-select/issues"
+  },
+  "homepage": "https://github.com/Francecil/antd-virtualized-select#readme"
+}
