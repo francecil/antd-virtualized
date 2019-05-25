@@ -15,7 +15,7 @@ export interface IProps extends SelectProps {
   allowClear: boolean,
   labelKey: string,
   valueKey: string,
-  // filterOption?: boolean | ((inputValue: any, option: any) => any);
+  filterOption?: (inputValue: any, option: any) => any | boolean;
   //要在列表的可见边界上方/下方呈现的行数,防闪烁
   overscanRowCount: number,
   options: Array<any>,
@@ -147,7 +147,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   _renderMenu = (menu: any) => {
     const { valueKey, labelKey, filterOption, overscanRowCount } = this.props
     const { searchValue, focusedOption, value, open }: any = this.state
-    const options = (filterOption && searchValue) ? this.props.options.filter((v: any) => true/*filterOption(searchValue, v)*/) : this.props.options
+    const options = (filterOption && searchValue) ? this.props.options.filter((v: string) => filterOption(searchValue, v)) : this.props.options
     if (options.length === 0) {
       return (
         menu
