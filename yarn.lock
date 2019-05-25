@@ -1235,6 +1235,11 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/classnames@^2.2.7":
+  version "2.2.7"
+  resolved "http://r.cnpmjs.org/@types/classnames/download/@types/classnames-2.2.7.tgz#fb68cc9be8487e6ea5b13700e759bfbab7e0fefd"
+  integrity sha1-+2jMm+hIfm6lsTcA51m/urfg/v0=
+
 "@types/istanbul-lib-coverage@*":
   version "2.0.1"
   resolved "http://r.cnpmjs.org/@types/istanbul-lib-coverage/download/@types/istanbul-lib-coverage-2.0.1.tgz#42995b446db9a48a11a07ec083499a860e9138ff"

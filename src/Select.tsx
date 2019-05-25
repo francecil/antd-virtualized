@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Select } from 'antd'
 import { SelectProps } from 'antd/lib/select'
+import classnames from 'classnames';
 
 // Import directly to avoid Webpack bundling the parts of react-virtualized that we are not using
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
-// import './index.less'
+import styles from './Select.module.css'
 
 export interface IProps extends SelectProps {
   maxHeight: number,
@@ -18,7 +19,7 @@ export interface IProps extends SelectProps {
   //要在列表的可见边界上方/下方呈现的行数,防闪烁
   overscanRowCount: number,
   options: Array<any>,
-  onChange: (v:any) => any,
+  onChange: (v: any) => any,
 }
 export interface IState {
   value: any,
@@ -191,7 +192,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         <AutoSizer disableHeight>
           {({ width }: any) => (
             <List
-              className='VirtualSelectGrid'
+              className={styles.VirtualSelectGrid}
               height={height}
               overscanRowCount={overscanRowCount}
               rowCount={options.length}
@@ -236,22 +237,12 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   }
 
   _optionRenderer = ({ focusedOption, handleFocus, handleSelect, key, labelKey, option, style, valueArray, valueKey }: any) => {
-    const className = ['VirtualizedSelectOption']
-    if (option[valueKey] === focusedOption) {
-      className.push('VirtualizedSelectFocusedOption')
-    }
+    const className = classnames(styles.VirtualizedSelectOption, option.className, {
+      [styles.VirtualizedSelectFocusedOption]: option[valueKey] === focusedOption,
+      [styles.VirtualizedSelectDisabledOption]: option.disabled,
+      [styles.VirtualizedSelectSelectedOption]: valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
+    })
 
-    if (option.disabled) {
-      className.push('VirtualizedSelectDisabledOption')
-    }
-
-    if (valueArray && valueArray.some((v: any) => v.key === option[valueKey])) {
-      className.push('VirtualizedSelectSelectedOption')
-    }
-
-    if (option.className) {
-      className.push(option.className)
-    }
     const events = option.disabled
       ? {}
       : {
@@ -261,7 +252,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
     return (
       <div
-        className={className.join(' ')}
+        className={className}
         key={key}
         style={style}
         title={option[labelKey]}
