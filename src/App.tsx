@@ -1,10 +1,10 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Button } from 'antd';
 import styles from './App.module.css'
-import Select from './Select'
+import VirtualizedSelect from './Select'
+import { Select } from 'antd'
 const initialState = {
   filtersSerial: undefined,
+  filtersSerial2: undefined,
   options: Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))
 };
 type IState = Readonly<typeof initialState>;
@@ -12,18 +12,19 @@ class App extends React.Component<{}, IState> {
   private handleChange = (v: any) => {
     console.log(v)
     this.setState({
-      filtersSerial:v
+      filtersSerial: v
     })
   }
   readonly state: IState = initialState;
   render() {
-    const { filtersSerial, options } = this.state
+    const { filtersSerial,filtersSerial2, options } = this.state
+    const arr = Array.from({ length: 200 }).map((v, i) => ({ id: i, name: 'test' + i }))
     return (
       <div className={styles.App}>
         <header className={styles.AppHeader}>
-          <Select
+          <VirtualizedSelect
             allowClear
-            placeholder="请输入，并选择"
+            placeholder="支持大数据的Select"
             className={styles.select}
             labelKey='name'
             onChange={(v: any) => this.handleChange(v)}
@@ -33,6 +34,21 @@ class App extends React.Component<{}, IState> {
             valueKey='id'
             filterOption={(input, option) => option.name.indexOf(input) >= 0}
           />
+          <Select
+            allowClear
+            placeholder="原生Select"
+            className={styles.select}
+            // onChange={(v: any) => this.handleChange(v)}
+            showSearch
+            value={filtersSerial2}
+            style={{marginTop:'100px'}}
+          >
+            {
+              arr.map((v) => (
+                <Select.Option key={v.id}>{v.name}</Select.Option>
+              ))
+            }
+          </Select>
         </header>
       </div>
     )
