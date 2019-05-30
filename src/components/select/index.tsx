@@ -6,7 +6,6 @@ import classnames from 'classnames';
 // Import directly to avoid Webpack bundling the parts of react-virtualized that we are not using
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
-import './index.less'
 
 export interface IProps extends SelectProps {
   maxHeight: number,

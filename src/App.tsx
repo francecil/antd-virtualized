@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './App.module.css'
-import VirtualizedSelect from './components/select'
+import { Select as VirtualizedSelect} from './components/'
+import './components/select/index.less'
 import { Select } from 'antd'
 
 function App() {
