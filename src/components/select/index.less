@@ -1,13 +1,11 @@
-// @import '~antd/lib/style/themes/default.less';
-@import '../style/theme.scss';
-$select-prefix-cls: #{$prefix}-select;
-
-.#{$select-prefix-cls} {
+@import '~antd/lib/style/themes/default.less';
+@import '../style/theme.less';
+@select-prefix-cls: ~'@{prefix}-select';
+.@{select-prefix-cls} {
   .VirtualSelectGrid {
     z-index: 50;
   }
-  
-  .VirtualizedSelectOption {
+  &-item {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -16,6 +14,9 @@ $select-prefix-cls: #{$prefix}-select;
             align-items: center;
     padding: 0 .5rem;
     cursor: pointer;
+    &:hover {
+      background-color: @item-hover-bg;
+    }
   }
   .VirtualizedSelectFocusedOption {
     background-color: #e6f7ff;

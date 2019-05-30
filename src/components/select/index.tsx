@@ -6,7 +6,7 @@ import classnames from 'classnames';
 // Import directly to avoid Webpack bundling the parts of react-virtualized that we are not using
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
-import './index.scss'
+import './index.less'
 
 export interface IProps extends SelectProps {
   maxHeight: number,
@@ -238,7 +238,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   }
 
   _optionRenderer = ({ focusedOption, handleFocus, handleSelect, key, labelKey, option, style, valueArray, valueKey }: any) => {
-    const className = classnames("VirtualizedSelectOption", option.className, {
+    const className = classnames("ant-virtualized-select-item", option.className, {
       "VirtualizedSelectFocusedOption": option[valueKey] === focusedOption,
       "VirtualizedSelectDisabledOption": option.disabled,
       "VirtualizedSelectSelectedOption": valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
@@ -248,7 +248,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       ? {}
       : {
         onClick: () => handleSelect(option),
-        onMouseEnter: () => handleFocus(option[valueKey])
+        // onMouseEnter: () => handleFocus(option[valueKey])
       }
 
     return (
