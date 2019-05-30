@@ -6,7 +6,7 @@ import classnames from 'classnames';
 // Import directly to avoid Webpack bundling the parts of react-virtualized that we are not using
 import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer'
 import List from 'react-virtualized/dist/commonjs/List'
-import styles from './Select.module.css'
+import './index.scss'
 
 export interface IProps extends SelectProps {
   maxHeight: number,
@@ -187,12 +187,13 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     return (
       <div
         onMouseDown={e => e.preventDefault()}
+        className="ant-virtualized-select"
       // onMouseDown={this.lockClose} onMouseUp={this.lockClose}
       >
         <AutoSizer disableHeight>
           {({ width }: any) => (
             <List
-              className={styles.VirtualSelectGrid}
+              className="VirtualSelectGrid"
               height={height}
               overscanRowCount={overscanRowCount}
               rowCount={options.length}
@@ -237,10 +238,10 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   }
 
   _optionRenderer = ({ focusedOption, handleFocus, handleSelect, key, labelKey, option, style, valueArray, valueKey }: any) => {
-    const className = classnames(styles.VirtualizedSelectOption, option.className, {
-      [styles.VirtualizedSelectFocusedOption]: option[valueKey] === focusedOption,
-      [styles.VirtualizedSelectDisabledOption]: option.disabled,
-      [styles.VirtualizedSelectSelectedOption]: valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
+    const className = classnames("VirtualizedSelectOption", option.className, {
+      "VirtualizedSelectFocusedOption": option[valueKey] === focusedOption,
+      "VirtualizedSelectDisabledOption": option.disabled,
+      "VirtualizedSelectSelectedOption": valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
     })
 
     const events = option.disabled

@@ -1,5 +1,5 @@
 {
-  "name": "antd-virtualized-select",
+  "name": "antd-virtualized",
   "version": "0.1.0",
   "description": "select component with support large data",
   "main": "index.js",
@@ -54,6 +54,7 @@
     ]
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.7"
+    "@types/classnames": "^2.2.7",
+    "node-sass": "^4.12.0"
   }
 }
