@@ -1,62 +1,26 @@
 {
   "name": "antd-virtualized",
-  "version": "0.1.0",
-  "description": "select component with support large data",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Francecil/antd-virtualized-select.git"
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "authors": {
+    "name": "",
+    "email": "france.zjx@gmail.com"
   },
-  "bugs": {
-    "url": "https://github.com/Francecil/antd-virtualized-select/issues"
-  },
-  "homepage": "https://github.com/Francecil/antd-virtualized-select#readme",
-  "keywords": [
-    "react-virtualized",
-    "select"
-  ],
-  "author": "gahing",
-  "license": "MIT",
-  "dependencies": {
-    "@types/jest": "24.0.13",
-    "@types/node": "12.0.2",
-    "@types/react": "16.8.18",
-    "@types/react-dom": "16.8.4",
-    "antd": "^3.18.2",
-    "babel-plugin-import": "^1.11.2",
-    "classnames": "^2.2.6",
-    "customize-cra": "^0.2.12",
-    "react": "^16.8.6",
-    "react-app-rewired": "^2.1.3",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1",
-    "react-virtualized": "^9.21.1",
-    "typescript": "3.4.5"
-  },
+  "repository": "/antd-virtualized",
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
-    "eject": "react-scripts eject"
+    "dev": "umi-lib doc dev",
+    "build": "umi-lib build"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "peerDependencies": {
+    "react": "16.x"
   },
   "devDependencies": {
-    "@types/classnames": "^2.2.7",
-    "less": "^3.9.0",
-    "less-loader": "^5.0.0"
-  }
+    
+    "umi-library": "^1.1.1",
+    "typescript": "^3.3.3"
+    
+    },
+  "license": "MIT"
 }

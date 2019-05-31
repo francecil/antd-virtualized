@@ -1,7 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import styles from './index.css';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+export interface ButtonProps {
+  size?: 'large' | 'default';
+}
 
+const Button: React.FC<ButtonProps> = function(props) {
+  return (
+    <button
+      className={styles.button}
+      style={{
+        fontSize: props.size === 'large' ? 40 : 20,
+      }}
+    >
+      {props.children}
+    </button>
+  );
+};
+
+export default Button;
