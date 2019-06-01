@@ -1,0 +1,27 @@
+@import '~antd/lib/style/themes/default.less';
+@import '../style/theme.less';
+@select-prefix-cls: ~'@{prefix}-select';
+.@{select-prefix-cls} {
+  .VirtualSelectGrid {
+    z-index: 50;
+  }
+  &-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    padding: 0 .5rem;
+    cursor: pointer;
+    &:hover {
+      background-color: @item-hover-bg;
+    }
+  }
+  .VirtualizedSelectDisabledOption {
+    opacity: 0.5;
+  }
+  .VirtualizedSelectSelectedOption {
+    font-weight: bold;
+  }
+}

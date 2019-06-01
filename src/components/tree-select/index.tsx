@@ -1,21 +1,14 @@
 import React from 'react';
-import styles from './index.css';
+import { Button } from 'antd'
 
 export interface ButtonProps {
   size?: 'large' | 'default';
 }
 
-const Button: React.FC<ButtonProps> = function(props) {
+const Tutton: React.FC<ButtonProps> = function(props) {
   return (
-    <button
-      className={styles.button}
-      style={{
-        fontSize: props.size === 'large' ? 40 : 20,
-      }}
-    >
-      {props.children}
-    </button>
+    <Button type="primary" {...props}></Button>
   );
 };
 
-export default Button;
+export default Tutton;

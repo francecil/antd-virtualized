@@ -18,14 +18,21 @@
     "antd": "^3.19.1"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.8",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
+    "@types/react-window": "^1.8.0",
     "antd": "^3.19.1",
+    "babel-plugin-import": "^1.11.2",
     "typescript": "^3.3.3",
     "umi-library": "^1.1.1"
   },
   "files": [
     "dist"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "react-window": "^1.8.2"
+  }
 }

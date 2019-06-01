@@ -2,17 +2,35 @@
 name: Select 选择器
 menu: Components
 route: /components/select
-order: 11
+order: 80
 ---
 
-import Button from './';
+import { Playground, PropsTable } from 'docz';
+import Select from './';
+import './index.less'
+import data from './_mock/selectData.ts';
 
-# Button Component
+# Components.Select
 
-## Normal Button
+## 基础展示
 
-<Button>Hi</Button>
+引入组件
+```
+import { Select } from 'antd-virtualized';
+```
+##### 基础展示
 
-## Large Button
+<Select
+  placeholder="支持大数据的Select"
+  labelKey='name'
+  options={data}
+  valueKey='id'
+  style={{ width: 120 }}
+/>
 
-<Button size="large">Hi</Button>
+## 基本
+
+
+### API
+
+### Select

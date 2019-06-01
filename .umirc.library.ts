@@ -33,6 +33,13 @@ const options: IBundleOptions = {
       },
     ]
   },
+  extraBabelPlugins: [
+    ['babel-plugin-import', {
+      libraryName: 'antd',
+      libraryDirectory: 'es',
+      style: true,
+    }],
+  ]
 };
 
 export default options;
