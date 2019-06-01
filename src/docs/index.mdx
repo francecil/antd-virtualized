@@ -1,0 +1,80 @@
+---
+name: 介绍
+route: /
+order: 100
+sidebar: true
+---
+
+# Antd Virtualized Component
+> 在`antd`基础上做了一层封装,使得部分组件支持长列表
+
+
+## 特性
+* 长列表解决方案
+* 按需加载
+* 支持typescript
+
+
+
+## 文档
+[首页](https://github.com/Francecil/antd-virtualized)
+
+[umi-plugin-library](https://umijs.github.io/umi-plugin-library/#/)
+
+[docz](https://www.docz.site/docs/project-configuration)
+
+## 依赖
+[react-window](https://github.com/bvaughn/react-window) (提供react长列表渲染功能)
+
+[docz](https://github.com/pedronauck/docz) (书写文档和React组件的预览工具)
+
+[umi-plugin-library](https://github.com/umijs/umi-plugin-library) (基于umi组件库开发工具，为组件开发提供全套方案，专注库开发)
+
+[lerna](https://github.com/lerna/lerna) (monorepo 管理工具)
+
+
+## 项目结构
+
+##### 
+  ```
+  ├── README.md           项目介绍
+  ├── .umirc.library.ts     umi打包配置及docz配置
+  ├── package.json
+  ├── tsconfig.json
+  ├── src               
+  │   ├── components      组件目录
+  │   ├── docs              mdx文档目录，包括介绍等
+  │   └── index.tsx         入口文件 
+  └── package-lock.json
+  ```
+
+##### 组件目录
+
+  ```
+  ├── components       存放基础组件
+  │   ├── resource       资源组件
+  │   └── tag            标签组件
+  ├── index.js         入口文件
+  ├── style            样式文件
+  │   ├── index.js
+  │   ├── index.less      入口样式
+  │   ├── minxins         less minxins
+  │   └── themes          默认主题
+  ├── utils            工具目录
+  │   └── utils.js     工具类
+  ```
+
+##### 组件目录
+
+```
+├── resource                  resource组件文件夹
+│   ├── index.js                入口文件
+│   ├── index.less              less描述文件
+│   ├── index.mdx               文档和案例
+│   ├── resource.js             组件内容
+│   ├── resourceContext.js      组件内容
+│   └── resourceGroup.js        组件内容
+└── tag                       tag组件
+    ├── index.js                入口文件
+    └── index.mdx               文档和案例
+```

@@ -1,0 +1,39 @@
+---
+name: 快速开始
+route: /quickstart
+order: 99
+sidebar: true
+---
+
+# 快速开始
+
+## 安装
+`yarn`和`npm`都可以安装依赖，建议用一种方式，不要混装
+```
+(yarn || npm) install antd-virtualized
+```
+
+## 示例
+```
+import { Select } from 'antd-virtualized';
+ReactDOM.render(<Select>);
+```
+
+## 本地开发
+```
+$ git clone git@github.com:francecil/antd-virtualized.git
+$ cd antd-virtualized
+$ npm install
+$ npm run dev
+```
+
+## 命令操作
+* `npm install` 安装项目依赖
+* `npm run dev` 启动开发环境
+* `npm run build` 构建组件产物
+* `npm run build:watch` 文件改变自动构建组件产物
+* `npm run build:doc` 构建组件文档产物
+* `npm run deploy:doc` 把文档产物发布到 github pages 上
+* `npm publish` 发布组件到 npm 仓库上
+* `npm deploy` 构建组件并并把组件发布到 npm 仓库上
+

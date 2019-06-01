@@ -1,7 +1,7 @@
 {
   "name": "antd-virtualized",
   "version": "0.0.1",
-  "description": "",
+  "description": "long list resolution version of the antd's component",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "authors": {
@@ -14,13 +14,18 @@
     "build": "umi-lib build"
   },
   "peerDependencies": {
-    "react": "16.x"
+    "react": "16.x",
+    "antd": "^3.19.1"
   },
   "devDependencies": {
-    
-    "umi-library": "^1.1.1",
-    "typescript": "^3.3.3"
-    
-    },
+    "@types/react": "^16.8.19",
+    "@types/react-dom": "^16.8.4",
+    "antd": "^3.19.1",
+    "typescript": "^3.3.3",
+    "umi-library": "^1.1.1"
+  },
+  "files": [
+    "dist"
+  ],
   "license": "MIT"
 }
