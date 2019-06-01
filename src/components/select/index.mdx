@@ -8,7 +8,7 @@ order: 80
 import { Playground, PropsTable } from 'docz';
 import Select from './';
 import './index.less'
-import data from './_mock/selectData.ts';
+const data = Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }));
 
 # Components.Select
 
