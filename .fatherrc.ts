@@ -1,8 +1,10 @@
-import { IBundleOptions } from 'umi-library/src/types';
+import { IBundleOptions } from 'father/src/types';
 //note:需要重新run dev 该文件修改才会生效
 const options: IBundleOptions = {
-  cjs: 'rollup',
-  esm: 'rollup',
+  entry: 'src/index.ts',
+  cjs: 'babel',
+  esm: 'babel',
+  // extractCSS: true,
   doc: {
     themeConfig: {
       title: 'Antd Virtualized',

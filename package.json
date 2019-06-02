@@ -10,8 +10,10 @@
   },
   "repository": "/antd-virtualized",
   "scripts": {
-    "dev": "umi-lib doc dev",
-    "build": "umi-lib build"
+    "start": "npm run dev",
+    "dev": "father doc dev",
+    "build:doc": "father doc build",
+    "build": "father build"
   },
   "peerDependencies": {
     "react": "16.x",
@@ -24,8 +26,8 @@
     "@types/react-window": "^1.8.0",
     "antd": "^3.19.1",
     "babel-plugin-import": "^1.11.2",
-    "typescript": "^3.3.3",
-    "umi-library": "^1.1.1"
+    "father": "^2.2.1",
+    "typescript": "^3.3.3"
   },
   "files": [
     "dist"
