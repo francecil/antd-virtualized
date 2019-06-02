@@ -12,5 +12,5 @@ if (
   );
 }
 
-export { default as Select } from './components/select'
-export { default as TreeSelect } from './components/tree-select'
+export { default as Select } from './select'
+export { default as TreeSelect } from './tree-select'

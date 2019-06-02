@@ -2,8 +2,8 @@
   "name": "antd-virtualized",
   "version": "0.0.1",
   "description": "long list resolution version of the antd's component",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "main": "lib/index.js",
+  "module": "es/index.js",
   "authors": {
     "name": "",
     "email": "france.zjx@gmail.com"
@@ -30,7 +30,9 @@
     "typescript": "^3.3.3"
   },
   "files": [
-    "dist"
+    "dist",
+    "es",
+    "lib"
   ],
   "license": "MIT",
   "dependencies": {
