@@ -4,7 +4,7 @@ const options: IBundleOptions = {
   entry: 'src/index.ts',
   cjs: 'babel',
   esm: 'babel',
-  // extractCSS: true,
+  extractCSS: true,
   doc: {
     themeConfig: {
       title: 'Antd Virtualized',

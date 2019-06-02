@@ -37,3 +37,21 @@ $ npm run dev
 * `npm publish` 发布组件到 npm 仓库上
 * `npm deploy` 构建组件并并把组件发布到 npm 仓库上
 
+## 按需加载
+
+```
+npm install babel-plugin-import --save-dev
+
+Via .babelrc or babel-loader.
+
+{
+  "plugins": [["import", options]]
+}
+options
+options can be object.
+
+{
+  "libraryName": "antd-virtualized",
+  "style": true,   // or 'css'
+}
+```
