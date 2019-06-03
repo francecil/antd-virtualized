@@ -13,6 +13,7 @@ const options: IBundleOptions = {
         link: '#bd4932',
       },
     },
+    ignore:['README.md','README-zh_CN.md', 'changelog.md', 'code_of_conduct.md', 'contributing.md', 'license.md'],
     typescript: true,
     menu: [
       {
