@@ -25,7 +25,7 @@ npm install antd-virtualized --save
 ```
 
 ```bash
-yarn add antd
+yarn add antd-virtualized
 ```
 
 ## 🔨 示例
@@ -38,14 +38,14 @@ ReactDOM.render(<Select />, mountNode);
 引入样式：
 
 ```jsx
-import 'antd-virtualized/dist/antd-virtualized.css'; // or 'antd/dist/antd.less'
+import 'antd-virtualized/dist/antd-virtualized.css'; // or 'antd-virtualized/dist/antd-virtualized.less'
 ```
 
 ### 按需加载
 
 参考: antd 的 [按需加载组件](https://ant.design/docs/react/getting-started-cn#按需加载)
 
-如果你在开发环境的控制台看到下面的提示，那么你可能使用了 import { Select } from 'antd-virtualized'; 的写法引入了 antd-virtualized 下所有的模块，这会影响应用的网络性能。
+如果你在开发环境的控制台看到下面的提示，那么你可能使用了`import { Select } from 'antd-virtualized';` 的写法引入了 antd-virtualized 下所有的模块，这会影响应用的网络性能。
 ```
 You are using a whole package of antd virtualized, please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.
 ```
@@ -55,7 +55,7 @@ You are using a whole package of antd virtualized, please use https://www.npmjs.
 import Select from 'antd-virtualized/lib/select';
 import 'antd-virtualized/lib/select/style'; // 或者 antd-virtualized/lib/select/style/css 加载 css 文件
 ```
-> antd/es/button 可以加载 ES 版本的模块，方便进一步 Tree Shake.
+> antd-virtualized/es/select 可以加载 ES 版本的模块，方便进一步 Tree Shake.
 
 如果你使用了 babel，那么可以使用 [babel-plugin-import](https://github.com/ant-design/babel-plugin-import) 来进行按需加载，加入这个插件后。你可以仍然这么写：
 
