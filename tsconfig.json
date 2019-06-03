@@ -10,8 +10,11 @@
     "baseUrl": ".",
     "strict": true,
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     },
+    "declaration": true,
     "allowSyntheticDefaultImports": true
   }
 }

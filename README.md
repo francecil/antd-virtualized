@@ -101,11 +101,13 @@ module.exports = override(
 ```
 ### TypeScript
 
-待完善 ... 目前需要在 .d.ts 中加上 `declare module 'antd-virtualized';`
+支持，无需额外配置，antd 进行配置即可
+
+参考 [在 TypeScript 中使用](https://ant.design/docs/react/use-in-typescript-cn)
 
 ## 🌍 国际化
 
-无需额外配置，antd 进行配置即可
+支持，无需额外配置，antd 进行配置即可
 
 参考 [国际化文档](http://ant.design/docs/react/i18n-cn)。
 

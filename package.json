@@ -1,14 +1,34 @@
 {
   "name": "antd-virtualized",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "long list resolution version of the antd's component",
   "main": "lib/index.js",
   "module": "es/index.js",
+  "typings": "lib/index.d.ts",
   "authors": {
-    "name": "",
+    "name": "gahing",
     "email": "france.zjx@gmail.com"
   },
-  "repository": "/antd-virtualized",
+  "keywords": [
+    "antd",
+    "react",
+    "react-component",
+    "react-window",
+    "virtualized"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/francecil/antd-virtualized"
+  },
+  "bugs": {
+    "url": "https://github.com/francecil/antd-virtualized/issues"
+  },
+  "files": [
+    "dist",
+    "es",
+    "lib"
+  ],
+  "license": "MIT",
   "scripts": {
     "start": "npm run dev",
     "dev": "father doc dev",
@@ -29,14 +49,14 @@
     "father": "^2.2.1",
     "typescript": "^3.3.3"
   },
-  "files": [
-    "dist",
-    "es",
-    "lib"
-  ],
-  "license": "MIT",
   "dependencies": {
     "classnames": "^2.2.6",
     "react-window": "^1.8.2"
-  }
+  },
+  "sideEffects": [
+    "dist/*",
+    "es/**/style/*",
+    "lib/**/style/*",
+    "*.less"
+  ]
 }

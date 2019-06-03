@@ -4,7 +4,22 @@ const options: IBundleOptions = {
   entry: 'src/index.ts',
   cjs: 'babel',
   esm: 'babel',
+  umd: {
+    name: "antd-virtualized",
+    globals: {
+      react: 'React',
+      antd: 'antd'
+    },
+    file:"index"
+  },
   extractCSS: true,
+  extraBabelPlugins: [
+    ['babel-plugin-import', {
+      libraryName: 'antd',
+      libraryDirectory: 'es',
+      style: true,
+    }],
+  ],
   doc: {
     themeConfig: {
       title: 'Antd Virtualized',
@@ -13,7 +28,7 @@ const options: IBundleOptions = {
         link: '#bd4932',
       },
     },
-    ignore:['README.md','README-zh_CN.md', 'changelog.md', 'code_of_conduct.md', 'contributing.md', 'license.md'],
+    ignore: ['README.md', 'README-zh_CN.md', 'changelog.md', 'code_of_conduct.md', 'contributing.md', 'license.md'],
     typescript: true,
     menu: [
       {
@@ -36,13 +51,7 @@ const options: IBundleOptions = {
       },
     ]
   },
-  extraBabelPlugins: [
-    ['babel-plugin-import', {
-      libraryName: 'antd',
-      libraryDirectory: 'es',
-      style: true,
-    }],
-  ]
+
 };
 
 export default options;
