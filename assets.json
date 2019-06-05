@@ -1,14 +1,14 @@
 {
-  "vendors.css": "/static/css/vendors.5e73201e3868c3903bbc.css",
-  "vendors.js": "/static/js/vendors.2b0a903b.js",
-  "app.js": "/static/js/app.5e73201e3868c3903bbc.js",
-  "docs-cmt-standard.js": "/static/js/docs-cmt-standard.0891f421.js",
-  "docs-faq.js": "/static/js/docs-faq.afcef20c.js",
-  "docs-index.js": "/static/js/docs-index.93233716.js",
-  "docs-quickstart.js": "/static/js/docs-quickstart.a22d39f1.js",
-  "docs-scaffold.js": "/static/js/docs-scaffold.7dc34a23.js",
-  "src-select-index.css": "/static/css/src-select-index.5e73201e3868c3903bbc.css",
-  "src-select-index.js": "/static/js/src-select-index.c32b78e6.js",
-  "src-tree-select-index.js": "/static/js/src-tree-select-index.8f2a461a.js",
-  "index.html": "/index.html"
+  "vendors.css": "/antd-virtualized/static/css/vendors.73a5e5acb355945085da.css",
+  "vendors.js": "/antd-virtualized/static/js/vendors.87d17416.js",
+  "app.js": "/antd-virtualized/static/js/app.73a5e5acb355945085da.js",
+  "docs-cmt-standard.js": "/antd-virtualized/static/js/docs-cmt-standard.0891f421.js",
+  "docs-faq.js": "/antd-virtualized/static/js/docs-faq.afcef20c.js",
+  "docs-index.js": "/antd-virtualized/static/js/docs-index.93233716.js",
+  "docs-quickstart.js": "/antd-virtualized/static/js/docs-quickstart.a22d39f1.js",
+  "docs-scaffold.js": "/antd-virtualized/static/js/docs-scaffold.7dc34a23.js",
+  "src-select-index.css": "/antd-virtualized/static/css/src-select-index.73a5e5acb355945085da.css",
+  "src-select-index.js": "/antd-virtualized/static/js/src-select-index.c32b78e6.js",
+  "src-tree-select-index.js": "/antd-virtualized/static/js/src-tree-select-index.8f2a461a.js",
+  "index.html": "/antd-virtualized/index.html"
 }
