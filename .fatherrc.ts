@@ -10,7 +10,7 @@ const options: IBundleOptions = {
       react: 'React',
       antd: 'antd'
     },
-    file:"index"
+    file: "index"
   },
   extractCSS: true,
   extraBabelPlugins: [
@@ -21,6 +21,7 @@ const options: IBundleOptions = {
     }],
   ],
   doc: {
+    base: '/antd-virtualized/',
     themeConfig: {
       title: 'Antd Virtualized',
       colors: {

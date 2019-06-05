@@ -33,7 +33,8 @@
     "start": "npm run dev",
     "dev": "father doc dev",
     "build:doc": "father doc build",
-    "build": "father build"
+    "build": "father build",
+    "deploy": "father doc deploy"
   },
   "peerDependencies": {
     "react": "16.x",
