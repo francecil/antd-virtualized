@@ -17,3 +17,4 @@ if (
 
 export { default as Select } from './select'
 export { default as TreeSelect } from './tree-select'
+export { default as Version } from './version'

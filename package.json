@@ -33,7 +33,7 @@
     "start": "npm run dev",
     "dev": "father doc dev",
     "build:doc": "father doc build",
-    "build": "father build",
+    "build": "father build && node packCss.js",
     "deploy": "father doc deploy"
   },
   "peerDependencies": {
