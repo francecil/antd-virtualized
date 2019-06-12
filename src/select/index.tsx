@@ -3,7 +3,6 @@ import { Select } from 'antd'
 import { SelectProps } from 'antd/lib/select'
 import classnames from 'classnames';
 
-// Import directly to avoid Webpack bundling the parts of react-virtualized that we are not using
 import { VariableSizeList as List } from 'react-window'
 
 export interface IProps extends SelectProps {
