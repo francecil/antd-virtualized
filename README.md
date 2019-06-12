@@ -35,8 +35,10 @@ import { Select } from 'antd-virtualized';
 ReactDOM.render(<Select />, mountNode);
 ```
 
-~~引入样式：~~
-暂不支持全局引入，只能按需引入
+引入样式：
+```jsx
+import 'antd-virtualized/dist/antdv.css'; // or 'antd-virtualized/dist/antdv.less'
+```
 
 
 ### 按需加载
