@@ -1,3 +1,2 @@
-import variable  from '../../package.json';
-const version = variable.version
+import { version } from '../../package.json';
 export default version;
