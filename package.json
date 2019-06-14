@@ -78,7 +78,6 @@
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.3.3",
-    "webpack": "^4.33.0",
     "webpack-cli": "^3.3.4"
   },
   "dependencies": {
