@@ -1,0 +1,12 @@
+src/**/*.js
+src/**/*.jsx
+src/*/__tests__/type.tsx
+!src/*/__tests__/**/*.js
+!src/*/demo/*
+!.*.js
+
+lib/**
+es/**
+dist/**
+docs/**
+config/**

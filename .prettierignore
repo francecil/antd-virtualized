@@ -3,3 +3,13 @@
 package.json
 .umi
 .umi-production
+lib/
+es/
+dist/
+docs/
+config/
+LICENSE
+yarn.lock
+yarn-error.log
+.gitignore
+.npmignore

@@ -71,15 +71,16 @@ function finalizeCss () {
   }
 }
 function clearDistUseless () {
-  const deleteAll = function (url) {
+  function deleteAll (url) {
+    // eslint-disable-next-line
     console.log('delete useless file:', url)
     if (fs.existsSync(url)) {
       if (fs.statSync(url).isDirectory()) {
-        //文件及子目录数组
-        files = fs.readdirSync(url);
-        files.forEach(function (file, index) {
-          var curPath = path.join(url, file);
-          //文件夹，递归
+        // 文件及子目录数组
+        const files = fs.readdirSync(url);
+        files.forEach((file) => {
+          const curPath = path.join(url, file);
+          // 文件夹，递归
           if (fs.statSync(curPath).isDirectory()) {
             deleteAll(curPath);
           } else {
@@ -90,11 +91,9 @@ function clearDistUseless () {
       } else {
         fs.unlinkSync(url);
       }
-
-
     }
   }
-  const resolveFile = function (filePath) {
+  function resolveFile (filePath) {
     return path.join(__dirname, 'dist', filePath)
   }
   deleteAll(resolveFile('src'))
@@ -103,6 +102,7 @@ function clearDistUseless () {
 
 }
 const isClear = process.argv.indexOf('clear') !== -1
+// eslint-disable-next-line
 console.log('isClear-------->', isClear)
 if (isClear) {
   clearDistUseless()

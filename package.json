@@ -36,7 +36,15 @@
     "build:css": "webpack --config config/webpack.config.js",
     "build": "father build && node packCss.js && npm run build:css",
     "postbuild": "node packCss.js clear",
-    "deploy": "father doc deploy"
+    "deploy": "father doc deploy",
+    "precommit": "lint-staged",
+    "prettier": "prettier -c --write '**/*'"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "peerDependencies": {
     "antd": "^3.19.1",
@@ -48,11 +56,27 @@
     "@types/react-dom": "^16.8.4",
     "@types/react-window": "^1.8.0",
     "antd": "^3.19.1",
+    "babel-eslint": "^10.0.1",
     "babel-plugin-import": "^1.11.2",
     "css-loader": "^3.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.17.3",
+    "eslint-plugin-jest": "^22.6.4",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-markdown": "^1.0.0",
+    "eslint-plugin-react": "^7.13.0",
     "father": "^2.2.1",
     "less-loader": "^5.0.0",
+    "lint-staged": "^8.2.1",
     "mini-css-extract-plugin": "^0.7.0",
+    "prettier": "^1.18.2",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^4.0.0",
     "typescript": "^3.3.3",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.4"
@@ -66,5 +90,11 @@
     "es/**/style/*",
     "lib/**/style/*",
     "*.less"
+  ],
+  "browserslist": [
+    "last 2 version",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 9"
   ]
 }
