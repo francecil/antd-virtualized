@@ -13,7 +13,12 @@ const eslintrc = {
     // 'no-console': 0,
     // 函数表达式 无需命名
     'func-names': 0,
+    'no-plusplus': 0,
+    'no-underscore-dangle': 0,
+    // "no-unused-vars": [1, { args: "none" }],
     'react/jsx-one-expression-per-line': 0,
+    // 方法排序
+    'react/sort-comp': 0,
     'react/prop-types': 0,
     'react/forbid-prop-types': 0,
     'react/jsx-indent': 0,

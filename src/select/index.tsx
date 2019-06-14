@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Select } from 'antd'
+// eslint-disable-next-line
 import { SelectProps } from 'antd/lib/select'
 import classnames from 'classnames';
-
 import { VariableSizeList as List } from 'react-window'
 
 export interface IProps extends SelectProps {
@@ -34,8 +34,10 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     allowClear: false,
     labelKey: 'label',
     valueKey: 'value',
-    options: []
+    options: [],
   };
+  
+
   public static getDerivedStateFromProps(nextProps: any) {
     if ('value' in nextProps) {
       return {
@@ -44,7 +46,9 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     }
     return null
   }
+
   public select: HTMLElement | any;
+
   constructor(props: any) {
     super(props)
     this.state = {
@@ -54,9 +58,11 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       open: false,
     }
   }
+
   public setRef = (select: any) => {
     this.select = select;
   };
+
   lockClose = (e: any) => {
     e.preventDefault()
     // clearTimeout(this.lock);
@@ -64,29 +70,32 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     //   this.lock = null;
     // }, 100);
   };
+
   handleSearch = (v: any) => {
     this.setState({
-      searchValue: v
+      searchValue: v,
     })
   }
+
   handleFocus = (focusedOption: any) => {
     this.setState({
-      focusedOption
+      focusedOption,
     })
   }
+
   handleSelect = (option: any) => {
     const { onChange, valueKey, labelKey } = this.props
     const value = {
       key: option[valueKey],
-      label: option[labelKey]
+      label: option[labelKey],
     }
     if (onChange) {
       onChange(value)
     }
     this.setState({
-      value: value,
+      value,
       searchValue: '',
-      open: false
+      open: false,
     }, () => {
       this.select.rcSelect.setInputValue("")
       // console.log(this.select.rcSelect)
@@ -94,17 +103,19 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     })
 
   }
+
   // 清空的时候触发 v为 undefined
   handleChange = (v: any) => {
-    const { onChange, valueKey, labelKey } = this.props
+    const { onChange } = this.props
     if (onChange) {
       onChange(v)
     }
     this.setState({
       value: v,
-      searchValue: ''
+      searchValue: '',
     })
   }
+
   handleDropdownVisibleChange = (open: boolean) => {
     // if (this.lock) {
     //   this.select.focus();
@@ -112,26 +123,29 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     // }
     this.setState({ open });
   };
+
   handleBlur = () => {
     this.setState({
       searchValue: '',
       focusedOption: null,
     })
   }
+
   public render(): JSX.Element {
     // const SelectComponent = this._getSelectComponent()
-    // const { }
+    const { value, open } = this.state
+    const { labelKey } = this.props
     return (
       <Select
         {...this.props}
-        value={this.state.value}
+        value={value}
         ref={this.setRef}
-        open={this.state.open}
+        open={open}
         onSearch={(v: any) => this.handleSearch(v)}
         onChange={this.handleChange}
         onBlur={() => this.handleBlur()}
         labelInValue
-        optionLabelProp={this.props.labelKey}
+        optionLabelProp={labelKey}
         onDropdownVisibleChange={this.handleDropdownVisibleChange}
         dropdownRender={this._renderMenu}
         dropdownStyle={{ overflow: 'hidden' }}
@@ -141,9 +155,9 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   // See https://github.com/JedWatson/react-select/#effeciently-rendering-large-lists-with-windowing
   _renderMenu = (menu: any) => {
-    const { valueKey, labelKey, filterOption } = this.props
-    const { searchValue, focusedOption, value, open }: any = this.state
-    const options = (filterOption && searchValue) ? this.props.options.filter((v: string) => filterOption(searchValue, v)) : this.props.options
+    const { valueKey, labelKey, filterOption,options:sourceOptions } = this.props
+    const { searchValue, focusedOption, value }: any = this.state
+    const options = (filterOption && searchValue) ? sourceOptions.filter((v: string) => filterOption(searchValue, v)) : sourceOptions
     if (options.length === 0) {
       return (
         menu
@@ -176,7 +190,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         options,
         style,
         valueArray: value ? [value] : null,
-        valueKey
+        valueKey,
       })
     }
 
@@ -191,7 +205,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
           height={height}
           itemCount={options.length}
           itemSize={({ index }: any) => this._getOptionHeight({
-            option: options[index]
+            option: options[index],
           })}
           width={300}
         >
@@ -208,7 +222,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     let height = 0
 
     for (let optionIndex = 0; optionIndex < options.length; optionIndex++) {
-      let option = options[optionIndex]
+      const option = options[optionIndex]
 
       height += this._getOptionHeight({ option })
 
@@ -228,7 +242,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       : optionHeight
   }
 
-  _optionRenderer = ({ focusedOption, handleFocus, handleSelect, key, labelKey, option, style, valueArray, valueKey }: any) => {
+  _optionRenderer = ({ focusedOption, handleSelect, key, labelKey, option, style, valueArray, valueKey }: any) => {
     const className = classnames("ant-virtualized-select-item", option.className, {
       "VirtualizedSelectFocusedOption": option[valueKey] === focusedOption,
       "VirtualizedSelectDisabledOption": option.disabled,

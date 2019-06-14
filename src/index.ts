@@ -5,9 +5,11 @@ if (
   ENV !== 'production' &&
   ENV !== 'test' &&
   typeof console !== 'undefined' &&
+  // eslint-disable-next-line
   console.warn &&
   typeof window !== 'undefined'
 ) {
+  // eslint-disable-next-line
   console.warn(
     'You are using a whole package of antd virtualized, ' +
     'please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.',
