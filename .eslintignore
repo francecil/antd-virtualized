@@ -1,5 +1,6 @@
 src/**/*.js
 src/**/*.jsx
+src/**/*.mdx
 src/*/__tests__/type.tsx
 !src/*/__tests__/**/*.js
 !src/*/demo/*
