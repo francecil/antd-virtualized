@@ -37,10 +37,13 @@
     "build": "father build && node packCss.js && npm run build:css",
     "postbuild": "node packCss.js clear",
     "deploy": "father doc deploy",
-    "precommit": "lint-staged",
     "prettier": "prettier -c --write '**/*'",
+    "lint-staged": "lint-staged",
     "eslint": "eslint src --ext .ts,.tsx"
   },
+  "pre-commit": [
+    "lint-staged"
+  ],
   "lint-staged": {
     "**/*.{js,jsx,tsx,ts,less,md,json}": [
       "prettier --write",
@@ -75,6 +78,7 @@
     "less-loader": "^5.0.0",
     "lint-staged": "^8.2.1",
     "mini-css-extract-plugin": "^0.7.0",
+    "pre-commit": "^1.2.2",
     "prettier": "^1.18.2",
     "typescript": "^3.3.3",
     "typescript-eslint-parser": "^22.0.0",

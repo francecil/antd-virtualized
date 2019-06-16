@@ -5,7 +5,7 @@ src/*/__tests__/type.tsx
 !src/*/__tests__/**/*.js
 !src/*/demo/*
 !.*.js
-
+node_modules/
 lib/**
 es/**
 dist/**

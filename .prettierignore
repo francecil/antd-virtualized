@@ -1,5 +1,4 @@
-**/*.md
-**/*.mdx
+**/*.svg
 package.json
 .umi
 .umi-production
@@ -11,5 +10,12 @@ config/
 LICENSE
 yarn.lock
 yarn-error.log
+src/*/*.js
+src/*/*.jsx
 .gitignore
 .npmignore
+.prettierignore
+.DS_Store
+.editorconfig
+.eslintignore
+**/*.yml
