@@ -5,10 +5,9 @@ route: /components/select
 order: 80
 ---
 
-import { Playground, PropsTable } from 'docz';
-import Select from './index.tsx';
+import { Playground,Props } from 'docz';
+import Select from './';
 import './style/index.less'
-const data = Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }));
 
 # Select 选择器
 
@@ -21,18 +20,21 @@ const data = Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' +
 import { Select } from 'antd-virtualized';
 ```
 ##### 基础展示
-
+<Playground>
 <Select
   placeholder="支持大数据的Select"
   labelKey='name'
-  options={data}
+  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
   valueKey='id'
   style={{ width: 120 }}
 />
+</Playground>
 
 ## 基本
 
 
 ### API
+
+<Props of={Select} />
 
 ### Select

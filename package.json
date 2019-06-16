@@ -74,7 +74,7 @@
     "eslint-plugin-markdown": "^1.0.0",
     "eslint-plugin-react": "^7.13.0",
     "eslint-plugin-typescript": "^0.14.0",
-    "father": "^2.2.1",
+    "father": "^2.7.3",
     "less-loader": "^5.0.0",
     "lint-staged": "^8.2.1",
     "mini-css-extract-plugin": "^0.7.0",
