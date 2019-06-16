@@ -13,13 +13,14 @@ import './style/index.less'
 
 下拉选择器。
 
-## 基础展示
+## 引入
 
-引入组件
 ```
 import { Select } from 'antd-virtualized';
 ```
-##### 基础展示
+## 代码演示
+
+基本使用
 <Playground>
 <Select
   placeholder="支持大数据的Select"
@@ -27,6 +28,20 @@ import { Select } from 'antd-virtualized';
   options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
   valueKey='id'
   style={{ width: 120 }}
+/>
+</Playground>
+
+带搜索框
+<Playground>
+<Select
+  allowClear
+  showSearch
+  placeholder="支持大数据的Select"
+  labelKey='name'
+  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
+  valueKey='id'
+  style={{ width: 120 }}
+  filterOption={(input, option) => option.name.indexOf(input) >= 0}
 />
 </Playground>
 
