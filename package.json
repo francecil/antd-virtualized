@@ -39,7 +39,8 @@
     "deploy": "father doc deploy",
     "prettier": "prettier -c --write '**/*'",
     "lint-staged": "lint-staged",
-    "eslint": "eslint src --ext .ts,.tsx"
+    "eslint": "eslint src --ext .ts,.tsx",
+    "patch": "npm version patch"
   },
   "pre-commit": [
     "lint-staged"
