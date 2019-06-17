@@ -45,11 +45,21 @@ import { Select } from 'antd-virtualized';
 />
 </Playground>
 
-## 基本
+定义下拉列表为空时显示的内容
+<Playground>
+原始
+<Select style={{ width: 120 }}/>
+<br/><br/>
+自定义 
+<Select
+  style={{ width: 120 }}
+  notFoundContent="数据为空"
+/>
+</Playground>
 
 
-### API
+
+
+## API
 
 <Props of={Select} />
-
-### Select

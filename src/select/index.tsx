@@ -1,26 +1,27 @@
-import React, { Component } from 'react'
-import { Select } from 'antd'
+import React, { Component } from 'react';
+import { Select } from 'antd';
 // eslint-disable-next-line
-import { SelectProps } from 'antd/lib/select'
+import { SelectProps } from 'antd/lib/select';
 import classnames from 'classnames';
-import { VariableSizeList as List } from 'react-window'
+import { VariableSizeList as List } from 'react-window';
+import { ConfigConsumer, ConfigConsumerProps, RenderEmptyHandler } from 'antd/lib/config-provider';
 
 export interface IProps extends SelectProps {
-  maxHeight: number,
-  optionHeight: (param: Object) => number | number,
-  showSearch: boolean,
-  allowClear: boolean,
-  labelKey: string,
-  valueKey: string,
+  maxHeight: number;
+  optionHeight: (param: Object) => number | number;
+  showSearch: boolean;
+  allowClear: boolean;
+  labelKey: string;
+  valueKey: string;
   filterOption?: (inputValue: any, option: any) => any | boolean;
-  options: Array<any>,
-  onChange: (v: any) => any,
+  options: Array<any>;
+  onChange: (v: any) => any;
 }
 export interface IState {
-  value: any,
-  open: boolean,
-  searchValue: string,
-  focusedOption: any
+  value: any;
+  open: boolean;
+  searchValue: string;
+  focusedOption: any;
 }
 export default class VirtualizedSelect extends Component<IProps, IState> {
   // lock = null;
@@ -36,7 +37,6 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     valueKey: 'value',
     options: [],
   };
-  
 
   public static getDerivedStateFromProps(nextProps: any) {
     if ('value' in nextProps) {
@@ -44,27 +44,27 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         value: nextProps.value || undefined,
       };
     }
-    return null
+    return null;
   }
 
-  public select: HTMLElement | any;
+  private avSelect: any;
 
   constructor(props: any) {
-    super(props)
+    super(props);
     this.state = {
       value: props.value || props.defaultValue,
       searchValue: '',
       focusedOption: null,
       open: false,
-    }
+    };
   }
 
-  public setRef = (select: any) => {
-    this.select = select;
+  public saveSelect = (node: any) => {
+    this.avSelect = node;
   };
 
   lockClose = (e: any) => {
-    e.preventDefault()
+    e.preventDefault();
     // clearTimeout(this.lock);
     // this.lock = setTimeout(() => {
     //   this.lock = null;
@@ -74,47 +74,49 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   handleSearch = (v: any) => {
     this.setState({
       searchValue: v,
-    })
-  }
+    });
+  };
 
   handleFocus = (focusedOption: any) => {
     this.setState({
       focusedOption,
-    })
-  }
+    });
+  };
 
   handleSelect = (option: any) => {
-    const { onChange, valueKey, labelKey } = this.props
+    const { onChange, valueKey, labelKey } = this.props;
     const value = {
       key: option[valueKey],
       label: option[labelKey],
-    }
+    };
     if (onChange) {
-      onChange(value)
+      onChange(value);
     }
-    this.setState({
-      value,
-      searchValue: '',
-      open: false,
-    }, () => {
-      this.select.rcSelect.setInputValue("")
-      // console.log(this.select.rcSelect)
-      this.select.focus()
-    })
-
-  }
+    this.setState(
+      {
+        value,
+        searchValue: '',
+        open: false,
+      },
+      () => {
+        this.avSelect.rcSelect.setInputValue('');
+        // console.log(this.select.rcSelect)
+        this.avSelect.focus();
+      },
+    );
+  };
 
   // 清空的时候触发 v为 undefined
   handleChange = (v: any) => {
-    const { onChange } = this.props
+    const { onChange } = this.props;
     if (onChange) {
-      onChange(v)
+      onChange(v);
     }
     this.setState({
       value: v,
       searchValue: '',
-    })
-  }
+    });
+  };
 
   handleDropdownVisibleChange = (open: boolean) => {
     // if (this.lock) {
@@ -128,46 +130,25 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     this.setState({
       searchValue: '',
       focusedOption: null,
-    })
-  }
-
-  public render(): JSX.Element {
-    // const SelectComponent = this._getSelectComponent()
-    const { value, open } = this.state
-    const { labelKey } = this.props
-    return (
-      <Select
-        {...this.props}
-        value={value}
-        ref={this.setRef}
-        open={open}
-        onSearch={(v: any) => this.handleSearch(v)}
-        onChange={this.handleChange}
-        onBlur={() => this.handleBlur()}
-        labelInValue
-        optionLabelProp={labelKey}
-        onDropdownVisibleChange={this.handleDropdownVisibleChange}
-        dropdownRender={this._renderMenu}
-        dropdownStyle={{ overflow: 'hidden' }}
-      />
-    )
-  }
+    });
+  };
 
   // See https://github.com/JedWatson/react-select/#effeciently-rendering-large-lists-with-windowing
   _renderMenu = (menu: any) => {
-    const { valueKey, labelKey, filterOption,options:sourceOptions } = this.props
-    const { searchValue, focusedOption, value }: any = this.state
-    const options = (filterOption && searchValue) ? sourceOptions.filter((v: string) => filterOption(searchValue, v)) : sourceOptions
+    const { valueKey, labelKey, filterOption, options: sourceOptions } = this.props;
+    const { searchValue, focusedOption, value }: any = this.state;
+    const options =
+      filterOption && searchValue
+        ? sourceOptions.filter((v: string) => filterOption(searchValue, v))
+        : sourceOptions;
     if (options.length === 0) {
-      return (
-        menu
-      )
+      return menu;
     }
     // 当处于关闭状态时，调用该render时设置不滚动到对应元素，在open时才能自动滚动过去
     // const focusedOptionIndex = open ? options.findIndex(v => v[valueKey] === (value || {}).key) : undefined
     // console.log('focusedOptionIndex', focusedOptionIndex)
-    const height = this._calculateListHeight({ options })
-    const innerRowRenderer = this._optionRenderer
+    const height = this._calculateListHeight({ options });
+    const innerRowRenderer = this._optionRenderer;
 
     // react-select 1.0.0-rc2 passes duplicate `onSelect` and `selectValue` props to `menuRenderer`
     // The `Creatable` HOC only overrides `onSelect` which breaks an edge-case
@@ -176,7 +157,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     // See issue #33
 
     const wrappedRowRenderer = ({ index, key, style }: any) => {
-      const option = options[index]
+      const option = options[index];
 
       return innerRowRenderer({
         focusedOption,
@@ -191,83 +172,105 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         style,
         valueArray: value ? [value] : null,
         valueKey,
-      })
-    }
+      });
+    };
 
     return (
       <div
         onMouseDown={e => e.preventDefault()}
         className="ant-virtualized-select"
-      // onMouseDown={this.lockClose} onMouseUp={this.lockClose}
+        // onMouseDown={this.lockClose} onMouseUp={this.lockClose}
       >
         <List
           className="VirtualSelectGrid"
           height={height}
           itemCount={options.length}
-          itemSize={({ index }: any) => this._getOptionHeight({
-            option: options[index],
-          })}
+          itemSize={({ index }: any) =>
+            this._getOptionHeight({
+              option: options[index],
+            })
+          }
           width={300}
         >
           {wrappedRowRenderer}
         </List>
       </div>
-
-    )
-  }
+    );
+  };
 
   _calculateListHeight({ options }: any) {
-    const { maxHeight } = this.props
+    const { maxHeight } = this.props;
 
-    let height = 0
+    let height = 0;
 
     for (let optionIndex = 0; optionIndex < options.length; optionIndex++) {
-      const option = options[optionIndex]
+      const option = options[optionIndex];
 
-      height += this._getOptionHeight({ option })
+      height += this._getOptionHeight({ option });
 
       if (height > maxHeight) {
-        return maxHeight
+        return maxHeight;
       }
     }
 
-    return height
+    return height;
   }
 
   _getOptionHeight({ option }: any) {
-    const { optionHeight } = this.props
+    const { optionHeight } = this.props;
 
-    return optionHeight instanceof Function
-      ? optionHeight({ option })
-      : optionHeight
+    return optionHeight instanceof Function ? optionHeight({ option }) : optionHeight;
   }
 
-  _optionRenderer = ({ focusedOption, handleSelect, key, labelKey, option, style, valueArray, valueKey }: any) => {
-    const className = classnames("ant-virtualized-select-item", option.className, {
-      "VirtualizedSelectFocusedOption": option[valueKey] === focusedOption,
-      "VirtualizedSelectDisabledOption": option.disabled,
-      "VirtualizedSelectSelectedOption": valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
-    })
+  _optionRenderer = ({
+    focusedOption,
+    handleSelect,
+    key,
+    labelKey,
+    option,
+    style,
+    valueArray,
+    valueKey,
+  }: any) => {
+    const className = classnames('ant-virtualized-select-item', option.className, {
+      VirtualizedSelectFocusedOption: option[valueKey] === focusedOption,
+      VirtualizedSelectDisabledOption: option.disabled,
+      VirtualizedSelectSelectedOption:
+        valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
+    });
 
     const events = option.disabled
       ? {}
       : {
-        onClick: () => handleSelect(option),
-        // onMouseEnter: () => handleFocus(option[valueKey])
-      }
+          onClick: () => handleSelect(option),
+          // onMouseEnter: () => handleFocus(option[valueKey])
+        };
 
     return (
-      <div
-        className={className}
-        key={key}
-        style={style}
-        title={option[labelKey]}
-        {...events}
-      >
+      <div className={className} key={key} style={style} title={option[labelKey]} {...events}>
         {option[labelKey]}
       </div>
-    )
+    );
+  };
+  render() {
+    // const SelectComponent = this._getSelectComponent()
+    const { value, open } = this.state;
+    const { labelKey } = this.props;
+    return (
+      <Select
+        {...this.props}
+        value={value}
+        ref={this.saveSelect}
+        open={open}
+        onSearch={(v: any) => this.handleSearch(v)}
+        onChange={this.handleChange}
+        onBlur={() => this.handleBlur()}
+        labelInValue
+        optionLabelProp={labelKey}
+        onDropdownVisibleChange={this.handleDropdownVisibleChange}
+        dropdownRender={this._renderMenu}
+        dropdownStyle={{ overflow: 'hidden' }}
+      />
+    );
   }
-
-
 }
