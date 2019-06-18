@@ -47,11 +47,21 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     return null;
   }
 
-  public componentDidMount() {}
+  public componentDidMount() {
+    // console.log('componentDidMount....')
+  }
 
-  public componentDidUpdate() {}
+  public componentDidUpdate(prevProps: any, prevState: Partial<IState>) {
+    // console.log('componentDidUpdate....')
+    const { open } = this.state;
+    if (!prevState.open && open) {
+      this.scrollActiveItemToView();
+    }
+  }
 
   private avSelect: any;
+
+  private avList: any;
 
   constructor(props: any) {
     super(props);
@@ -60,18 +70,23 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       searchValue: '',
       open: false,
     };
+    this.avList = React.createRef();
   }
 
   public saveSelect = (node: any) => {
     this.avSelect = node;
   };
 
-  lockClose = (e: any) => {
-    e.preventDefault();
-    // clearTimeout(this.lock);
-    // this.lock = setTimeout(() => {
-    //   this.lock = null;
-    // }, 100);
+  scrollActiveItemToView = () => {
+    // console.log('scrollActiveItemToView')
+    const { options, valueKey } = this.props;
+    const { value } = this.state;
+    const focusedOptionIndex = options.findIndex(
+      (option: any) => option[valueKey] === (value || {}).key,
+    );
+    if (this.avList.current) {
+      this.avList.current.scrollToItem(focusedOptionIndex);
+    }
   };
 
   handleSearch = (v: any) => {
@@ -223,9 +238,6 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     }
     const height = this._calculateListHeight(options);
 
-    // 当处于关闭状态时，调用该render时设置不滚动到对应元素，在open时才能自动滚动过去
-    // const focusedOptionIndex = open ? options.findIndex(v => v[valueKey] === (value || {}).key) : undefined
-    // console.log('focusedOptionIndex', focusedOptionIndex)
     const prefixCls = getPrefixCls.call(this, 'select', customizePrefixCls);
     const wrappedRowRenderer = ({ index, style }: any) => {
       const option = options[index];
@@ -244,6 +256,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     return (
       <div onMouseDown={this.handleEventPrevent} className={prefixCls}>
         <List
+          ref={this.avList}
           className={`${prefixCls}-menu`}
           height={height}
           itemCount={options.length}
