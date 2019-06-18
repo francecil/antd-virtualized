@@ -37,6 +37,13 @@ import { Select } from 'antd-virtualized';
   valueKey='id'
   style={{ width: 120 }}
 />
+<Select
+  placeholder="支持大数据的Select"
+  labelKey='name'
+  options={[{id:1,name:'1'},{id:'2',name:'2',disabled:true},{id:'3',name:'3'}]}
+  valueKey='id'
+  style={{ width: 120 }}
+/>
 </Playground>
 
 带搜索框

@@ -2,26 +2,45 @@
 @import '../../style/theme.less';
 @select-prefix-cls: ~'@{prefix}-select';
 .@{select-prefix-cls} {
-  .VirtualSelectGrid {
+  &-menu {
     z-index: 50;
   }
   &-item {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    padding: 0 .5rem;
+    position: relative;
+    display: block;
+    padding: 5px @control-padding-horizontal;
+    overflow: hidden;
+    color: @text-color;
+    font-weight: normal;
+    line-height: 22px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     cursor: pointer;
-    &:hover {
+    transition: background 0.3s ease;
+
+    &:hover:not(&-disabled) {
       background-color: @item-hover-bg;
     }
-  }
-  .VirtualizedSelectDisabledOption {
-    opacity: 0.5;
-  }
-  .VirtualizedSelectSelectedOption {
-    font-weight: bold;
+    &:first-child {
+      border-radius: @border-radius-base @border-radius-base 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 @border-radius-base @border-radius-base;
+    }
+    &-selected {
+      color: @text-color;
+      font-weight: @select-item-selected-font-weight;
+      background-color: @item-active-bg;
+    }
+
+    &-disabled {
+      color: @disabled-color;
+      cursor: not-allowed;
+      &:hover {
+        color: @disabled-color;
+        cursor: not-allowed;
+      }
+    }
   }
 }

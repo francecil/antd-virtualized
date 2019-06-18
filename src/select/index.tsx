@@ -5,10 +5,11 @@ import { SelectProps } from 'antd/lib/select';
 import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
 import { defaultFilterFn } from './util';
+import getPrefixCls from '../_util/getPrefixCls';
 // import omit from 'omit.js';
 export interface IProps extends SelectProps {
   /** 下拉菜单高度 */
-  height: number | string;
+  height: number;
   /** 元素高度 */
   optionHeight: (param: object) => number | number;
   /** 代表 label 的 option 属性  */
@@ -23,7 +24,6 @@ export interface IState {
   value: any;
   open: boolean;
   searchValue: string;
-  focusedOption: any;
 }
 
 export default class VirtualizedSelect extends Component<IProps, IState> {
@@ -47,6 +47,10 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     return null;
   }
 
+  public componentDidMount() {}
+
+  public componentDidUpdate() {}
+
   private avSelect: any;
 
   constructor(props: any) {
@@ -54,7 +58,6 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     this.state = {
       value: props.value || props.defaultValue,
       searchValue: '',
-      focusedOption: null,
       open: false,
     };
   }
@@ -74,12 +77,6 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   handleSearch = (v: any) => {
     this.setState({
       searchValue: v,
-    });
-  };
-
-  handleFocus = (focusedOption: any) => {
-    this.setState({
-      focusedOption,
     });
   };
 
@@ -119,29 +116,28 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   };
 
   handleDropdownVisibleChange = (open: boolean) => {
-    // if (this.lock) {
-    //   this.select.focus();
-    //   return;
-    // }
     this.setState({ open });
   };
 
   handleBlur = () => {
     this.setState({
       searchValue: '',
-      focusedOption: null,
     });
   };
 
-  /**
-   *
-   */
   _getItemSize = (index: number) => {
     const { optionHeight, options } = this.props;
     return optionHeight instanceof Function ? optionHeight(options[index]) : optionHeight;
   };
 
-  _calculateListHeight(options: any) {
+  /**
+   *  计算List应该显示的高度
+   *
+   * @param {Array<object>} options
+   * @returns
+   * @memberof VirtualizedSelect
+   */
+  _calculateListHeight(options: Array<object>) {
     const { height: maxHeight } = this.props;
 
     let height = 0;
@@ -155,20 +151,20 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     return height;
   }
 
+  handleEventPrevent = (e: any) => e.preventDefault();
+
   _optionRenderer = ({
-    focusedOption,
     handleSelect,
-    key,
     labelKey,
     option,
     style,
     valueArray,
     valueKey,
+    prefixCls,
   }: any) => {
-    const className = classnames('ant-virtualized-select-item', option.className, {
-      VirtualizedSelectFocusedOption: option[valueKey] === focusedOption,
-      VirtualizedSelectDisabledOption: option.disabled,
-      VirtualizedSelectSelectedOption:
+    const className = classnames(`${prefixCls}-item`, {
+      [`${prefixCls}-item-disabled`]: option.disabled,
+      [`${prefixCls}-item-selected`]:
         valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
     });
 
@@ -176,17 +172,16 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       ? {}
       : {
           onClick: () => handleSelect(option),
-          // onMouseEnter: () => handleFocus(option[valueKey])
         };
 
     return (
-      <div className={className} key={key} style={style} title={option[labelKey]} {...events}>
+      <div className={className} style={style} {...events}>
         {option[labelKey]}
       </div>
     );
   };
 
-  public filterOption = (input: string, option: any, defaultFilter = defaultFilterFn) => {
+  filterOption = (input: string, option: any, defaultFilter = defaultFilterFn) => {
     const { filterOption } = this.props;
     let filterFn = filterOption;
     if ('filterOption' in this.props) {
@@ -210,8 +205,14 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   };
 
   renderMenu = (menu: any) => {
-    const { valueKey, labelKey, filterOption, options: sourceOptions } = this.props;
-    const { searchValue, focusedOption, value } = this.state;
+    const {
+      valueKey,
+      labelKey,
+      filterOption,
+      prefixCls: customizePrefixCls,
+      options: sourceOptions,
+    } = this.props;
+    const { searchValue, value } = this.state;
 
     const options =
       filterOption && searchValue
@@ -221,38 +222,29 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       return menu;
     }
     const height = this._calculateListHeight(options);
+
     // 当处于关闭状态时，调用该render时设置不滚动到对应元素，在open时才能自动滚动过去
     // const focusedOptionIndex = open ? options.findIndex(v => v[valueKey] === (value || {}).key) : undefined
     // console.log('focusedOptionIndex', focusedOptionIndex)
-    const innerRowRenderer = this._optionRenderer;
-
-    const wrappedRowRenderer = ({ index, key, style }: any) => {
+    const prefixCls = getPrefixCls.call(this, 'select', customizePrefixCls);
+    const wrappedRowRenderer = ({ index, style }: any) => {
       const option = options[index];
 
-      return innerRowRenderer({
-        focusedOption,
-        // focusedOptionIndex,
+      return this._optionRenderer({
         handleSelect: this.handleSelect,
-        handleFocus: this.handleFocus,
-        key,
         labelKey,
         option,
-        optionIndex: index,
-        options,
         style,
         valueArray: value ? [value] : null,
         valueKey,
+        prefixCls,
       });
     };
 
     return (
-      <div
-        onMouseDown={e => e.preventDefault()}
-        className="ant-virtualized-select"
-        // onMouseDown={this.lockClose} onMouseUp={this.lockClose}
-      >
+      <div onMouseDown={this.handleEventPrevent} className={prefixCls}>
         <List
-          className="VirtualSelectGrid"
+          className={`${prefixCls}-menu`}
           height={height}
           itemCount={options.length}
           itemSize={this._getItemSize}
@@ -265,7 +257,6 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   };
 
   render() {
-    // const SelectComponent = this._getSelectComponent()
     const { value, open } = this.state;
     const { labelKey, ...restProps } = this.props;
     // 去除 antdSelect 中会影响 VirtualizedSelect 的prop
@@ -277,7 +268,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         value={value}
         ref={this.saveSelect}
         open={open}
-        onSearch={(v: any) => this.handleSearch(v)}
+        onSearch={(v: string) => this.handleSearch(v)}
         onChange={this.handleChange}
         onBlur={() => this.handleBlur()}
         labelInValue
