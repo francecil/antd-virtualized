@@ -4,17 +4,19 @@ import { Select } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
-import { ConfigConsumer, ConfigConsumerProps, RenderEmptyHandler } from 'antd/lib/config-provider';
-
+import { defaultFilterFn } from './util';
+// import omit from 'omit.js';
 export interface IProps extends SelectProps {
-  maxHeight: number;
-  optionHeight: (param: Object) => number | number;
-  showSearch: boolean;
-  allowClear: boolean;
+  /** 下拉菜单高度 */
+  height: number | string;
+  /** 元素高度 */
+  optionHeight: (param: object) => number | number;
+  /** 代表 label 的 option 属性  */
   labelKey: string;
+  /** 代表 value 的 option 属性  */
   valueKey: string;
-  filterOption?: (inputValue: any, option: any) => any | boolean;
-  options: Array<any>;
+  filterOption?: boolean | ((inputValue: string, option: object) => any);
+  options: Array<object>;
   onChange: (v: any) => any;
 }
 export interface IState {
@@ -23,16 +25,14 @@ export interface IState {
   searchValue: string;
   focusedOption: any;
 }
+
 export default class VirtualizedSelect extends Component<IProps, IState> {
   // lock = null;
 
-  public static defaultProps = {
+  static defaultProps = {
     // async: false,
-    maxHeight: 240,
-    optionHeight: 30,
-    overscanRowCount: 10,
-    showSearch: false,
-    allowClear: false,
+    height: 256,
+    optionHeight: 32,
     labelKey: 'label',
     valueKey: 'value',
     options: [],
@@ -133,93 +133,26 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     });
   };
 
-  // See https://github.com/JedWatson/react-select/#effeciently-rendering-large-lists-with-windowing
-  _renderMenu = (menu: any) => {
-    const { valueKey, labelKey, filterOption, options: sourceOptions } = this.props;
-    const { searchValue, focusedOption, value }: any = this.state;
-    const options =
-      filterOption && searchValue
-        ? sourceOptions.filter((v: string) => filterOption(searchValue, v))
-        : sourceOptions;
-    if (options.length === 0) {
-      return menu;
-    }
-    // 当处于关闭状态时，调用该render时设置不滚动到对应元素，在open时才能自动滚动过去
-    // const focusedOptionIndex = open ? options.findIndex(v => v[valueKey] === (value || {}).key) : undefined
-    // console.log('focusedOptionIndex', focusedOptionIndex)
-    const height = this._calculateListHeight({ options });
-    const innerRowRenderer = this._optionRenderer;
-
-    // react-select 1.0.0-rc2 passes duplicate `onSelect` and `selectValue` props to `menuRenderer`
-    // The `Creatable` HOC only overrides `onSelect` which breaks an edge-case
-    // In order to support creating items via clicking on the placeholder option,
-    // We need to ensure that the specified `onSelect` handle is the one we use.
-    // See issue #33
-
-    const wrappedRowRenderer = ({ index, key, style }: any) => {
-      const option = options[index];
-
-      return innerRowRenderer({
-        focusedOption,
-        // focusedOptionIndex,
-        handleSelect: this.handleSelect,
-        handleFocus: this.handleFocus,
-        key,
-        labelKey,
-        option,
-        optionIndex: index,
-        options,
-        style,
-        valueArray: value ? [value] : null,
-        valueKey,
-      });
-    };
-
-    return (
-      <div
-        onMouseDown={e => e.preventDefault()}
-        className="ant-virtualized-select"
-        // onMouseDown={this.lockClose} onMouseUp={this.lockClose}
-      >
-        <List
-          className="VirtualSelectGrid"
-          height={height}
-          itemCount={options.length}
-          itemSize={({ index }: any) =>
-            this._getOptionHeight({
-              option: options[index],
-            })
-          }
-          width={300}
-        >
-          {wrappedRowRenderer}
-        </List>
-      </div>
-    );
+  /**
+   *
+   */
+  _getItemSize = (index: number) => {
+    const { optionHeight, options } = this.props;
+    return optionHeight instanceof Function ? optionHeight(options[index]) : optionHeight;
   };
 
-  _calculateListHeight({ options }: any) {
-    const { maxHeight } = this.props;
+  _calculateListHeight(options: any) {
+    const { height: maxHeight } = this.props;
 
     let height = 0;
 
     for (let optionIndex = 0; optionIndex < options.length; optionIndex++) {
-      const option = options[optionIndex];
-
-      height += this._getOptionHeight({ option });
-
+      height += this._getItemSize(optionIndex);
       if (height > maxHeight) {
         return maxHeight;
       }
     }
-
     return height;
-  }
-
-  _getOptionHeight({ option }: any) {
-    const { optionHeight } = this.props;
-
-    return optionHeight instanceof Function ? optionHeight({ option }) : optionHeight;
   }
 
   _optionRenderer = ({
@@ -252,13 +185,95 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       </div>
     );
   };
+
+  public filterOption = (input: string, option: any, defaultFilter = defaultFilterFn) => {
+    const { filterOption } = this.props;
+    let filterFn = filterOption;
+    if ('filterOption' in this.props) {
+      if (filterOption === true) {
+        filterFn = defaultFilter.bind(this);
+      }
+    } else {
+      filterFn = defaultFilter.bind(this);
+    }
+
+    if (!filterFn) {
+      return true;
+    }
+    if (typeof filterFn === 'function') {
+      return filterFn.call(this, input, option);
+    }
+    if (option.disabled) {
+      return false;
+    }
+    return true;
+  };
+
+  renderMenu = (menu: any) => {
+    const { valueKey, labelKey, filterOption, options: sourceOptions } = this.props;
+    const { searchValue, focusedOption, value } = this.state;
+
+    const options =
+      filterOption && searchValue
+        ? sourceOptions.filter((option: object) => this.filterOption(searchValue, option))
+        : sourceOptions;
+    if (options.length === 0) {
+      return menu;
+    }
+    const height = this._calculateListHeight(options);
+    // 当处于关闭状态时，调用该render时设置不滚动到对应元素，在open时才能自动滚动过去
+    // const focusedOptionIndex = open ? options.findIndex(v => v[valueKey] === (value || {}).key) : undefined
+    // console.log('focusedOptionIndex', focusedOptionIndex)
+    const innerRowRenderer = this._optionRenderer;
+
+    const wrappedRowRenderer = ({ index, key, style }: any) => {
+      const option = options[index];
+
+      return innerRowRenderer({
+        focusedOption,
+        // focusedOptionIndex,
+        handleSelect: this.handleSelect,
+        handleFocus: this.handleFocus,
+        key,
+        labelKey,
+        option,
+        optionIndex: index,
+        options,
+        style,
+        valueArray: value ? [value] : null,
+        valueKey,
+      });
+    };
+
+    return (
+      <div
+        onMouseDown={e => e.preventDefault()}
+        className="ant-virtualized-select"
+        // onMouseDown={this.lockClose} onMouseUp={this.lockClose}
+      >
+        <List
+          className="VirtualSelectGrid"
+          height={height}
+          itemCount={options.length}
+          itemSize={this._getItemSize}
+          width=""
+        >
+          {wrappedRowRenderer}
+        </List>
+      </div>
+    );
+  };
+
   render() {
     // const SelectComponent = this._getSelectComponent()
     const { value, open } = this.state;
-    const { labelKey } = this.props;
+    const { labelKey, ...restProps } = this.props;
+    // 去除 antdSelect 中会影响 VirtualizedSelect 的prop
+    // 通过控制 rest的写入位置也可以实现
+    // const rest = omit(restProps, ['dropdownRender']);
     return (
       <Select
-        {...this.props}
+        {...restProps}
         value={value}
         ref={this.saveSelect}
         open={open}
@@ -268,7 +283,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         labelInValue
         optionLabelProp={labelKey}
         onDropdownVisibleChange={this.handleDropdownVisibleChange}
-        dropdownRender={this._renderMenu}
+        dropdownRender={this.renderMenu}
         dropdownStyle={{ overflow: 'hidden' }}
       />
     );

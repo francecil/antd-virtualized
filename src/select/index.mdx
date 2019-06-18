@@ -7,6 +7,7 @@ order: 80
 
 import { Playground,Props } from 'docz';
 import Select from './';
+import { default as OriginalSelect} from 'antd/lib/select'
 import './style/index.less'
 
 # Select 选择器
@@ -18,6 +19,13 @@ import './style/index.less'
 ```
 import { Select } from 'antd-virtualized';
 ```
+## 原生Antd Select对比
+
+<OriginalSelect
+  style={{ width: 120 }}
+>
+</OriginalSelect>
+
 ## 代码演示
 
 基本使用
