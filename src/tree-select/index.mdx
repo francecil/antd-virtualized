@@ -8,6 +8,7 @@ order: 80
 import { Playground,Props } from 'docz';
 import TreeSelect from './';
 import './style/index.less'
+import treeData from './_mock/treeData'
 
 # TreeSelect 树选择
 
@@ -16,7 +17,7 @@ import './style/index.less'
 
 ## 引入
 
-```
+```jsx
 import { TreeSelect } from 'antd-virtualized';
 ```
 
@@ -26,45 +27,13 @@ import { TreeSelect } from 'antd-virtualized';
 <Playground>
 <TreeSelect
   placeholder="支持大数据的Select"
-  labelKey='name'
-  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
-  valueKey='id'
-  style={{ width: 120 }}
-/>
-<TreeSelect
-  placeholder="支持大数据的Select"
-  labelKey='name'
-  options={[{id:1,name:'1'},{id:'2',name:'2',disabled:true},{id:'3',name:'3'}]}
-  valueKey='id'
+  labelKey='key'
+  treeData={treeData}
+  valueKey='value'
   style={{ width: 120 }}
 />
 </Playground>
 
-带搜索框
-<Playground>
-<TreeSelect
-  allowClear
-  showSearch
-  placeholder="支持大数据的Select"
-  labelKey='name'
-  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
-  valueKey='id'
-  style={{ width: 120 }}
-  filterOption={(input, option) => option.name.indexOf(input) >= 0}
-/>
-</Playground>
-
-定义下拉列表为空时显示的内容
-<Playground>
-原始
-<TreeSelect style={{ width: 120 }}/>
-<br/><br/>
-自定义 
-<TreeSelect
-  style={{ width: 120 }}
-  notFoundContent="数据为空"
-/>
-</Playground>
 
 
 

@@ -4,8 +4,10 @@ import { Select } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
-import { defaultFilterFn } from './util';
+import memoize from 'memoize-one';
+import { defaultFilterFn, convertTreeToList } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
+
 // import omit from 'omit.js';
 export interface IProps extends SelectProps {
   /** 下拉菜单高度 */
@@ -17,7 +19,7 @@ export interface IProps extends SelectProps {
   /** 代表 value 的 option 属性  */
   valueKey: string;
   filterOption?: boolean | ((inputValue: string, option: object) => any);
-  options: Array<object>;
+  treeData: Array<object>;
   onChange: (v: any) => any;
 }
 export interface IState {
@@ -35,7 +37,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     optionHeight: 32,
     labelKey: 'label',
     valueKey: 'value',
-    options: [],
+    treeData: [],
   };
 
   public static getDerivedStateFromProps(nextProps: any) {
@@ -77,11 +79,14 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     this.avSelect = node;
   };
 
+  nodeList = memoize((treeData: Array<any>) => convertTreeToList(treeData));
+
   scrollActiveItemToView = () => {
     // console.log('scrollActiveItemToView')
-    const { options, valueKey } = this.props;
+    const { treeData, valueKey } = this.props;
     const { value } = this.state;
-    const focusedOptionIndex = options.findIndex(
+    const nodeList = this.nodeList(treeData);
+    const focusedOptionIndex = nodeList.findIndex(
       (option: any) => option[valueKey] === (value || {}).key,
     );
     if (this.avList.current) {
@@ -141,23 +146,23 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   };
 
   _getItemSize = (index: number) => {
-    const { optionHeight, options } = this.props;
-    return optionHeight instanceof Function ? optionHeight(options[index]) : optionHeight;
+    const { optionHeight, treeData } = this.props;
+    const nodeList = this.nodeList(treeData);
+    return optionHeight instanceof Function ? optionHeight(nodeList[index]) : optionHeight;
   };
 
   /**
    *  计算List应该显示的高度
    *
-   * @param {Array<object>} options
+   * @param {Array<object>} treeData
    * @returns
    * @memberof VirtualizedSelect
    */
-  _calculateListHeight(options: Array<object>) {
+  _calculateListHeight(nodeList: Array<object>) {
     const { height: maxHeight } = this.props;
 
     let height = 0;
-
-    for (let optionIndex = 0; optionIndex < options.length; optionIndex++) {
+    for (let optionIndex = 0; optionIndex < nodeList.length; optionIndex++) {
       height += this._getItemSize(optionIndex);
       if (height > maxHeight) {
         return maxHeight;
@@ -225,22 +230,22 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       labelKey,
       filterOption,
       prefixCls: customizePrefixCls,
-      options: sourceOptions,
+      treeData,
     } = this.props;
     const { searchValue, value } = this.state;
-
-    const options =
+    const nodeList = this.nodeList(treeData);
+    const filterNodeList =
       filterOption && searchValue
-        ? sourceOptions.filter((option: object) => this.filterOption(searchValue, option))
-        : sourceOptions;
-    if (options.length === 0) {
+        ? nodeList.filter((option: object) => this.filterOption(searchValue, option))
+        : nodeList;
+    if (filterNodeList.length === 0) {
       return menu;
     }
-    const height = this._calculateListHeight(options);
+    const height = this._calculateListHeight(nodeList);
 
     const prefixCls = getPrefixCls.call(this, 'select', customizePrefixCls);
     const wrappedRowRenderer = ({ index, style }: any) => {
-      const option = options[index];
+      const option = nodeList[index];
 
       return this._optionRenderer({
         handleSelect: this.handleSelect,
@@ -259,7 +264,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
           ref={this.avList}
           className={`${prefixCls}-menu`}
           height={height}
-          itemCount={options.length}
+          itemCount={this.nodeList(treeData).length}
           itemSize={this._getItemSize}
           width=""
         >
