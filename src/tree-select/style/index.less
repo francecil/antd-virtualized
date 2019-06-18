@@ -1,9 +1,47 @@
 @import '~antd/lib/style/themes/default.less';
 @import '../../style/theme.less';
-@select-tree-prefix-cls: ~'@{prefix}-select-tree';
-.@{select-tree-prefix-cls} {
-  .button {
-    color: red;
+@select-prefix-cls: ~'@{prefix}-select';
+@select-tree-prefix-cls: ~'@{ant-prefix}-select-tree';
+.@{select-prefix-cls} {
+  &-menu {
+    z-index: 50;
+  }
+  &-item {
+    position: relative;
+    display: block;
+    padding: 5px @control-padding-horizontal;
+    overflow: hidden;
+    color: @text-color;
+    font-weight: normal;
+    line-height: 22px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: background 0.3s ease;
+
+    &:hover:not(&-disabled) {
+      background-color: @item-hover-bg;
+    }
+    &:first-child {
+      border-radius: @border-radius-base @border-radius-base 0 0;
+    }
+
+    &:last-child {
+      border-radius: 0 0 @border-radius-base @border-radius-base;
+    }
+    &-selected {
+      color: @text-color;
+      font-weight: @select-item-selected-font-weight;
+      background-color: @item-active-bg;
+    }
+
+    &-disabled {
+      color: @disabled-color;
+      cursor: not-allowed;
+      &:hover {
+        color: @disabled-color;
+        cursor: not-allowed;
+      }
+    }
   }
 }
-
