@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Select } from 'antd';
 // eslint-disable-next-line
 import { SelectProps } from 'antd/lib/select';
 import { VariableSizeList as List } from 'react-window';
 import memoize from 'memoize-one';
-import { defaultFilterFn, convertTreeToList } from '../tree/util';
+import { defaultFilterFn, convertTreeToList } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
-import TreeNode from '../tree/TreeNode';
+import TreeNode from './TreeNode';
 // import omit from 'omit.js';
 export interface IProps extends SelectProps {
   /** 下拉菜单高度 */
@@ -23,11 +22,9 @@ export interface IProps extends SelectProps {
 }
 export interface IState {
   value: any;
-  open: boolean;
-  searchValue: string;
 }
 
-export default class VirtualizedTreeSelect extends Component<IProps, IState> {
+export default class VirtualizedTree extends Component<IProps, IState> {
   // lock = null;
 
   static defaultProps = {
@@ -52,14 +49,6 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
     // console.log('componentDidMount....')
   }
 
-  public componentDidUpdate(prevProps: any, prevState: Partial<IState>) {
-    // console.log('componentDidUpdate....')
-    const { open } = this.state;
-    if (!prevState.open && open) {
-      this.scrollActiveItemToView();
-    }
-  }
-
   private avSelect: any;
 
   private avList: any;
@@ -68,8 +57,6 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
     super(props);
     this.state = {
       value: props.value || props.defaultValue,
-      searchValue: '',
-      open: false,
     };
     this.avList = React.createRef();
   }
@@ -93,12 +80,6 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
     }
   };
 
-  handleSearch = (v: any) => {
-    this.setState({
-      searchValue: v,
-    });
-  };
-
   handleSelect = (e: any, option: any) => {
     const { onChange, valueField, labelField } = this.props;
     const value = {
@@ -108,18 +89,9 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
     if (onChange) {
       onChange(value);
     }
-    this.setState(
-      {
-        value,
-        searchValue: '',
-        open: false,
-      },
-      () => {
-        this.avSelect.rcSelect.setInputValue('');
-        // console.log(this.select.rcSelect)
-        this.avSelect.focus();
-      },
-    );
+    this.setState({
+      value,
+    });
   };
 
   // 清空的时候触发 v为 undefined
@@ -130,17 +102,6 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
     }
     this.setState({
       value: v,
-      searchValue: '',
-    });
-  };
-
-  handleDropdownVisibleChange = (open: boolean) => {
-    this.setState({ open });
-  };
-
-  handleBlur = () => {
-    this.setState({
-      searchValue: '',
     });
   };
 
@@ -195,23 +156,11 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
     return true;
   };
 
-  renderMenu = (menu: any) => {
-    const {
-      valueField,
-      labelField,
-      filterOption,
-      prefixCls: customizePrefixCls,
-      treeData,
-    } = this.props;
-    const { searchValue, value } = this.state;
+  render() {
+    const { valueField, labelField, prefixCls: customizePrefixCls, treeData } = this.props;
+    const { value } = this.state;
     const nodeList = this.nodeList(treeData);
-    const filterNodeList =
-      filterOption && searchValue
-        ? nodeList.filter((option: object) => this.filterOption(searchValue, option))
-        : nodeList;
-    if (filterNodeList.length === 0) {
-      return menu;
-    }
+
     const height = this._calculateListHeight(nodeList);
 
     const prefixCls = getPrefixCls.call(this, 'tree', customizePrefixCls);
@@ -231,7 +180,6 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
       };
       return <TreeNode {...props} />;
     };
-
     return (
       <div onMouseDown={this.handleEventPrevent} className={prefixCls}>
         <List
@@ -240,35 +188,11 @@ export default class VirtualizedTreeSelect extends Component<IProps, IState> {
           height={height}
           itemCount={this.nodeList(treeData).length}
           itemSize={this._getItemSize}
-          width="200px"
+          width=""
         >
           {wrappedRowRenderer}
         </List>
       </div>
-    );
-  };
-
-  render() {
-    const { value, open } = this.state;
-    const { labelField, ...restProps } = this.props;
-    // 去除 antdSelect 中会影响 VirtualizedSelect 的prop
-    // 通过控制 rest的写入位置也可以实现
-    // const rest = omit(restProps, ['dropdownRender']);
-    return (
-      <Select
-        {...restProps}
-        value={value}
-        ref={this.saveSelect}
-        open={open}
-        onSearch={(v: string) => this.handleSearch(v)}
-        onChange={this.handleChange}
-        onBlur={() => this.handleBlur()}
-        labelInValue
-        optionLabelProp={labelField}
-        onDropdownVisibleChange={this.handleDropdownVisibleChange}
-        dropdownRender={this.renderMenu}
-        dropdownStyle={{ overflow: 'hidden' }}
-      />
     );
   }
 }

@@ -13,18 +13,13 @@ const treeData = [
         title: 'Child Node2',
         value: '0-0-2',
         key: '0-0-2',
-        children: [
-          {
-            title: 'Child Node1',
-            value: '0-0-2-1',
-            key: '0-0-2-1',
-          },
-          {
-            title: 'Child Node2',
-            value: '0-0-2-2',
-            key: '0-0-2-2',
-          },
-        ],
+        children: Array.from(
+          Array.from({ length: 50 }).map((v, i) => ({
+            title: 'Child Node' + i,
+            value: '0-0-2-' + i,
+            key: '0-0-2-' + i,
+          })),
+        ),
       },
     ],
   },

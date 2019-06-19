@@ -64,9 +64,9 @@ class TreeNode extends React.Component<IProps, {}> {
 
   // Switcher
   renderSwitcher = () => {
-    const { expanded, prefixCls, isLeaf, switcherIcon } = this.props;
+    const { expanded, prefixCls, isLeaf } = this.props;
 
-    if (isLeaf && switcherIcon) {
+    if (isLeaf) {
       return (
         <span className={classnames(`${prefixCls}-switcher`, `${prefixCls}-switcher-noop`)}>
           {this.renderSwitcherIcon()}
@@ -101,11 +101,10 @@ class TreeNode extends React.Component<IProps, {}> {
       [`${prefixCls}-node-switcher-${expanded ? 'open' : 'close'}`]: !isLeaf,
       [`${prefixCls}-node-selected`]: selected,
     });
-    const marginLeft = 24 * _level;
+    const paddingLeft = _level > 0 ? 24 * (_level - 1) + 18 : 0;
     const style = {
       ...mstyle,
-      marginLeft,
-      width: `calc(100% - ${marginLeft}px)`,
+      padding: `0 0 0 ${paddingLeft}px`,
     };
     const events = disabled
       ? {}
@@ -114,9 +113,11 @@ class TreeNode extends React.Component<IProps, {}> {
         };
 
     return (
-      <div style={style} {...events} className={`${prefixCls}-node`}>
+      <div style={style} className={`${prefixCls}-node`}>
         {this.renderSwitcher()}
-        <span className={className}>{value}</span>
+        <span {...events} className={className}>
+          {value}
+        </span>
       </div>
     );
   }
