@@ -1,3 +1,6 @@
+// eslint-disable-next-line
+import { NodeData } from './TreeNode';
+
 export function defaultFilterFn(this: any, input: string, option: any): boolean {
   if (option.disabled) {
     return false;
@@ -30,20 +33,26 @@ export function calcNodeTotal(treeData: Array<any>): number {
 }
 
 export function convertTreeToList(tree: Array<any>): Array<any> {
-  const list: Array<any> = [];
-  const dfs = (treeData: any) => {
+  const list: Array<NodeData> = [];
+  const dfs = (treeData: any, _level: number, _pid: string, _id: string) => {
+    const isLeaf = !(treeData.children && treeData.children.length > 0);
     list.push({
       ...treeData,
+      _level,
+      _pid,
+      _id,
+      isLeaf,
+      expanded: false,
       children: undefined,
     });
-    if (treeData.children && treeData.children.length > 0) {
+    if (!isLeaf) {
       for (let i = 0; i < treeData.children.length; i++) {
-        dfs(treeData.children[i]);
+        dfs(treeData.children[i], _level + 1, _id, `${_id}-${i}`);
       }
     }
   };
   for (let i = 0; i < tree.length; i++) {
-    dfs(tree[i]);
+    dfs(tree[i], 0, '0', `0-${i}`);
   }
   return list;
 }

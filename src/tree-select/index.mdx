@@ -17,7 +17,7 @@ import treeData from './_mock/treeData'
 
 ## 引入
 
-```jsx
+```
 import { TreeSelect } from 'antd-virtualized';
 ```
 
@@ -26,11 +26,11 @@ import { TreeSelect } from 'antd-virtualized';
 基本使用
 <Playground>
 <TreeSelect
-  placeholder="支持大数据的Select"
-  labelKey='key'
+  placeholder="支持大数据的TreeSelect"
+  labelField='key'
   treeData={treeData}
-  valueKey='value'
-  style={{ width: 120 }}
+  valueField='value'
+  style={{ width: 200 }}
 />
 </Playground>
 

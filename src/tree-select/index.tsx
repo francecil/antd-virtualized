@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { Select } from 'antd';
 // eslint-disable-next-line
 import { SelectProps } from 'antd/lib/select';
-import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
 import memoize from 'memoize-one';
 import { defaultFilterFn, convertTreeToList } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
-
+import TreeNode from './TreeNode';
 // import omit from 'omit.js';
 export interface IProps extends SelectProps {
   /** 下拉菜单高度 */
@@ -15,9 +14,9 @@ export interface IProps extends SelectProps {
   /** 元素高度 */
   optionHeight: (param: object) => number | number;
   /** 代表 label 的 option 属性  */
-  labelKey: string;
+  labelField: string;
   /** 代表 value 的 option 属性  */
-  valueKey: string;
+  valueField: string;
   filterOption?: boolean | ((inputValue: string, option: object) => any);
   treeData: Array<object>;
   onChange: (v: any) => any;
@@ -28,15 +27,15 @@ export interface IState {
   searchValue: string;
 }
 
-export default class VirtualizedSelect extends Component<IProps, IState> {
+export default class VirtualizedTreeSelect extends Component<IProps, IState> {
   // lock = null;
 
   static defaultProps = {
     // async: false,
     height: 256,
     optionHeight: 32,
-    labelKey: 'label',
-    valueKey: 'value',
+    labelField: 'label',
+    valueField: 'value',
     treeData: [],
   };
 
@@ -83,11 +82,11 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   scrollActiveItemToView = () => {
     // console.log('scrollActiveItemToView')
-    const { treeData, valueKey } = this.props;
+    const { treeData, valueField } = this.props;
     const { value } = this.state;
     const nodeList = this.nodeList(treeData);
     const focusedOptionIndex = nodeList.findIndex(
-      (option: any) => option[valueKey] === (value || {}).key,
+      (option: any) => option[valueField] === (value || {}).key,
     );
     if (this.avList.current) {
       this.avList.current.scrollToItem(focusedOptionIndex);
@@ -100,11 +99,11 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     });
   };
 
-  handleSelect = (option: any) => {
-    const { onChange, valueKey, labelKey } = this.props;
+  handleSelect = (e: any, option: any) => {
+    const { onChange, valueField, labelField } = this.props;
     const value = {
-      key: option[valueKey],
-      label: option[labelKey],
+      key: option[valueField],
+      label: option[labelField],
     };
     if (onChange) {
       onChange(value);
@@ -173,34 +172,6 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   handleEventPrevent = (e: any) => e.preventDefault();
 
-  _optionRenderer = ({
-    handleSelect,
-    labelKey,
-    option,
-    style,
-    valueArray,
-    valueKey,
-    prefixCls,
-  }: any) => {
-    const className = classnames(`${prefixCls}-item`, {
-      [`${prefixCls}-item-disabled`]: option.disabled,
-      [`${prefixCls}-item-selected`]:
-        valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
-    });
-
-    const events = option.disabled
-      ? {}
-      : {
-          onClick: () => handleSelect(option),
-        };
-
-    return (
-      <div className={className} style={style} {...events}>
-        {option[labelKey]}
-      </div>
-    );
-  };
-
   filterOption = (input: string, option: any, defaultFilter = defaultFilterFn) => {
     const { filterOption } = this.props;
     let filterFn = filterOption;
@@ -226,8 +197,8 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   renderMenu = (menu: any) => {
     const {
-      valueKey,
-      labelKey,
+      valueField,
+      labelField,
       filterOption,
       prefixCls: customizePrefixCls,
       treeData,
@@ -243,19 +214,22 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     }
     const height = this._calculateListHeight(nodeList);
 
-    const prefixCls = getPrefixCls.call(this, 'select', customizePrefixCls);
+    const prefixCls = getPrefixCls.call(this, 'select-tree', customizePrefixCls);
+    const valueArray = value ? [value] : null;
     const wrappedRowRenderer = ({ index, style }: any) => {
       const option = nodeList[index];
-
-      return this._optionRenderer({
-        handleSelect: this.handleSelect,
-        labelKey,
+      const props = {
+        onSelect: this.handleSelect,
+        labelField,
         option,
+        ...option,
         style,
         valueArray: value ? [value] : null,
-        valueKey,
+        valueField,
         prefixCls,
-      });
+        selected: valueArray && valueArray.some((v: any) => v.key === option[valueField]),
+      };
+      return <TreeNode {...props} />;
     };
 
     return (
@@ -266,7 +240,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
           height={height}
           itemCount={this.nodeList(treeData).length}
           itemSize={this._getItemSize}
-          width=""
+          width="200px"
         >
           {wrappedRowRenderer}
         </List>
@@ -276,7 +250,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   render() {
     const { value, open } = this.state;
-    const { labelKey, ...restProps } = this.props;
+    const { labelField, ...restProps } = this.props;
     // 去除 antdSelect 中会影响 VirtualizedSelect 的prop
     // 通过控制 rest的写入位置也可以实现
     // const rest = omit(restProps, ['dropdownRender']);
@@ -290,7 +264,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         onChange={this.handleChange}
         onBlur={() => this.handleBlur()}
         labelInValue
-        optionLabelProp={labelKey}
+        optionLabelProp={labelField}
         onDropdownVisibleChange={this.handleDropdownVisibleChange}
         dropdownRender={this.renderMenu}
         dropdownStyle={{ overflow: 'hidden' }}

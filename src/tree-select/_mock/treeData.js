@@ -13,6 +13,18 @@ const treeData = [
         title: 'Child Node2',
         value: '0-0-2',
         key: '0-0-2',
+        children: [
+          {
+            title: 'Child Node1',
+            value: '0-0-2-1',
+            key: '0-0-2-1',
+          },
+          {
+            title: 'Child Node2',
+            value: '0-0-2-2',
+            key: '0-0-2-2',
+          },
+        ],
       },
     ],
   },
