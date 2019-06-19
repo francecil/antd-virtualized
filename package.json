@@ -40,7 +40,9 @@
     "prettier": "prettier -c --write '**/*'",
     "lint-staged": "lint-staged",
     "eslint": "eslint src --ext .ts,.tsx",
-    "patch": "npm version patch"
+    "version:patch": "npm version patch",
+    "version:minor": "npm version minor",
+    "pushtag": "git push origin --tags"
   },
   "pre-commit": [
     "lint-staged"
