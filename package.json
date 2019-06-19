@@ -36,6 +36,7 @@
     "build:css": "webpack --config config/webpack.config.js",
     "build": "father build && node packCss.js && npm run build:css",
     "postbuild": "node packCss.js clear",
+    "predeploy": "npm run build:doc",
     "deploy": "father doc deploy",
     "prettier": "prettier -c --write '**/*'",
     "lint-staged": "lint-staged",
