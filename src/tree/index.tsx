@@ -94,6 +94,49 @@ export default class VirtualizedTree extends Component<IProps, IState> {
     });
   };
 
+  handleNodeExpand = (treeNode: any) => {
+    console.log('treeNode', treeNode);
+    // let { expandedKeys } = this.state;
+    // const { onExpand, loadData } = this.props;
+    // const { eventKey, expanded } = treeNode.props;
+
+    // // Update selected keys
+    // const index = expandedKeys.indexOf(eventKey);
+    // const targetExpanded = !expanded;
+
+    // warning(
+    //   (expanded && index !== -1) || (!expanded && index === -1),
+    //   'Expand state not sync with index check',
+    // );
+
+    // if (targetExpanded) {
+    //   expandedKeys = arrAdd(expandedKeys, eventKey);
+    // } else {
+    //   expandedKeys = arrDel(expandedKeys, eventKey);
+    // }
+
+    // this.setUncontrolledState({ expandedKeys });
+
+    // if (onExpand) {
+    //   onExpand(expandedKeys, {
+    //     node: treeNode,
+    //     expanded: targetExpanded,
+    //     nativeEvent: e.nativeEvent,
+    //   });
+    // }
+
+    // // Async Load data
+    // if (targetExpanded && loadData) {
+    //   const loadPromise = this.onNodeLoad(treeNode);
+    //   return loadPromise ? loadPromise.then(() => {
+    //     // [Legacy] Refresh logic
+    //     this.setUncontrolledState({ expandedKeys });
+    //   }) : null;
+    // }
+
+    return null;
+  };
+
   // 清空的时候触发 v为 undefined
   handleChange = (v: any) => {
     const { onChange } = this.props;
@@ -169,6 +212,7 @@ export default class VirtualizedTree extends Component<IProps, IState> {
       const option = nodeList[index];
       const props = {
         onSelect: this.handleSelect,
+        onNodeExpand: this.handleNodeExpand,
         labelField,
         option,
         ...option,

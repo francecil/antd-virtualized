@@ -44,6 +44,7 @@ export function convertTreeToList(tree: Array<any>): Array<any> {
       isLeaf,
       expanded: false,
       children: undefined,
+      visible: true,
     });
     if (!isLeaf) {
       for (let i = 0; i < treeData.children.length; i++) {

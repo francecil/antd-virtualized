@@ -10,7 +10,6 @@
   }
   &-node {
     position: relative;
-    display: block;
     padding: 0px 4px;
     overflow: hidden;
     color: @text-color;
@@ -19,6 +18,10 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     transition: background 0.3s ease;
+    display: none;
+    &-open {
+      display: block;
+    }
     &-content-wrapper {
       display: inline-block;
       //扣去28 即 switcher 的宽度 24 + 4padding

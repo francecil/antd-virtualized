@@ -11,6 +11,8 @@ export interface NodeData {
   _id: string;
   _pid: string;
   isLeaf?: boolean;
+  visible?: boolean;
+  /** 父节点有效，节点展开状态 */
   expanded?: boolean;
 }
 const ICON_OPEN = 'open';
@@ -48,7 +50,10 @@ class TreeNode extends React.Component<IProps, {}> {
   onMouseLeave = () => {};
 
   // Disabled item still can be switch
-  onExpand = () => {};
+  onExpand = () => {
+    const { onNodeExpand } = this.props;
+    onNodeExpand(this);
+  };
 
   isDisabled = () => {};
 
@@ -95,6 +100,7 @@ class TreeNode extends React.Component<IProps, {}> {
       expanded,
       isLeaf,
       selected,
+      visible,
     } = this.props;
     const className = classnames(`${prefixCls}-node-content-wrapper`, {
       [`${prefixCls}-node-disabled`]: disabled,
@@ -111,9 +117,11 @@ class TreeNode extends React.Component<IProps, {}> {
       : {
           onClick: this.handleSelect,
         };
-
+    const nodeClassname = classnames(`${prefixCls}-node`, {
+      [`${prefixCls}-node-open`]: visible,
+    });
     return (
-      <div style={style} className={`${prefixCls}-node`}>
+      <div style={style} className={nodeClassname}>
         {this.renderSwitcher()}
         <span {...events} className={className}>
           {value}
