@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import { SelectProps } from 'antd/lib/select';
 import { VariableSizeList as List } from 'react-window';
 import memoize from 'memoize-one';
 import { defaultFilterFn, convertTreeToList } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
 // import omit from 'omit.js';
-export interface IProps extends SelectProps {
+export interface IProps {
   /** 下拉菜单高度 */
   height: number;
   /** 元素高度 */
@@ -19,6 +18,7 @@ export interface IProps extends SelectProps {
   filterOption?: boolean | ((inputValue: string, option: object) => any);
   treeData: Array<object>;
   onChange: (v: any) => any;
+  prefixCls?: string;
 }
 export interface IState {
   value: any;

@@ -15,7 +15,7 @@ const eslintrc = {
     'func-names': 0,
     'no-plusplus': 0,
     'no-underscore-dangle': 0,
-    // "no-unused-vars": [1, { args: "none" }],
+    'no-unused-vars': 0,
     'react/jsx-one-expression-per-line': 0,
     // 方法排序
     'react/sort-comp': 0,
@@ -45,10 +45,10 @@ const eslintrc = {
     'jsx-a11y/anchor-is-valid': 0,
     'comma-dangle': ['error', 'always-multiline'],
   },
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "extensions": [".js", ".jsx", ".ts", ".tsx"],
+  settings: {
+    'import/resolver': {
+      node: {
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
       },
     },
   },

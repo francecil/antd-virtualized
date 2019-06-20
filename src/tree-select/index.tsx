@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Select } from 'antd';
-// eslint-disable-next-line
 import { SelectProps } from 'antd/lib/select';
 import { VariableSizeList as List } from 'react-window';
 import memoize from 'memoize-one';
