@@ -1,24 +1,35 @@
 import React, { Component } from 'react';
-// eslint-disable-next-line
+import { TreeProps } from 'antd/lib/tree';
 import { VariableSizeList as List } from 'react-window';
 import memoize from 'memoize-one';
 import { defaultFilterFn, convertTreeToList } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
-// import omit from 'omit.js';
-export interface IProps {
+import TreeStore from './store';
+import {
+  // TreeNodeKeyType,
+  ignoreEnum,
+  IgnoreType,
+  // verticalPositionEnum,
+  // VerticalPositionType,
+  // dragHoverPartEnum,
+} from './const';
+
+export interface IProps extends TreeProps {
   /** 下拉菜单高度 */
   height: number;
   /** 元素高度 */
   optionHeight: (param: object) => number | number;
   /** 代表 label 的 option 属性  */
-  labelField: string;
+  titleField: string;
   /** 代表 value 的 option 属性  */
-  valueField: string;
+  keyField: string;
   filterOption?: boolean | ((inputValue: string, option: object) => any);
   treeData: Array<object>;
   onChange: (v: any) => any;
   prefixCls?: string;
+  /** 忽略模式 */
+  ignoreMode: IgnoreType;
 }
 export interface IState {
   value: any;
@@ -31,9 +42,10 @@ export default class Tree extends Component<IProps, IState> {
     // async: false,
     height: 256,
     optionHeight: 32,
-    labelField: 'label',
-    valueField: 'value',
+    titleField: 'title',
+    keyField: 'id',
     treeData: [],
+    ignoreMode: ignoreEnum.none,
   };
 
   public static getDerivedStateFromProps(nextProps: any) {
@@ -45,11 +57,29 @@ export default class Tree extends Component<IProps, IState> {
     return null;
   }
 
+  public componentWillMount() {
+    const { keyField, ignoreMode, defaultExpandAll } = this.props;
+    this.store = new TreeStore({
+      keyField,
+      ignoreMode,
+      defaultExpandAll,
+    });
+    // this.store.on('visible-data-change', this.updateBlockNodes)
+    // this.store.on('render-data-change', this.updateRender)
+    // this.store.on('checked-change', (checkedNodes: TreeNode[], checkedKeys: TreeNodeKeyType[]) => {
+    //   this.emitCheckableInput(checkedNodes, checkedKeys)
+    //   this.updateUnloadStatus()
+    // })
+    // this.store.on('selected-change', this.emitSelectableInput)
+  }
+
   public componentDidMount() {
     // console.log('componentDidMount....')
   }
 
   private avList: any;
+
+  private store: any;
 
   constructor(props: any) {
     super(props);
@@ -63,11 +93,11 @@ export default class Tree extends Component<IProps, IState> {
 
   scrollActiveItemToView = () => {
     // console.log('scrollActiveItemToView')
-    const { treeData, valueField } = this.props;
+    const { treeData, keyField } = this.props;
     const { value } = this.state;
     const nodeList = this.nodeList(treeData);
     const focusedOptionIndex = nodeList.findIndex(
-      (option: any) => option[valueField] === (value || {}).key,
+      (option: any) => option[keyField] === (value || {}).key,
     );
     if (this.avList.current) {
       this.avList.current.scrollToItem(focusedOptionIndex);
@@ -75,10 +105,10 @@ export default class Tree extends Component<IProps, IState> {
   };
 
   handleSelect = (e: any, option: any) => {
-    const { onChange, valueField, labelField } = this.props;
+    const { onChange, keyField, titleField } = this.props;
     const value = {
-      key: option[valueField],
-      label: option[labelField],
+      key: option[keyField],
+      label: option[titleField],
     };
     if (onChange) {
       onChange(value);
@@ -194,7 +224,7 @@ export default class Tree extends Component<IProps, IState> {
   };
 
   render() {
-    const { valueField, labelField, prefixCls: customizePrefixCls, treeData } = this.props;
+    const { keyField, titleField, prefixCls: customizePrefixCls, treeData } = this.props;
     const { value } = this.state;
     const nodeList = this.nodeList(treeData);
 
@@ -207,14 +237,14 @@ export default class Tree extends Component<IProps, IState> {
       const props = {
         onSelect: this.handleSelect,
         onNodeExpand: this.handleNodeExpand,
-        labelField,
+        titleField,
         option,
         ...option,
         style,
         valueArray: value ? [value] : null,
-        valueField,
+        keyField,
         prefixCls,
-        selected: valueArray && valueArray.some((v: any) => v.key === option[valueField]),
+        selected: valueArray && valueArray.some((v: any) => v.key === option[keyField]),
       };
       return <TreeNode {...props} />;
     };
