@@ -17,6 +17,14 @@ const eslintrc = {
     'no-underscore-dangle': 0,
     'no-unused-vars': 0,
     'react/jsx-one-expression-per-line': 0,
+    // 允许使用特定的语法 这里是for in 限制过于严格
+    'no-restricted-syntax': 0,
+    // 允许 函数在不同分支返回不同类型的值
+    'consistent-return': 0,
+    // 允许对函数的参数重新赋值
+    'no-param-reassign': 0,
+    // 在类的非静态方法中，必须存在对 this 的引用:x
+    'class-methods-use-this': 0,
     // 方法排序
     'react/sort-comp': 0,
     'react/prop-types': 0,
