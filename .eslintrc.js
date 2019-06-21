@@ -25,6 +25,8 @@ const eslintrc = {
     'no-param-reassign': 0,
     // 在类的非静态方法中，必须存在对 this 的引用:x
     'class-methods-use-this': 0,
+    // 禁止在 return 语句里赋值：x
+    'no-return-assign': 0,
     // 方法排序
     'react/sort-comp': 0,
     'react/prop-types': 0,
