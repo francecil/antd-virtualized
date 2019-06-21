@@ -59,11 +59,11 @@ export default class Tree extends Component<IProps, IState> {
 
   public componentWillMount() {
     const { keyField, ignoreMode, defaultExpandAll } = this.props;
-    this.store = new TreeStore({
-      keyField,
-      ignoreMode,
-      defaultExpandAll,
-    });
+    // this.store = new TreeStore({
+    //   keyField,
+    //   ignoreMode,
+    //   defaultExpandAll,
+    // });
     // this.store.on('visible-data-change', this.updateBlockNodes)
     // this.store.on('render-data-change', this.updateRender)
     // this.store.on('checked-change', (checkedNodes: TreeNode[], checkedKeys: TreeNodeKeyType[]) => {
