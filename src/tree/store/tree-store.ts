@@ -1,4 +1,4 @@
-import TreeNode, { ITreeNodeOptions } from './tree-node';
+import TreeNode, { Indexable, ITreeNodeOptions } from './tree-node';
 import { TreeNodeKeyType, ignoreEnum, IgnoreType, Parameters } from '../const';
 
 // #region Interfaces
@@ -206,7 +206,7 @@ export default class TreeStore {
           if (node.disabled) {
             checkCascade(node.children);
           } else {
-            this.setChecked(node[this.options.keyField], true, false, false);
+            this.setChecked((node as Indexable)[this.options.keyField], true, false, false);
           }
         });
       };
@@ -215,7 +215,7 @@ export default class TreeStore {
       const { length } = this.flatData;
       for (let i = 0; i < length; i++) {
         const node = this.flatData[i];
-        this.setChecked(node[this.options.keyField], true, false, false);
+        this.setChecked((node as Indexable)[this.options.keyField], true, false, false);
       }
     }
 
@@ -229,7 +229,7 @@ export default class TreeStore {
    */
   clearChecked(triggerEvent: boolean = true, triggerDataChange: boolean = true): void {
     const currentCheckedNodes = this.getCheckedNodes();
-    currentCheckedNodes.forEach(checkedNode => {
+    currentCheckedNodes.forEach((checkedNode: Indexable) => {
       this.setChecked(checkedNode[this.options.keyField], false, false, false);
     });
     // 清空未加载多选选中节点
@@ -285,14 +285,14 @@ export default class TreeStore {
         if (this.currentSelectedKey === null) {
           // 当前没有选中节点
           node.selected = value;
-          this.currentSelectedKey = node[this.options.keyField];
+          this.currentSelectedKey = (node as Indexable)[this.options.keyField];
         } else {
           // 取消当前已选中，设置新的选中节点
           if (this.mapData[this.currentSelectedKey]) {
             this.mapData[this.currentSelectedKey].selected = false;
           }
           node.selected = value;
-          this.currentSelectedKey = node[this.options.keyField];
+          this.currentSelectedKey = (node as Indexable)[this.options.keyField];
         }
       }
     }
@@ -454,7 +454,7 @@ export default class TreeStore {
 
     if (expandParent && node._parent && value) {
       this.setExpand(
-        node._parent[this.options.keyField],
+        (node._parent as Indexable)[this.options.keyField],
         value,
         expandParent,
         false,
@@ -479,7 +479,7 @@ export default class TreeStore {
   }
 
   setExpandAll(value: boolean, triggerDataChange: boolean = true): void {
-    this.flatData.forEach(node => {
+    this.flatData.forEach((node: Indexable) => {
       if (!this.options.load || node._loaded) {
         this.setExpand(node[this.options.keyField], value, false, false, false);
       }
@@ -525,7 +525,7 @@ export default class TreeStore {
    */
   getCheckedKeys(ignoreMode = this.options.ignoreMode): TreeNodeKeyType[] {
     return this.getCheckedNodes(ignoreMode)
-      .map(checkedNodes => checkedNodes[this.options.keyField])
+      .map((checkedNodes: Indexable) => checkedNodes[this.options.keyField])
       .concat(this.unloadCheckedKeys);
   }
 
@@ -569,7 +569,7 @@ export default class TreeStore {
    * 获取展开节点 keys
    */
   getExpandKeys(): TreeNodeKeyType[] {
-    return this.getExpandNodes().map(node => node[this.options.keyField]);
+    return this.getExpandNodes().map((node: Indexable) => node[this.options.keyField]);
   }
 
   /**
@@ -591,7 +591,7 @@ export default class TreeStore {
     const node = this.getInsertedNode(insertedNode, referenceKey);
     if (!node) return null;
 
-    this.remove(node[this.options.keyField], false);
+    this.remove((node as Indexable)[this.options.keyField], false);
 
     const referenceNode = this.mapData[referenceKey];
     const parentNode = referenceNode._parent;
@@ -610,7 +610,7 @@ export default class TreeStore {
     const node = this.getInsertedNode(insertedNode, referenceKey);
     if (!node) return null;
 
-    this.remove(node[this.options.keyField], false);
+    this.remove((node as Indexable)[this.options.keyField], false);
 
     const referenceNode = this.mapData[referenceKey];
     const parentNode = referenceNode._parent;
@@ -640,14 +640,14 @@ export default class TreeStore {
       const childrenLength = parentNode.children.length;
       return this.insertAfter(
         insertedNode,
-        parentNode.children[childrenLength - 1][this.options.keyField],
+        (parentNode.children[childrenLength - 1] as Indexable)[this.options.keyField],
       );
     }
 
     const node = this.getInsertedNode(insertedNode, parentKey, true);
     if (!node) return null;
 
-    this.remove(node[this.options.keyField], false);
+    this.remove((node as Indexable)[this.options.keyField], false);
 
     const flatIndex = this.findIndex(parentKey) + 1;
 
@@ -662,13 +662,16 @@ export default class TreeStore {
   ): TreeNode | null {
     const parentNode = this.mapData[parentKey];
     if (!parentNode.isLeaf) {
-      return this.insertBefore(insertedNode, parentNode.children[0][this.options.keyField]);
+      return this.insertBefore(
+        insertedNode,
+        (parentNode.children[0] as Indexable)[this.options.keyField],
+      );
     }
 
     const node = this.getInsertedNode(insertedNode, parentKey, true);
     if (!node) return null;
 
-    this.remove(node[this.options.keyField], false);
+    this.remove((node as Indexable)[this.options.keyField], false);
 
     const flatIndex = this.findIndex(parentKey) + 1;
 
@@ -701,7 +704,7 @@ export default class TreeStore {
     const deleteInMap = (key: TreeNodeKeyType): void => {
       const tmpNode = this.mapData[key];
       delete this.mapData[key];
-      tmpNode.children.forEach(child => deleteInMap(child[this.options.keyField]));
+      tmpNode.children.forEach((child: Indexable) => deleteInMap(child[this.options.keyField]));
     };
     deleteInMap(removedKey);
 
@@ -739,7 +742,7 @@ export default class TreeStore {
     const parentNode = isParent ? referenceNode : referenceNode._parent;
     if (insertedNode instanceof TreeNode) {
       // 与参照节点是同一个节点
-      if (insertedNode[this.options.keyField] === referenceKey) return null;
+      if ((insertedNode as Indexable)[this.options.keyField] === referenceKey) return null;
       return insertedNode;
     }
     if (typeof insertedNode === 'object') {
@@ -771,7 +774,7 @@ export default class TreeStore {
     // 更新父节点 isLeaf, expand
     if (parentNode) {
       parentNode.isLeaf = false;
-      this.setExpand(parentNode[this.options.keyField], true, false, false, false);
+      this.setExpand((parentNode as Indexable)[this.options.keyField], true, false, false, false);
     }
 
     // 插入 flatData 与 mapData
@@ -794,7 +797,7 @@ export default class TreeStore {
     this.triggerCheckedChange();
     // 处理单选
     if (movingNode.selected) {
-      this.setSelected(movingNode[this.options.keyField], true);
+      this.setSelected((movingNode as Indexable)[this.options.keyField], true);
     }
   }
 
@@ -820,7 +823,7 @@ export default class TreeStore {
     });
     // 对于临时列表中的节点，都是可见的，因此将它们的父节点都设为可见并展开
     filterVisibleNodes.forEach(node => {
-      let parent = node._parent;
+      let parent = node._parent as Indexable;
       while (parent) {
         parent._filterVisible = true;
         parent.visible = parent._filterVisible;
@@ -896,7 +899,7 @@ export default class TreeStore {
     const { length } = nodes;
     for (let i = 0; i < length; i++) {
       const node = nodes[i];
-      const key: TreeNodeKeyType = node[this.options.keyField];
+      const key: TreeNodeKeyType = (node as Indexable)[this.options.keyField];
       result.push(node);
       if (this.mapData[key]) {
         throw new Error('[CTree] Duplicate tree node key.');
@@ -913,14 +916,14 @@ export default class TreeStore {
 
       if (node.selected && overrideSelected) {
         this.clearSelected();
-        this.currentSelectedKey = node[this.options.keyField];
+        this.currentSelectedKey = (node as Indexable)[this.options.keyField];
         this.unloadSelectedKey = null;
         this.emit('selected-change', node, this.currentSelectedKey);
       }
 
       if ((this.options.defaultExpandAll || node.expand) && !this.options.load && !node.isLeaf) {
         node.expand = false;
-        this.setExpand(node[this.options.keyField], true, false, false, false);
+        this.setExpand((node as Indexable)[this.options.keyField], true, false, false, false);
       }
 
       if (node.children.length) {
@@ -1009,11 +1012,11 @@ export default class TreeStore {
   ): number {
     if (searchList !== null) {
       const key: TreeNodeKeyType =
-        keyOrNode instanceof TreeNode ? keyOrNode[this.options.keyField] : keyOrNode;
+        keyOrNode instanceof TreeNode ? (keyOrNode as Indexable)[this.options.keyField] : keyOrNode;
       const { length } = searchList;
       for (let i = 0; i < length; i++) {
         if (searchList[0] instanceof TreeNode) {
-          if (key === (searchList as TreeNode[])[i][this.options.keyField]) {
+          if (key === ((searchList as TreeNode[])[i] as Indexable)[this.options.keyField]) {
             return i;
           }
         } else if (key === searchList[i]) {

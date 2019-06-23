@@ -19,11 +19,13 @@ const notAllowOverrideList: string[] = [
   'children',
   'setChildren',
 ];
-
-export default class TreeNode {
+export interface Indexable {
+  [key: string]: any | TreeNodeKeyType;
+}
+export default class TreeNode implements Indexable {
   // #region Properties
 
-  [key: string]: any | TreeNodeKeyType;
+  // [key: string]: any | TreeNodeKeyType;
 
   /** 节点层级 */
   _level: number = 0;
@@ -74,13 +76,13 @@ export default class TreeNode {
   ) {
     for (const option in options) {
       if (notAllowOverrideList.indexOf(option) === -1) {
-        this[option] = options[option];
+        (this as Indexable)[option] = options[option];
       }
     }
 
-    if (this[_keyField] == null) {
+    if ((this as Indexable)[_keyField] == null) {
       // 如果没有 id 字段，随机赋值一个
-      this[_keyField] = Math.random()
+      (this as Indexable)[_keyField] = Math.random()
         .toString(36)
         .substring(2);
     }
