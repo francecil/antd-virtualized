@@ -1,19 +1,46 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import classnames from 'classnames';
 import { Icon } from 'antd';
+import { TreeNode as TN } from './store';
 
-export interface IProps extends NodeData {
-  onSelect: (e: any, node: NodeData) => any;
+export interface IProps {
+  /** 节点数据，注意！！为了性能，不让 Vue 监听过多属性，这个 data 不是完整的 TreeNode ，不包括 _parent 和 children 属性 */
+  data: TN;
+  /** 节点标题字段 */
+  titleField: string;
+
+  /** 节点唯一标识字段 */
+  keyField: string;
+
+  /** 节点渲染 render 函数 */
+  render?: () => ReactElement;
+
+  /** 是否可多选 */
+  checkable?: Boolean;
+
+  /** 是否可单选 */
+  selectable?: Boolean;
+
+  /** 是否禁用所有节点 */
+  disableAll?: Boolean;
+
+  /** 是否可拖拽 */
+  draggable?: Boolean;
+
+  /** 是否可放置 */
+  droppable?: Boolean;
+  // onSelect: (e: any, node: NodeData) => any;
   [customProp: string]: any;
 }
-export interface NodeData {
-  _level: number;
-  _id: string;
-  _pid: string;
-  isLeaf?: boolean;
-  visible?: boolean;
-  /** 父节点有效，节点展开状态 */
-  expanded?: boolean;
+export interface IState {
+  /** 节点拖拽 dragover */
+  dragoverBody: boolean;
+
+  /** 节点前拖拽 dragover */
+  dragoverBefore: boolean;
+
+  /** 节点后拖拽 dragover */
+  dragoverAfter: boolean;
 }
 const ICON_OPEN = 'open';
 const ICON_CLOSE = 'close';
@@ -22,7 +49,11 @@ class TreeNode extends React.Component<IProps, {}> {
   constructor(props: IProps) {
     super(props);
 
-    this.state = {};
+    this.state = {
+      // dragoverBody:false,
+      // dragoverBefore: false,
+      // dragoverAfter: false,
+    };
   }
 
   // Isomorphic needn't load data in server side
@@ -37,9 +68,9 @@ class TreeNode extends React.Component<IProps, {}> {
   onSelectorDoubleClick = () => {};
 
   handleSelect = (e: any) => {
-    const { onSelect, option } = this.props;
+    const { onSelect, data } = this.props;
     if (onSelect) {
-      onSelect(e, option);
+      onSelect(e, data);
     }
   };
 
@@ -51,8 +82,9 @@ class TreeNode extends React.Component<IProps, {}> {
 
   // Disabled item still can be switch
   onExpand = () => {
-    const { onNodeExpand } = this.props;
-    onNodeExpand(this);
+    const { data, onNodeExpand, keyField } = this.props;
+    if (data.isLeaf) return;
+    onNodeExpand((data as any)[keyField]);
   };
 
   isDisabled = () => {};
@@ -60,8 +92,8 @@ class TreeNode extends React.Component<IProps, {}> {
   isCheckable = () => {};
 
   renderSwitcherIcon = () => {
-    const { prefixCls, isLeaf } = this.props;
-    if (isLeaf) {
+    const { prefixCls, data } = this.props;
+    if (data.isLeaf) {
       return null;
     }
     return <Icon type="caret-down" className={`${prefixCls}-switcher-icon`} />;
@@ -69,9 +101,9 @@ class TreeNode extends React.Component<IProps, {}> {
 
   // Switcher
   renderSwitcher = () => {
-    const { expanded, prefixCls, isLeaf } = this.props;
+    const { prefixCls, data } = this.props;
 
-    if (isLeaf) {
+    if (data.isLeaf) {
       return (
         <span className={classnames(`${prefixCls}-switcher`, `${prefixCls}-switcher-noop`)}>
           {this.renderSwitcherIcon()}
@@ -81,7 +113,7 @@ class TreeNode extends React.Component<IProps, {}> {
 
     const switcherCls = classnames(
       `${prefixCls}-switcher`,
-      `${prefixCls}-switcher_${expanded ? ICON_OPEN : ICON_CLOSE}`,
+      `${prefixCls}-switcher_${data.expand ? ICON_OPEN : ICON_CLOSE}`,
     );
     return (
       <span onClick={this.onExpand} className={switcherCls}>
@@ -91,20 +123,11 @@ class TreeNode extends React.Component<IProps, {}> {
   };
 
   render() {
-    const {
-      value,
-      style: mstyle,
-      disabled,
-      prefixCls,
-      _level,
-      expanded,
-      isLeaf,
-      selected,
-      visible,
-    } = this.props;
+    const { style: mstyle, prefixCls, data, titleField } = this.props;
+    const { disabled, expand, selected, isLeaf, _level, visible } = data;
     const className = classnames(`${prefixCls}-node-content-wrapper`, {
       [`${prefixCls}-node-disabled`]: disabled,
-      [`${prefixCls}-node-switcher-${expanded ? 'open' : 'close'}`]: !isLeaf,
+      // [`${prefixCls}-node-switcher-${expand ? 'open' : 'close'}`]: !isLeaf,
       [`${prefixCls}-node-selected`]: selected,
     });
     const paddingLeft = _level > 0 ? 24 * (_level - 1) + 18 : 0;
@@ -124,7 +147,7 @@ class TreeNode extends React.Component<IProps, {}> {
       <div style={style} className={nodeClassname}>
         {this.renderSwitcher()}
         <span {...events} className={className}>
-          {value}
+          {(data as any)[titleField]}
         </span>
       </div>
     );

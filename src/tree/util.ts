@@ -1,6 +1,14 @@
 // eslint-disable-next-line
-import { NodeData } from './TreeNode';
-
+// import { NodeData } from './TreeNode';
+export interface NodeData {
+  _level: number;
+  _id: string;
+  _pid: string;
+  isLeaf?: boolean;
+  visible?: boolean;
+  /** 父节点有效，节点展开状态 */
+  expanded?: boolean;
+}
 export function defaultFilterFn(this: any, input: string, option: any): boolean {
   if (option.disabled) {
     return false;

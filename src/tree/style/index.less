@@ -1,7 +1,7 @@
 @import '~antd/lib/style/themes/default.less';
 @import '../../style/theme.less';
 @import './mixin.less';
-@select-prefix-cls: ~'@{prefix}-select';
+// @select-prefix-cls: ~'@{prefix}-select';
 @tree-prefix-cls: ~'@{prefix}-tree';
 .@{tree-prefix-cls} {
   .reset-component;
@@ -79,8 +79,8 @@
         outline: none;
         cursor: pointer;
       }
-      &.@{select-prefix-cls}-icon_loading {
-        .@{select-prefix-cls}-switcher-loading-icon {
+      &.@{tree-prefix-cls}-icon_loading {
+        .@{tree-prefix-cls}-switcher-loading-icon {
           position: absolute;
           left: 0;
           display: inline-block;
@@ -107,7 +107,7 @@
         }
         &.@{tree-prefix-cls}-switcher_close {
           .avTreeSwitcherIcon();
-          .@{select-prefix-cls}-switcher-icon {
+          .@{tree-prefix-cls}-switcher-icon {
             svg {
               transform: rotate(-90deg);
             }
@@ -116,7 +116,7 @@
 
         &.@{tree-prefix-cls}-switcher_open,
         &.@{tree-prefix-cls}-switcher_close {
-          .@{select-prefix-cls}-switcher-loading-icon {
+          .@{tree-prefix-cls}-switcher-loading-icon {
             position: absolute;
             left: 0;
             display: inline-block;
