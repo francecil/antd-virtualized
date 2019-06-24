@@ -18,7 +18,7 @@ import { Indexable } from './store/tree-node';
 
 export interface IProps extends TreeProps {
   value: any;
-  /** 下拉菜单高度 */
+  /** 下拉菜单高度，当值为-1时为列表全展开 */
   height: number;
   /** 元素高度 */
   optionHeight: number;
@@ -198,50 +198,10 @@ export default class Tree extends Component<IProps, IState> {
     // });
   };
 
-  handleNodeExpand = (nodeKey: string) => {
+  handleNodeExpand = (nodeKey: string): void => {
     const node = this.getNode(nodeKey) as TN;
     const { keyField } = this.props;
     this.store.setExpand((node as Indexable)[keyField], !node.expand);
-    // console.log('treeNode', treeNode);
-    // let { expandedKeys } = this.state;
-    // const { onExpand, loadData } = this.props;
-    // const { eventKey, expanded } = treeNode.props;
-
-    // // Update selected keys
-    // const index = expandedKeys.indexOf(eventKey);
-    // const targetExpanded = !expanded;
-
-    // warning(
-    //   (expanded && index !== -1) || (!expanded && index === -1),
-    //   'Expand state not sync with index check',
-    // );
-
-    // if (targetExpanded) {
-    //   expandedKeys = arrAdd(expandedKeys, eventKey);
-    // } else {
-    //   expandedKeys = arrDel(expandedKeys, eventKey);
-    // }
-
-    // this.setUncontrolledState({ expandedKeys });
-
-    // if (onExpand) {
-    //   onExpand(expandedKeys, {
-    //     node: treeNode,
-    //     expanded: targetExpanded,
-    //     nativeEvent: e.nativeEvent,
-    //   });
-    // }
-
-    // // Async Load data
-    // if (targetExpanded && loadData) {
-    //   const loadPromise = this.onNodeLoad(treeNode);
-    //   return loadPromise ? loadPromise.then(() => {
-    //     // [Legacy] Refresh logic
-    //     this.setUncontrolledState({ expandedKeys });
-    //   }) : null;
-    // }
-
-    return null;
   };
 
   // 清空的时候触发 v为 undefined
@@ -280,10 +240,20 @@ export default class Tree extends Component<IProps, IState> {
     return true;
   };
 
+  getRrenderHeight = (): number => {
+    const { blockAreaHeight } = this.state;
+    const { height } = this.props;
+    if (height === -1) {
+      return blockAreaHeight;
+    }
+    // 最大为height
+    return blockAreaHeight > height ? height : blockAreaHeight;
+  };
+
   render() {
     console.log('render...');
     const { keyField, titleField, prefixCls: customizePrefixCls, optionHeight } = this.props;
-    const { renderNodes, blockAreaHeight, blockLength } = this.state;
+    const { renderNodes, blockLength } = this.state;
     console.log('renderNodes:', renderNodes);
     // const { value } = this.state;
     // const nodeList = this.store.flatData;
@@ -311,7 +281,7 @@ export default class Tree extends Component<IProps, IState> {
         <List
           ref={this.avList}
           className={`${prefixCls}-menu`}
-          height={blockAreaHeight}
+          height={this.getRrenderHeight()}
           itemCount={blockLength}
           itemSize={() => optionHeight}
           width=""
