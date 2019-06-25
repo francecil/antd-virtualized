@@ -44,29 +44,6 @@ export default class TreeSearch extends Component<IProps, IState> {
     this.tree = React.createRef();
   }
 
-  filterOption = (input: string, option: any, defaultFilter = defaultFilterFn) => {
-    const { filterOption } = this.props;
-    let filterFn = filterOption;
-    if ('filterOption' in this.props) {
-      if (filterOption === true) {
-        filterFn = defaultFilter.bind(this);
-      }
-    } else {
-      filterFn = defaultFilter.bind(this);
-    }
-
-    if (!filterFn) {
-      return true;
-    }
-    if (typeof filterFn === 'function') {
-      return filterFn.call(this, input, option);
-    }
-    if (option.disabled) {
-      return false;
-    }
-    return true;
-  };
-
   handleChange = (e: any) => {
     const keyword = e.target.value;
     this.filterTree(keyword);
