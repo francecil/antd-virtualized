@@ -6,6 +6,7 @@ import { defaultFilterFn } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
 import TreeStore, { TreeNode as TN } from './store';
+import { FilterFunctionType } from './store/tree-store';
 import {
   TreeNodeKeyType,
   ignoreEnum,
@@ -26,12 +27,14 @@ export interface IProps extends TreeProps {
   titleField: string;
   /** 代表 value 的 option 属性  */
   keyField: string;
-  filterOption?: boolean | ((inputValue: string, option: object) => any);
+  /** 树形数据 */
   treeData: Array<object>;
   onChange: (v: any, store: any) => any;
   prefixCls?: string;
   /** 忽略模式 */
   ignoreMode: IgnoreType;
+  /** 节点过滤方法 */
+  filterMethod?: FilterFunctionType;
 }
 export interface IState {
   // value: any;
@@ -58,10 +61,11 @@ export default class Tree extends Component<IProps, IState> {
     ignoreMode: ignoreEnum.none,
   };
 
+  // treeData变动 数据重构
   // public static getDerivedStateFromProps(nextProps: any) {
-  //   if ('value' in nextProps) {
+  //   if ('treeData' in nextProps) {
   //     return {
-  //       value: nextProps.value || undefined,
+  //       treeData: nextProps.treeData || undefined,
   //     };
   //   }
   //   return null;
@@ -217,29 +221,6 @@ export default class Tree extends Component<IProps, IState> {
 
   handleEventPrevent = (e: any) => e.preventDefault();
 
-  filterOption = (input: string, option: any, defaultFilter = defaultFilterFn) => {
-    const { filterOption } = this.props;
-    let filterFn = filterOption;
-    if ('filterOption' in this.props) {
-      if (filterOption === true) {
-        filterFn = defaultFilter.bind(this);
-      }
-    } else {
-      filterFn = defaultFilter.bind(this);
-    }
-
-    if (!filterFn) {
-      return true;
-    }
-    if (typeof filterFn === 'function') {
-      return filterFn.call(this, input, option);
-    }
-    if (option.disabled) {
-      return false;
-    }
-    return true;
-  };
-
   getRrenderHeight = (): number => {
     const { blockAreaHeight } = this.state;
     const { height } = this.props;
@@ -251,7 +232,7 @@ export default class Tree extends Component<IProps, IState> {
   };
 
   render() {
-    console.log('render...');
+    // console.log('render...');
     const { keyField, titleField, prefixCls: customizePrefixCls, optionHeight } = this.props;
     const { renderNodes, blockLength } = this.state;
     console.log('renderNodes:', renderNodes);
@@ -290,6 +271,18 @@ export default class Tree extends Component<IProps, IState> {
         </List>
       </div>
     );
+  }
+
+  filter(keyword: string, filterMethod?: FilterFunctionType): void {
+    const { titleField, filterMethod: mFilterMethod } = this.props;
+    const defaultFilterMethod = (mKeyword: string, node: TN) => {
+      const title = (node as Indexable)[titleField];
+      if (title == null || !title.toString) return false;
+      return (title.toString() as string).toLowerCase().indexOf(mKeyword.toLowerCase()) > -1;
+    };
+    filterMethod = filterMethod || mFilterMethod || defaultFilterMethod;
+    // console.log('keyword, filterMethod',keyword, filterMethod)
+    this.store.filter(keyword, filterMethod);
   }
 
   getNode = (key: TreeNodeKeyType): TN | null => {

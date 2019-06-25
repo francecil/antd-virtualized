@@ -6,7 +6,7 @@ order: 80
 ---
 
 import { Playground,Props } from 'docz';
-import Tree from './';
+import Tree,{TreeSearch} from './';
 import './style/index.less'
 import treeData from './_mock/treeData'
 
@@ -31,8 +31,14 @@ import { Tree } from 'antd-virtualized';
 />
 </Playground>
 
+可搜索
 
-
+<Playground>
+<TreeSearch
+  placeholder="支持大数据的Tree"
+  treeData={treeData}
+/>
+</Playground>
 
 
 ## API
