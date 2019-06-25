@@ -71,8 +71,10 @@ export default class TreeSelect extends Component<IProps, IState> {
   //   }
   // };
 
-  handleSearch = (v: any) => {
-    this.setState({});
+  handleSearch = (value: string) => {
+    if (this.tree.current) {
+      this.tree.current.filter(value);
+    }
   };
 
   // 清空的时候触发 v为 undefined
@@ -96,7 +98,11 @@ export default class TreeSelect extends Component<IProps, IState> {
 
   renderMenu = (menu: any) => {
     const { ...rest } = this.props;
-    return <Tree {...rest} ref={this.tree} />;
+    return (
+      <div onMouseDown={this.handleEventPrevent}>
+        <Tree {...rest} ref={this.tree} />
+      </div>
+    );
   };
 
   render() {
@@ -110,7 +116,7 @@ export default class TreeSelect extends Component<IProps, IState> {
         {...restProps}
         ref={this.saveSelect}
         open={open}
-        onSearch={(v: string) => this.handleSearch(v)}
+        onSearch={this.handleSearch}
         onChange={this.handleChange}
         onBlur={() => this.handleBlur()}
         labelInValue

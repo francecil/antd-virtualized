@@ -219,7 +219,7 @@ export default class Tree extends Component<IProps, IState> {
     // });
   };
 
-  handleEventPrevent = (e: any) => e.preventDefault();
+  // handleEventPrevent = (e: any) => e.preventDefault();
 
   getRrenderHeight = (): number => {
     const { blockAreaHeight } = this.state;
@@ -258,7 +258,7 @@ export default class Tree extends Component<IProps, IState> {
       return <TreeNode {...props} />;
     };
     return (
-      <div onMouseDown={this.handleEventPrevent} className={prefixCls}>
+      <div className={prefixCls}>
         <List
           ref={this.avList}
           className={`${prefixCls}-menu`}
