@@ -1,26 +1,11 @@
 import React, { Component } from 'react';
 import { Input } from 'antd';
-import { VariableSizeList as List } from 'react-window';
 import Tree, { IProps as TreeProps } from './Tree';
-// import memoize from 'memoize-one';
-import { defaultFilterFn } from './util';
-import getPrefixCls from '../_util/getPrefixCls';
-import TreeStore, { TreeNode as TN } from './store';
-import {
-  TreeNodeKeyType,
-  ignoreEnum,
-  IgnoreType,
-  // verticalPositionEnum,
-  // VerticalPositionType,
-  // dragHoverPartEnum,
-} from './const';
-import { Indexable } from './store/tree-node';
 
 const { Search } = Input;
 export interface IProps extends TreeProps {
   /** 支持搜索 */
   showSearch: boolean;
-  filterOption?: boolean | ((inputValue: string, option: object) => any);
 }
 export interface IState {}
 

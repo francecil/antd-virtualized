@@ -18,7 +18,7 @@ import {
 import { Indexable } from './store/tree-node';
 
 export interface IProps extends TreeProps {
-  value: any;
+  value?: any;
   /** 下拉菜单高度，当值为-1时为列表全展开 */
   height: number;
   /** 元素高度 */
@@ -29,10 +29,10 @@ export interface IProps extends TreeProps {
   keyField: string;
   /** 树形数据 */
   treeData: Array<object>;
-  onChange: (v: any, store: any) => any;
+  onChange?: (v: any, store: any) => any;
   prefixCls?: string;
   /** 忽略模式 */
-  ignoreMode: IgnoreType;
+  ignoreMode?: IgnoreType;
   /** 节点过滤方法 */
   filterMethod?: FilterFunctionType;
 }
