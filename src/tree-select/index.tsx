@@ -69,16 +69,25 @@ export default class TreeSelect extends Component<IProp, IState> {
   };
 
   handleSearch = (value: string) => {
+    // 下拉框关闭的时候会触发一次 handleSearch 值为空字符串
+    // console.log('handleSearch:', value)
     this.filterTree(value);
   };
 
   // 清空的时候触发 v为 undefined
   handleChange = (v: any) => {
-    // const { onChange } = this.props;
-    // if (onChange) {
-    //   onChange(v);
-    // }
-    console.log('change');
+    const { onChange } = this.props;
+    const { selectValue } = this.state;
+    if (onChange) {
+      onChange(null, '', null);
+    }
+    console.log('selectValue', selectValue);
+    if (selectValue) {
+      this.tree.current.setSelected(selectValue.key, false);
+    }
+    this.setState({
+      selectValue: undefined,
+    });
     this.filterTree('');
   };
 
@@ -92,6 +101,9 @@ export default class TreeSelect extends Component<IProp, IState> {
 
   handleSelect = (v: any, { node }: any) => {
     const { onSelect, keyField, titleField, onChange } = this.props;
+    if (!node) {
+      return;
+    }
     if (onSelect) {
       onSelect(node[keyField], node, null);
     }
