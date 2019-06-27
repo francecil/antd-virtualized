@@ -284,6 +284,7 @@ export default class Tree extends Component<IProps, IState> {
         keyField,
         prefixCls,
         render,
+        fullData: this.getNode((data as Indexable)[keyField]),
         // selected: valueArray && valueArray.some((v: any) => v.key === (data as Indexable)[keyField]),
       };
       // console.log('props:', props)

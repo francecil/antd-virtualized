@@ -32,6 +32,8 @@ export interface IProps {
   droppable?: Boolean;
   /** 自定义图标 */
   icon?: ReactNode | ((props: IProps) => ReactNode);
+  /** 完整数据，带children 和 parent等 */
+  fullData: TN | null;
   // onSelect: (e: any, node: NodeData) => any;
   [customProp: string]: any;
 }
@@ -131,7 +133,7 @@ class TreeNode extends React.Component<IProps, {}> {
   };
 
   render() {
-    const { style: mstyle, prefixCls, data, titleField } = this.props;
+    const { style: mstyle, prefixCls, data, titleField, fullData } = this.props;
     const { disabled, expand, selected, isLeaf, _level, visible } = data;
     const className = classnames(`${prefixCls}-node-content-wrapper`, {
       [`${prefixCls}-node-disabled`]: disabled,
@@ -155,8 +157,8 @@ class TreeNode extends React.Component<IProps, {}> {
     return (
       <div style={style} className={nodeClassname}>
         {this.renderSwitcher()}
-        <span {...events} className={className}>
-          {renderFunction ? renderFunction(data) : (data as any)[titleField]}
+        <span {...events} className={className} title={(data as any)[titleField]}>
+          {renderFunction && fullData ? renderFunction(fullData) : (data as any)[titleField]}
         </span>
       </div>
     );

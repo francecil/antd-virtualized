@@ -6,9 +6,11 @@ order: 80
 ---
 
 import { Playground,Props } from 'docz';
+import { Icon } from 'antd'
 import TreeSelect from './';
 import './style/index.less'
 import treeData from '../tree/_mock/treeData'
+import treeSelectData from '../tree/_mock/treeSelectData'
 
 # TreeSelect 树选择
 
@@ -23,7 +25,8 @@ import { TreeSelect } from 'antd-virtualized';
 
 ## 代码演示
 
-基本使用
+### 基本使用
+
 <Playground>
 <TreeSelect
   placeholder="支持大数据的TreeSelect"
@@ -35,8 +38,36 @@ import { TreeSelect } from 'antd-virtualized';
 />
 </Playground>
 
+### 综合实例：图标，默认展开
 
-
+<Playground style={{height:"500px"}}>
+<TreeSelect
+  showSearch
+  style={{ width: 300 }}
+  placeholder="请输入"
+  defaultExpandAll
+  treeData={treeSelectData}
+  onSelect={(value, node, extra) => console.log(value, node, extra)}
+  keyField='key'
+  titleField='title'
+  selectable
+  treeRender={(node)=> {
+    if(node.children && node.children.length){
+      return (<span>{node.title} ({node.children.length})</span>)
+    } else {
+      let icon = ""
+      if(node.type==="1"){
+        icon = "home"
+      } else if(node.type==="2") {
+        icon = "tag"
+      } else if(node.type==="3") {
+        icon = "edit"
+      }
+      return (<span><Icon type={icon}/> {node.title}</span>)
+    }
+  }}
+/>
+</Playground>
 
 
 ## API
