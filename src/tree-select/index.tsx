@@ -31,11 +31,10 @@ export default class TreeSelect extends Component<IProp, IState> {
   }
 
   public componentDidUpdate(prevProps: any, prevState: Partial<IState>) {
-    // console.log('componentDidUpdate....')
-    // const { open } = this.state;
-    // if (!prevState.open && open) {
-    //   this.scrollActiveItemToView();
-    // }
+    const { open } = this.state;
+    if (!prevState.open && open) {
+      this.scrollActiveItemToView();
+    }
   }
 
   private avSelect: any;
@@ -55,18 +54,13 @@ export default class TreeSelect extends Component<IProp, IState> {
     this.avSelect = node;
   };
 
-  // scrollActiveItemToView = () => {
-  //   // console.log('scrollActiveItemToView')
-  //   const { treeData, valueField } = this.props;
-  //   const { value } = this.state;
-  //   const nodeList = this.nodeList(treeData);
-  //   const focusedOptionIndex = nodeList.findIndex(
-  //     (option: any) => option[valueField] === (value || {}).key,
-  //   );
-  //   if (this.avList.current) {
-  //     this.avList.current.scrollToItem(focusedOptionIndex);
-  //   }
-  // };
+  scrollActiveItemToView = () => {
+    // console.log('scrollActiveItemToView')
+    if (this.tree.current) {
+      this.tree.current.scrollActiveItemToView();
+    }
+  };
+
   filterTree = (value: string) => {
     if (this.tree.current) {
       this.tree.current.filter(value);

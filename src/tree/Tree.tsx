@@ -181,14 +181,10 @@ export default class Tree extends Component<IProps, IState> {
   // }
 
   scrollActiveItemToView = () => {
-    // console.log('scrollActiveItemToView')
-    const { value, keyField } = this.props;
-    const nodeList = this.store.flatData;
-    const focusedOptionIndex = nodeList.findIndex(
-      (node: Indexable) => node[keyField] === (value || {}).key,
-    );
-    if (this.avList.current) {
-      this.avList.current.scrollToItem(focusedOptionIndex);
+    const node = this.store.getSelectedNode();
+    if (node) {
+      const index = this.store.findIndex(node);
+      this.avList.current.scrollToItem(index);
     }
   };
 

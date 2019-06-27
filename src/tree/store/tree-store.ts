@@ -1006,7 +1006,7 @@ export default class TreeStore {
   /**
    * 搜索节点在指定数组中的位置
    */
-  private findIndex(
+  public findIndex(
     keyOrNode: TreeNode | TreeNodeKeyType,
     searchList: TreeNode[] | TreeNodeKeyType[] | null = this.flatData,
   ): number {
