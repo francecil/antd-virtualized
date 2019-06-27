@@ -12,10 +12,11 @@ export interface IState {
 // 整合两者，相同属性以TreeProps为主
 type UnionProp = Omit<SelectProps<TN>, keyof TreeProps> & TreeProps;
 
-type rewrite = 'onSelect' | 'onChange';
+type rewrite = 'onSelect' | 'onChange' | 'render';
 export interface IProp extends Omit<UnionProp, rewrite> {
   onSelect?: (value: any, node: TN, extra: any) => void;
   onChange?: (value: any, label: string, extra: any) => void;
+  treeRender?: (node: TN) => React.ReactNode;
 }
 
 export default class TreeSelect extends Component<IProp, IState> {
@@ -117,11 +118,11 @@ export default class TreeSelect extends Component<IProp, IState> {
   handleEventPrevent = (e: any) => e.preventDefault();
 
   renderMenu = (menu: any) => {
-    const { ...restProps } = this.props;
+    const { treeRender, ...restProps } = this.props;
     const rest = omit(restProps, ['onChange']);
     return (
       <div onMouseDown={this.handleEventPrevent}>
-        <Tree {...rest} ref={this.tree} onSelect={this.handleSelect} />
+        <Tree {...rest} ref={this.tree} render={treeRender} onSelect={this.handleSelect} />
       </div>
     );
   };
