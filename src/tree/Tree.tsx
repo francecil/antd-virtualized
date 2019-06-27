@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { TreeProps } from 'antd/lib/tree';
 import { VariableSizeList as List } from 'react-window';
 // import memoize from 'memoize-one';
-import { defaultFilterFn } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
 import TreeStore, { TreeNode as TN } from './store';
