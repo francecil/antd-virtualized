@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { TreeProps } from 'antd/lib/tree';
 import { VariableSizeList as List } from 'react-window';
 // import memoize from 'memoize-one';
+import defaultRenderEmpty, { RenderEmptyHandler } from 'antd/lib/config-provider/renderEmpty';
 import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
 import TreeStore, { TreeNode as TN } from './store';
@@ -46,6 +47,8 @@ export interface IProps extends TreeProps {
   filterMethod?: FilterFunctionType;
   /** 节点渲染 render 函数 */
   render?: (node: TN) => React.ReactNode;
+  /** 数据为空时显示 */
+  notFoundContent?: React.ReactNode | null;
 }
 export interface IState {
   // value: any;
@@ -287,16 +290,20 @@ export default class Tree extends Component<IProps, IState> {
     };
     return (
       <div className={prefixCls}>
-        <List
-          ref={this.avList}
-          className={`${prefixCls}-menu`}
-          height={this.getRrenderHeight()}
-          itemCount={blockLength}
-          itemSize={() => optionHeight}
-          width=""
-        >
-          {wrappedRowRenderer}
-        </List>
+        {blockLength ? (
+          <List
+            ref={this.avList}
+            className={`${prefixCls}-menu`}
+            height={this.getRrenderHeight()}
+            itemCount={blockLength}
+            itemSize={() => optionHeight}
+            width=""
+          >
+            {wrappedRowRenderer}
+          </List>
+        ) : (
+          this.getNotFoundContent(defaultRenderEmpty)
+        )}
       </div>
     );
   }
@@ -328,4 +335,17 @@ export default class Tree extends Component<IProps, IState> {
   getCurrentVisibleNodes = (): TN[] => {
     return this.store.flatData.filter((node: any) => node.visible);
   };
+
+  getNotFoundContent(renderEmpty: RenderEmptyHandler) {
+    const { notFoundContent } = this.props;
+    if (notFoundContent !== undefined) {
+      return notFoundContent;
+    }
+
+    // if (this.isCombobox()) {
+    //   return null;
+    // }
+
+    return renderEmpty('Select');
+  }
 }

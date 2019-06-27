@@ -60,6 +60,18 @@ import { Tree } from 'antd-virtualized';
 />
 </Playground>
 
+自定义无数据时的显示样式
+
+<Playground>
+<TreeSearch
+  placeholder="支持大数据的Tree"
+  treeData={treeData}
+  selectable
+  notFoundContent="无数据"
+/>
+</Playground>
+
+
 ## API
 
 <Props of={Tree} />
