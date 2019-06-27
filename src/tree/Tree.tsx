@@ -45,6 +45,8 @@ export interface IProps extends TreeProps {
   ignoreMode?: IgnoreType;
   /** 节点过滤方法 */
   filterMethod?: FilterFunctionType;
+  /** 节点渲染 render 函数 */
+  render?: (node: TN) => React.ReactNode;
 }
 export interface IState {
   // value: any;
@@ -253,9 +255,15 @@ export default class Tree extends Component<IProps, IState> {
 
   render() {
     // console.log('render...');
-    const { keyField, titleField, prefixCls: customizePrefixCls, optionHeight } = this.props;
+    const {
+      keyField,
+      titleField,
+      prefixCls: customizePrefixCls,
+      optionHeight,
+      render,
+    } = this.props;
     const { renderNodes, blockLength } = this.state;
-    console.log('renderNodes:', renderNodes);
+    // console.log('renderNodes:', renderNodes);
     // const { value } = this.state;
     // const nodeList = this.store.flatData;
     // const nodeList = this.visibleNodes(this.store.flatData)
@@ -272,6 +280,7 @@ export default class Tree extends Component<IProps, IState> {
         // valueArray: value ? [value] : null,
         keyField,
         prefixCls,
+        render,
         // selected: valueArray && valueArray.some((v: any) => v.key === (data as Indexable)[keyField]),
       };
       // console.log('props:', props)

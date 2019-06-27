@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactNode } from 'react';
 import classnames from 'classnames';
 import { Icon } from 'antd';
 import { TreeNode as TN } from './store';
@@ -13,7 +13,7 @@ export interface IProps {
   keyField: string;
 
   /** 节点渲染 render 函数 */
-  render?: () => ReactElement;
+  render?: (node: TN) => ReactNode;
 
   /** 是否可多选 */
   checkable?: Boolean;
@@ -29,6 +29,8 @@ export interface IProps {
 
   /** 是否可放置 */
   droppable?: Boolean;
+  /** 自定义图标 */
+  icon?: ReactNode | ((props: IProps) => ReactNode);
   // onSelect: (e: any, node: NodeData) => any;
   [customProp: string]: any;
 }
@@ -123,7 +125,7 @@ class TreeNode extends React.Component<IProps, {}> {
   };
 
   render() {
-    const { style: mstyle, prefixCls, data, titleField } = this.props;
+    const { style: mstyle, prefixCls, data, titleField, render } = this.props;
     const { disabled, expand, selected, isLeaf, _level, visible } = data;
     const className = classnames(`${prefixCls}-node-content-wrapper`, {
       [`${prefixCls}-node-disabled`]: disabled,
@@ -147,7 +149,7 @@ class TreeNode extends React.Component<IProps, {}> {
       <div style={style} className={nodeClassname}>
         {this.renderSwitcher()}
         <span {...events} className={className}>
-          {(data as any)[titleField]}
+          {render ? render(data) : (data as any)[titleField]}
         </span>
       </div>
     );

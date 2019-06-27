@@ -6,9 +6,11 @@ order: 80
 ---
 
 import { Playground,Props } from 'docz';
+import { Icon } from 'antd'
 import Tree,{TreeSearch} from './';
 import './style/index.less'
 import treeData from './_mock/treeData'
+import renderTreeData from './_mock/renderTreeData'
 
 # Tree 树形控件
 
@@ -41,6 +43,22 @@ import { Tree } from 'antd-virtualized';
 />
 </Playground>
 
+节点 Render 函数
+
+<Playground>
+<Tree
+  placeholder="支持大数据的Tree"
+  treeData={renderTreeData}
+  selectable
+  keyField="key"
+  render={(tn)=>{
+    if(tn.icon){
+      return (<React.Fragment><Icon type={tn.icon}/> {tn.title}</React.Fragment>)
+    }
+    return (<span>no icon->{tn.title}</span>)
+  }}
+/>
+</Playground>
 
 ## API
 
