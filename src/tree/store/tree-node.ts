@@ -1,4 +1,4 @@
-import { TreeNodeKeyType } from '../const';
+import { TreeNodeKeyType, RenderTreeNodeType } from '../const';
 
 interface IKeyOption {
   [key: string]: TreeNodeKeyType;
@@ -65,6 +65,8 @@ export default class TreeNode implements Indexable {
 
   /** 子节点是否已加载 */
   _loaded: boolean = false;
+
+  render?: RenderTreeNodeType;
 
   // #endregion Properties
 

@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import classnames from 'classnames';
 import { Icon } from 'antd';
 import { TreeNode as TN } from './store';
+import { RenderTreeNodeType } from './const';
 
 export interface IProps {
   /** 节点数据，注意！！为了性能，不让 Vue 监听过多属性，这个 data 不是完整的 TreeNode ，不包括 _parent 和 children 属性 */
@@ -13,7 +14,7 @@ export interface IProps {
   keyField: string;
 
   /** 节点渲染 render 函数 */
-  render?: (node: TN) => ReactNode;
+  render?: RenderTreeNodeType;
 
   /** 是否可多选 */
   checkable?: Boolean;
@@ -93,6 +94,11 @@ class TreeNode extends React.Component<IProps, {}> {
 
   isCheckable = () => {};
 
+  renderFunction = (): RenderTreeNodeType | null => {
+    const { data, render } = this.props;
+    return data.render || render || null;
+  };
+
   renderSwitcherIcon = () => {
     const { prefixCls, data } = this.props;
     if (data.isLeaf) {
@@ -125,7 +131,7 @@ class TreeNode extends React.Component<IProps, {}> {
   };
 
   render() {
-    const { style: mstyle, prefixCls, data, titleField, render } = this.props;
+    const { style: mstyle, prefixCls, data, titleField } = this.props;
     const { disabled, expand, selected, isLeaf, _level, visible } = data;
     const className = classnames(`${prefixCls}-node-content-wrapper`, {
       [`${prefixCls}-node-disabled`]: disabled,
@@ -145,11 +151,12 @@ class TreeNode extends React.Component<IProps, {}> {
     const nodeClassname = classnames(`${prefixCls}-node`, {
       [`${prefixCls}-node-open`]: visible,
     });
+    const renderFunction = this.renderFunction();
     return (
       <div style={style} className={nodeClassname}>
         {this.renderSwitcher()}
         <span {...events} className={className}>
-          {render ? render(data) : (data as any)[titleField]}
+          {renderFunction ? renderFunction(data) : (data as any)[titleField]}
         </span>
       </div>
     );

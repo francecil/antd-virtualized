@@ -30,6 +30,9 @@ const treeData = [
     title: 'Node2',
     value: '0-1',
     key: '0-1',
+    render: tn => {
+      return '单节点render';
+    },
     children: [
       {
         title: 'Child Node1',

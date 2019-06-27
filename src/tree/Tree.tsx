@@ -11,6 +11,7 @@ import {
   TreeNodeKeyType,
   ignoreEnum,
   IgnoreType,
+  RenderTreeNodeType,
   // verticalPositionEnum,
   // VerticalPositionType,
   // dragHoverPartEnum,
@@ -46,7 +47,7 @@ export interface IProps extends TreeProps {
   /** 节点过滤方法 */
   filterMethod?: FilterFunctionType;
   /** 节点渲染 render 函数 */
-  render?: (node: TN) => React.ReactNode;
+  render?: RenderTreeNodeType;
   /** 数据为空时显示 */
   notFoundContent?: React.ReactNode | null;
 }

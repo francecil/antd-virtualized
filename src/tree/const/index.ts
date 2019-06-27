@@ -1,4 +1,7 @@
 // #region ignoreMode
+import { ReactNode } from 'react';
+import { TreeNode } from '../store';
+
 export enum ignoreEnum {
   none = 'none',
   parents = 'parents',
@@ -125,3 +128,5 @@ export type IgnoreType = keyof typeof ignoreEnum;
 // #endregion Drag
 
 export type TreeNodeKeyType = string | number;
+
+export type RenderTreeNodeType = (node: TreeNode) => ReactNode;

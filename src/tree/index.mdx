@@ -25,7 +25,7 @@ import { Tree } from 'antd-virtualized';
 
 ## 代码演示
 
-基本使用
+### 基本使用
 <Playground style={{backgroundColor:'#dafafa'}}>
 <Tree
   placeholder="支持大数据的Tree"
@@ -33,7 +33,7 @@ import { Tree } from 'antd-virtualized';
 />
 </Playground>
 
-可搜索
+### 可搜索
 
 <Playground>
 <TreeSearch
@@ -43,7 +43,7 @@ import { Tree } from 'antd-virtualized';
 />
 </Playground>
 
-节点 Render 函数
+### 节点 Render 函数
 
 <Playground>
 <Tree
@@ -60,7 +60,11 @@ import { Tree } from 'antd-virtualized';
 />
 </Playground>
 
-自定义无数据时的显示样式
+> 可以传入 render 参数针对所有节点设置 render 函数
+>
+> 也可在 data 中设置针对单个节点的 render 函数
+
+### 自定义无数据时的显示样式
 
 <Playground>
 <TreeSearch
