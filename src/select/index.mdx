@@ -28,39 +28,44 @@ import { Select } from 'antd-virtualized';
 
 ## 代码演示
 
-基本使用
+### 基本使用
+
 <Playground>
 <Select
   placeholder="支持大数据的Select"
-  labelKey='name'
+  titleField='name'
   options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
-  valueKey='id'
+  keyField='id'
   style={{ width: 120 }}
 />
 <Select
   placeholder="支持大数据的Select"
-  labelKey='name'
+  titleField='name'
   options={[{id:1,name:'1'},{id:'2',name:'2',disabled:true},{id:'3',name:'3'}]}
-  valueKey='id'
+  keyField='id'
   style={{ width: 120 }}
 />
 </Playground>
 
-带搜索框
+### 带搜索框
+
 <Playground>
 <Select
   allowClear
   showSearch
   placeholder="支持大数据的Select"
-  labelKey='name'
+  titleField='name'
   options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
-  valueKey='id'
+  keyField='id'
   style={{ width: 120 }}
+  defaultValue={100}
   filterOption={(input, option) => option.name.indexOf(input) >= 0}
+  onChange={(v)=>console.log(v)}
 />
 </Playground>
 
-定义下拉列表为空时显示的内容
+### 定义下拉列表为空时显示的内容
+
 <Playground>
 原始
 <Select style={{ width: 120 }}/>

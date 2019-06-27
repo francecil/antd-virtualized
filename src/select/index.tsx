@@ -3,21 +3,24 @@ import { Select } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
+import omit from 'omit.js';
 import { defaultFilterFn } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
-// import omit from 'omit.js';
-export interface IProps extends SelectProps {
+
+export interface IProps extends Omit<SelectProps, 'defaultValue' | 'value'> {
+  value?: string | number;
+  defaultValue?: string | number;
   /** 下拉菜单高度 */
   height: number;
   /** 元素高度 */
   optionHeight: (param: object) => number | number;
   /** 代表 label 的 option 属性  */
-  labelKey: string;
-  /** 代表 value 的 option 属性  */
-  valueKey: string;
+  titleField: string;
+  /** 代表 value 的 属性  */
+  keyField: string;
   filterOption?: boolean | ((inputValue: string, option: object) => any);
   options: Array<object>;
-  onChange: (v: any) => any;
+  onChange: (v: any) => void;
 }
 export interface IState {
   value: any;
@@ -32,22 +35,23 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     // async: false,
     height: 256,
     optionHeight: 32,
-    labelKey: 'label',
-    valueKey: 'value',
+    titleField: 'title',
+    keyField: 'id',
     options: [],
   };
 
-  public static getDerivedStateFromProps(nextProps: any) {
-    if ('value' in nextProps) {
-      return {
-        value: nextProps.value || undefined,
-      };
-    }
-    return null;
-  }
+  // public static getDerivedStateFromProps(nextProps: any) {
+  //   if ('value' in nextProps) {
+  //     return {
+  //       value: nextProps.value || undefined,
+  //     };
+  //   }
+  //   return null;
+  // }
 
   public componentDidMount() {
     // console.log('componentDidMount....')
+    // this.scrollActiveItemToView();
   }
 
   public componentDidUpdate(prevProps: any, prevState: Partial<IState>) {
@@ -64,8 +68,21 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   constructor(props: any) {
     super(props);
+    const key = props.value || props.defaultValue;
+    const getOption = (): any => {
+      if (props.options.length > 0 && key) {
+        const nodes = props.options.filter((option: any) => option[props.keyField] === key);
+        if (nodes[0]) {
+          return {
+            key,
+            label: (nodes[0] as any)[props.titleField],
+          };
+        }
+      }
+      return undefined;
+    };
     this.state = {
-      value: props.value || props.defaultValue,
+      value: getOption(),
       searchValue: '',
       open: false,
     };
@@ -78,10 +95,10 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   scrollActiveItemToView = () => {
     // console.log('scrollActiveItemToView')
-    const { options, valueKey } = this.props;
+    const { options, keyField } = this.props;
     const { value } = this.state;
     const focusedOptionIndex = options.findIndex(
-      (option: any) => option[valueKey] === (value || {}).key,
+      (option: any) => option[keyField] === (value || {}).key,
     );
     if (this.avList.current) {
       this.avList.current.scrollToItem(focusedOptionIndex);
@@ -95,13 +112,13 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   };
 
   handleSelect = (option: any) => {
-    const { onChange, valueKey, labelKey } = this.props;
+    const { onChange, keyField, titleField } = this.props;
     const value = {
-      key: option[valueKey],
-      label: option[labelKey],
+      key: option[keyField],
+      label: option[titleField],
     };
     if (onChange) {
-      onChange(value);
+      onChange(option[keyField]);
     }
     this.setState(
       {
@@ -124,7 +141,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       onChange(v);
     }
     this.setState({
-      value: v,
+      value: undefined,
       searchValue: '',
     });
   };
@@ -169,17 +186,17 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   _optionRenderer = ({
     handleSelect,
-    labelKey,
+    titleField,
     option,
     style,
     valueArray,
-    valueKey,
+    keyField,
     prefixCls,
   }: any) => {
     const className = classnames(`${prefixCls}-item`, {
       [`${prefixCls}-item-disabled`]: option.disabled,
       [`${prefixCls}-item-selected`]:
-        valueArray && valueArray.some((v: any) => v.key === option[valueKey]),
+        valueArray && valueArray.some((v: any) => v.key === option[keyField]),
     });
 
     const events = option.disabled
@@ -190,7 +207,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
     return (
       <div className={className} style={style} {...events}>
-        {option[labelKey]}
+        {option[titleField]}
       </div>
     );
   };
@@ -220,8 +237,8 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   renderMenu = (menu: any) => {
     const {
-      valueKey,
-      labelKey,
+      keyField,
+      titleField,
       filterOption,
       prefixCls: customizePrefixCls,
       options: sourceOptions,
@@ -243,11 +260,11 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
       return this._optionRenderer({
         handleSelect: this.handleSelect,
-        labelKey,
+        titleField,
         option,
         style,
         valueArray: value ? [value] : null,
-        valueKey,
+        keyField,
         prefixCls,
       });
     };
@@ -270,13 +287,13 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   render() {
     const { value, open } = this.state;
-    const { labelKey, ...restProps } = this.props;
+    const { titleField, ...restProps } = this.props;
     // 去除 antdSelect 中会影响 VirtualizedSelect 的prop
     // 通过控制 rest的写入位置也可以实现
-    // const rest = omit(restProps, ['dropdownRender']);
+    const rest = omit(restProps, ['defaultValue', 'value']);
     return (
       <Select
-        {...restProps}
+        {...rest}
         value={value}
         ref={this.saveSelect}
         open={open}
@@ -284,7 +301,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
         onChange={this.handleChange}
         onBlur={() => this.handleBlur()}
         labelInValue
-        optionLabelProp={labelKey}
+        optionLabelProp={titleField}
         onDropdownVisibleChange={this.handleDropdownVisibleChange}
         dropdownRender={this.renderMenu}
         dropdownStyle={{ overflow: 'hidden' }}
