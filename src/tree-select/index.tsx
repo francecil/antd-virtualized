@@ -1,34 +1,30 @@
 import React, { Component } from 'react';
 import { Select } from 'antd';
-import { AbstractSelectProps } from 'antd/lib/select';
-import memoize from 'memoize-one';
-import { defaultFilterFn, convertTreeToList } from '../tree/util';
-import getPrefixCls from '../_util/getPrefixCls';
+import { SelectProps } from 'antd/lib/select';
+import omit from 'omit.js';
 import Tree, { IProps as TreeProps } from '../tree/Tree';
-// import omit from 'omit.js';
-export interface IProps extends AbstractSelectProps {
-  titleField: string;
-}
+import { TreeNode as TN } from '../tree/store';
 
 export interface IState {
   open: boolean;
+  selectValue: any;
+}
+// 整合两者，相同属性以TreeProps为主
+type UnionProp = Omit<SelectProps<TN>, keyof TreeProps> & TreeProps;
+
+type rewrite = 'onSelect' | 'onChange';
+export interface IProp extends Omit<UnionProp, rewrite> {
+  onSelect?: (value: any, node: TN, extra: any) => void;
+  onChange?: (value: any, label: string, extra: any) => void;
 }
 
-export default class TreeSelect extends Component<IProps, IState> {
+export default class TreeSelect extends Component<IProp, IState> {
   // lock = null;
 
   static defaultProps = {
     titleField: 'title',
+    keyField: 'id',
   };
-
-  // public static getDerivedStateFromProps(nextProps: any) {
-  //   if ('value' in nextProps) {
-  //     return {
-  //       value: nextProps.value || undefined,
-  //     };
-  //   }
-  //   return null;
-  // }
 
   public componentDidMount() {
     // console.log('componentDidMount....')
@@ -50,6 +46,7 @@ export default class TreeSelect extends Component<IProps, IState> {
     super(props);
     this.state = {
       open: false,
+      selectValue: undefined,
     };
     this.tree = React.createRef();
   }
@@ -70,11 +67,14 @@ export default class TreeSelect extends Component<IProps, IState> {
   //     this.avList.current.scrollToItem(focusedOptionIndex);
   //   }
   // };
-
-  handleSearch = (value: string) => {
+  filterTree = (value: string) => {
     if (this.tree.current) {
       this.tree.current.filter(value);
     }
+  };
+
+  handleSearch = (value: string) => {
+    this.filterTree(value);
   };
 
   // 清空的时候触发 v为 undefined
@@ -83,7 +83,8 @@ export default class TreeSelect extends Component<IProps, IState> {
     // if (onChange) {
     //   onChange(v);
     // }
-    this.setState({});
+    console.log('change');
+    this.filterTree('');
   };
 
   handleDropdownVisibleChange = (open: boolean) => {
@@ -94,26 +95,53 @@ export default class TreeSelect extends Component<IProps, IState> {
     this.setState({});
   };
 
+  handleSelect = (v: any, { node }: any) => {
+    const { onSelect, keyField, titleField, onChange } = this.props;
+    if (onSelect) {
+      onSelect(node[keyField], node, null);
+    }
+    if (onChange) {
+      onChange(node[keyField], node[titleField], null);
+    }
+    const value = {
+      key: node[keyField],
+      label: node[titleField],
+    };
+    this.setState(
+      {
+        selectValue: value,
+        open: false,
+      },
+      () => {
+        this.avSelect.rcSelect.setInputValue('');
+        // console.log(this.select.rcSelect)
+        this.avSelect.focus();
+      },
+    );
+  };
+
   handleEventPrevent = (e: any) => e.preventDefault();
 
   renderMenu = (menu: any) => {
-    const { ...rest } = this.props;
+    const { ...restProps } = this.props;
+    const rest = omit(restProps, ['onChange']);
     return (
       <div onMouseDown={this.handleEventPrevent}>
-        <Tree {...rest} ref={this.tree} />
+        <Tree {...rest} ref={this.tree} onSelect={this.handleSelect} />
       </div>
     );
   };
 
   render() {
-    const { open } = this.state;
+    const { open, selectValue } = this.state;
     const { titleField, ...restProps } = this.props;
     // 去除 antdSelect 中会影响 VirtualizedSelect 的prop
     // 通过控制 rest的写入位置也可以实现
-    // const rest = omit(restProps, ['dropdownRender']);
+    const rest = omit(restProps, ['onSelect', 'labelInValue']);
     return (
       <Select
-        {...restProps}
+        {...rest}
+        value={selectValue}
         ref={this.saveSelect}
         open={open}
         onSearch={this.handleSearch}

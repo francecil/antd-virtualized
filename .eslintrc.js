@@ -27,6 +27,8 @@ const eslintrc = {
     'class-methods-use-this': 0,
     // 禁止在 return 语句里赋值：x
     'no-return-assign': 0,
+    // 只有一个export的时候要要默认导出:x
+    'import/prefer-default-export': 0,
     // 方法排序
     'react/sort-comp': 0,
     'react/prop-types': 0,

@@ -6,7 +6,7 @@ import { defaultFilterFn } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
 import TreeStore, { TreeNode as TN } from './store';
-import { FilterFunctionType } from './store/tree-store';
+import { FilterFunctionType, IEventNames, ListenerType } from './store/tree-store';
 import {
   TreeNodeKeyType,
   ignoreEnum,
@@ -17,6 +17,16 @@ import {
 } from './const';
 import { Indexable } from './store/tree-node';
 
+const storeEvents: Array<keyof IEventNames> = [
+  'expand',
+  'select',
+  'unselect',
+  'selected-change',
+  'check',
+  'uncheck',
+  'checked-change',
+  'set-data',
+];
 export interface IProps extends TreeProps {
   value?: any;
   /** 下拉菜单高度，当值为-1时为列表全展开 */
@@ -75,6 +85,8 @@ export default class Tree extends Component<IProps, IState> {
     // window.store = this.store
     this.store.on('visible-data-change', this.updateBlockNodes);
     this.store.on('render-data-change', this.updateRender);
+    this.store.on('selected-change', this.emitSelectableInput);
+    // this.attachStoreEvents()
     const { treeData } = this.props;
     this.store.setData(treeData);
   }
@@ -156,6 +168,18 @@ export default class Tree extends Component<IProps, IState> {
     });
   };
 
+  /**
+   * 转发 store 所触发的事件，通过 vue 组件触发事件可被其他组件监听
+   */
+  // attachStoreEvents = (): void => {
+  //   for (let event in this.$listeners) {
+  //     if (storeEvents.indexOf(event as keyof IEventNames) > -1) {
+  //       const e: keyof IEventNames = event as keyof IEventNames
+  //       this.store.on(e, this.$listeners[event] as ListenerType<typeof e> | Array<ListenerType<typeof e>>)
+  //     }
+  //   }
+  // }
+
   scrollActiveItemToView = () => {
     // console.log('scrollActiveItemToView')
     const { value, keyField } = this.props;
@@ -171,18 +195,18 @@ export default class Tree extends Component<IProps, IState> {
   /**
    * 触发单选 input 事件
    */
-  emitSelectableInput = (
-    selectedNode: TreeNode | null,
-    selectedKey: TreeNodeKeyType | null,
-  ): void => {
+  emitSelectableInput = (selectedNode: TN | null, selectedKey: TreeNodeKeyType | null): void => {
     const { selectable, checkable, onSelect } = this.props;
     if (selectable && !checkable) {
       // 单选
       const emitValue: TreeNodeKeyType = selectedKey || '';
-      // this.valueCache = emitValue
-      // this.$emit('input', emitValue)
       if (onSelect) {
-        onSelect([emitValue as string], null as any);
+        onSelect([emitValue as string], {
+          selected: true,
+          selectedNodes: [],
+          node: selectedNode,
+          event: null,
+        } as any);
       }
     }
   };
