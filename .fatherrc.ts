@@ -6,6 +6,7 @@ const docConfig: any = {
     title: 'Ant Design 长列表',
     codemirrorTheme: 'dracula',
   },
+  theme: 'docz-theme-default',
   htmlContext: {
     head: {
       links: [
