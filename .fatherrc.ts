@@ -5,54 +5,64 @@ const options: IBundleOptions = {
   cjs: 'babel',
   esm: 'babel',
   umd: {
-    name: "antd-virtualized",
+    name: 'antd-virtualized',
     globals: {
       react: 'React',
-      antd: 'antd'
+      antd: 'antd',
     },
-    file: "index"
+    file: 'index',
   },
   extractCSS: true,
   extraBabelPlugins: [
-    ['babel-plugin-import', {
-      libraryName: 'antd',
-      libraryDirectory: 'es',
-      style: true,
-    }],
+    [
+      'babel-plugin-import',
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: true,
+      },
+    ],
   ],
   doc: {
     base: '/antd-virtualized/',
     themeConfig: {
-      title: 'Antd Virtualized',
+      title: 'Ant Design 长列表',
       colors: {
         primary: '#bd4932',
         link: '#bd4932',
       },
     },
-    ignore: ['README.md', 'README-en_US.md', 'changelog.md', 'code_of_conduct.md', 'contributing.md', 'license.md'],
+    ignore: [
+      'README.md',
+      'README-en_US.md',
+      'changelog.md',
+      'code_of_conduct.md',
+      'contributing.md',
+      'license.md',
+    ],
     typescript: true,
+    codeSandbox: false,
     menu: [
       {
-        name: '介绍'
+        name: '介绍',
       },
       {
-        name: '快速开始'
+        name: '快速开始',
       },
       {
-        name: '脚手架'
+        name: '脚手架',
       },
       {
-        name: '组件规范'
+        name: '组件规范',
       },
       {
-        name: 'FAQ'
+        name: 'FAQ',
       },
       {
-        name: 'Components'
+        name: 'Components',
       },
-    ]
+    ],
   },
-
 };
 
 export default options;

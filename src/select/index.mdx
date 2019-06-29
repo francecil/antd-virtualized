@@ -6,6 +6,7 @@ order: 80
 ---
 
 import { Playground,Props } from 'docz';
+import { State, Toggle } from 'react-powerplug';
 import Select from './';
 import { default as OriginalSelect} from 'antd/lib/select'
 import './style/index.less'
@@ -50,18 +51,23 @@ import { Select } from 'antd-virtualized';
 ### 带搜索框
 
 <Playground>
-<Select
-  allowClear
-  showSearch
-  placeholder="支持大数据的Select"
-  titleField='name'
-  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
-  keyField='id'
-  style={{ width: 120 }}
-  defaultValue={100}
-  filterOption={(input, option) => option.name.indexOf(input) >= 0}
-  onChange={(v)=>console.log(v)}
-/>
+  <State initial={{value: 100}}>
+    {({ state, setState }) => (
+      <Select
+        allowClear
+        showSearch
+        placeholder="支持大数据的Select"
+        titleField='name'
+        options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
+        keyField='id'
+        style={{ width: 120 }}
+        defaultValue={state.value}
+        filterOption={(input, option) => option.name.indexOf(input) >= 0}
+        onChange={(value) => (setState({ value }))}
+      />
+     )}
+  </State>
+
 </Playground>
 
 ### 定义下拉列表为空时显示的内容
