@@ -7,7 +7,7 @@ order: 80
 
 import { Playground,Props } from 'docz';
 import { Icon } from 'antd'
-import Tree,{TreeSearch} from './';
+import Tree from './';
 import './style/index.less'
 import treeData from './_mock/treeData'
 import renderTreeData from './_mock/renderTreeData'
@@ -21,6 +21,7 @@ import renderTreeData from './_mock/renderTreeData'
 
 ```
 import { Tree } from 'antd-virtualized';
+const TreeSearch = Tree.Search
 ```
 
 ## 代码演示
@@ -37,7 +38,7 @@ import { Tree } from 'antd-virtualized';
 ### 可搜索
 
 <Playground>
-<TreeSearch
+<Tree.Search
   placeholder="支持大数据的Tree"
   treeData={treeData}
   selectable
@@ -68,7 +69,7 @@ import { Tree } from 'antd-virtualized';
 ### 自定义无数据时的显示样式
 
 <Playground>
-<TreeSearch
+<Tree.Search
   placeholder="支持大数据的Tree"
   treeData={treeData}
   selectable
@@ -79,4 +80,6 @@ import { Tree } from 'antd-virtualized';
 
 ## API
 
-<Props of={Tree} />
+<Props of={Tree} isToggle title="⚛️ Tree props"/>
+
+<Props of={Tree.Search} isToggle title="⚛️ TreeSearch props"/>

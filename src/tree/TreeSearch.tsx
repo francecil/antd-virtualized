@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Input } from 'antd';
-import Tree, { IProps as TreeProps } from './Tree';
+import Tree, { IProps as TreeProps } from '.';
 
 const { Search } = Input;
 export interface IProps extends TreeProps {
@@ -9,7 +9,7 @@ export interface IProps extends TreeProps {
 }
 export interface IState {}
 
-export default class TreeSearch extends Component<IProps, IState> {
+class TreeSearch extends Component<IProps, IState> {
   // lock = null;
 
   static defaultProps = {
@@ -61,3 +61,4 @@ export default class TreeSearch extends Component<IProps, IState> {
     );
   }
 }
+export default TreeSearch;
