@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Select } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import omit from 'omit.js';
-import Tree, { IProps as TreeProps } from '../tree';
+import Tree, { TreeProps } from '../tree/Tree';
 import { TreeNode as TN } from '../tree/store';
 
 export interface IState {
@@ -13,13 +13,13 @@ export interface IState {
 type UnionProp = Omit<SelectProps<TN>, keyof TreeProps> & TreeProps;
 
 type rewrite = 'onSelect' | 'onChange' | 'render';
-export interface IProp extends Omit<UnionProp, rewrite> {
+export interface TreeSelectProps extends Omit<UnionProp, rewrite> {
   onSelect?: (value: any, node: TN, extra: any) => void;
   onChange?: (value: any, label: string, extra: any) => void;
   treeRender?: (node: TN) => React.ReactNode;
 }
 
-class TreeSelect extends Component<IProp, IState> {
+class TreeSelect extends Component<TreeSelectProps, IState> {
   // lock = null;
 
   static defaultProps = {

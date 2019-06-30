@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Input } from 'antd';
-import Tree, { IProps as TreeProps } from '.';
+import Tree, { TreeProps } from './Tree';
 
 const { Search } = Input;
-export interface IProps extends TreeProps {
+export interface TreeSearchProps extends TreeProps {
   /** 支持搜索 */
   showSearch: boolean;
 }
 export interface IState {}
 
-class TreeSearch extends Component<IProps, IState> {
+class TreeSearch extends Component<TreeSearchProps, IState> {
   // lock = null;
 
   static defaultProps = {

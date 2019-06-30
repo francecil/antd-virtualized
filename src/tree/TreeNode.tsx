@@ -4,7 +4,7 @@ import { Icon } from 'antd';
 import { TreeNode as TN } from './store';
 import { RenderTreeNodeType } from './const';
 
-export interface IProps {
+export interface TreeNodeProps {
   /** 节点数据，注意！！为了性能，不让 Vue 监听过多属性，这个 data 不是完整的 TreeNode ，不包括 _parent 和 children 属性 */
   data: TN;
   /** 节点标题字段 */
@@ -31,7 +31,7 @@ export interface IProps {
   /** 是否可放置 */
   droppable?: Boolean;
   /** 自定义图标 */
-  icon?: ReactNode | ((props: IProps) => ReactNode);
+  icon?: ReactNode | ((props: TreeNodeProps) => ReactNode);
   /** 完整数据，带children 和 parent等 */
   fullData: TN | null;
   // onSelect: (e: any, node: NodeData) => any;
@@ -50,8 +50,8 @@ export interface IState {
 const ICON_OPEN = 'open';
 const ICON_CLOSE = 'close';
 
-class TreeNode extends React.Component<IProps, {}> {
-  constructor(props: IProps) {
+class TreeNode extends React.Component<TreeNodeProps, {}> {
+  constructor(props: TreeNodeProps) {
     super(props);
 
     this.state = {
