@@ -1,6 +1,6 @@
-import { IBundleOptions } from 'father/src/types';
+// import { IBundleOptions } from 'father-build/src/types';
 
-const docConfig: any = {
+const docConfig = {
   base: '/antd-virtualized/',
   themeConfig: {
     title: 'Ant Design 长列表',
@@ -49,7 +49,7 @@ const docConfig: any = {
   ],
 };
 //note:需要重新run dev 该文件修改才会生效
-const options: IBundleOptions = {
+const options = {
   entry: 'src/index.ts',
   cjs: 'babel',
   esm: 'babel',
