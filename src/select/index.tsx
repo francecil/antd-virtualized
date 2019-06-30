@@ -1,26 +1,26 @@
 import React, { Component } from 'react';
 import { Select } from 'antd';
-import { SelectProps } from 'antd/lib/select';
+import { SelectProps as AntdSelectProps } from 'antd/lib/select';
 import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
 import omit from 'omit.js';
 import { defaultFilterFn } from './util';
 import getPrefixCls from '../_util/getPrefixCls';
 
-export interface IProps extends Omit<SelectProps, 'defaultValue' | 'value'> {
+export interface SelectProps extends Omit<AntdSelectProps, 'defaultValue' | 'value'> {
   value?: string | number;
   defaultValue?: string | number;
   /** 下拉菜单高度 */
-  height: number;
+  height?: number;
   /** 元素高度 */
-  optionHeight: (param: object) => number | number;
+  optionHeight?: (param: object) => number | number;
   /** 代表 label 的 option 属性  */
-  titleField: string;
+  titleField?: string;
   /** 代表 value 的 属性  */
-  keyField: string;
+  keyField?: string;
   filterOption?: boolean | ((inputValue: string, option: object) => any);
-  options: Array<object>;
-  onChange: (v: any) => void;
+  options?: Array<object>;
+  onChange?: (v: any) => void;
 }
 export interface IState {
   value: any;
@@ -28,7 +28,7 @@ export interface IState {
   searchValue: string;
 }
 
-export default class VirtualizedSelect extends Component<IProps, IState> {
+export default class VirtualizedSelect extends Component<SelectProps, IState> {
   // lock = null;
 
   static defaultProps = {
@@ -66,16 +66,17 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   private avList: any;
 
-  constructor(props: any) {
+  constructor(props: SelectProps) {
     super(props);
     const key = props.value || props.defaultValue;
+    const options = props.options || [];
     const getOption = (): any => {
-      if (props.options.length > 0 && key) {
-        const nodes = props.options.filter((option: any) => option[props.keyField] === key);
+      if (options.length > 0 && key) {
+        const nodes = options.filter((option: any) => option[props.keyField as string] === key);
         if (nodes[0]) {
           return {
             key,
-            label: (nodes[0] as any)[props.titleField],
+            label: (nodes[0] as any)[props.titleField as string],
           };
         }
       }
@@ -95,10 +96,10 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
 
   scrollActiveItemToView = () => {
     // console.log('scrollActiveItemToView')
-    const { options, keyField } = this.props;
+    const { options = [], keyField } = this.props;
     const { value } = this.state;
     const focusedOptionIndex = options.findIndex(
-      (option: any) => option[keyField] === (value || {}).key,
+      (option: any) => option[keyField as string] === (value || {}).key,
     );
     if (this.avList.current) {
       this.avList.current.scrollToItem(focusedOptionIndex);
@@ -114,11 +115,11 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
   handleSelect = (option: any) => {
     const { onChange, keyField, titleField } = this.props;
     const value = {
-      key: option[keyField],
-      label: option[titleField],
+      key: option[keyField as string],
+      label: option[titleField as string],
     };
     if (onChange) {
-      onChange(option[keyField]);
+      onChange(option[keyField as string]);
     }
     this.setState(
       {
@@ -156,9 +157,9 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
     });
   };
 
-  _getItemSize = (index: number) => {
-    const { optionHeight, options } = this.props;
-    return optionHeight instanceof Function ? optionHeight(options[index]) : optionHeight;
+  _getItemSize = (index: number): number => {
+    const { optionHeight, options = [] } = this.props;
+    return optionHeight instanceof Function ? optionHeight(options[index]) : optionHeight || 0;
   };
 
   /**
@@ -168,19 +169,19 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
    * @returns
    * @memberof VirtualizedSelect
    */
-  _calculateListHeight(options: Array<object>) {
+  _calculateListHeight = (options: Array<object>): number => {
     const { height: maxHeight } = this.props;
 
     let height = 0;
 
     for (let optionIndex = 0; optionIndex < options.length; optionIndex++) {
       height += this._getItemSize(optionIndex);
-      if (height > maxHeight) {
-        return maxHeight;
+      if (height > (maxHeight as number)) {
+        return maxHeight as number;
       }
     }
     return height;
-  }
+  };
 
   handleEventPrevent = (e: any) => e.preventDefault();
 
@@ -241,7 +242,7 @@ export default class VirtualizedSelect extends Component<IProps, IState> {
       titleField,
       filterOption,
       prefixCls: customizePrefixCls,
-      options: sourceOptions,
+      options: sourceOptions = [],
     } = this.props;
     const { searchValue, value } = this.state;
 
