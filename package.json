@@ -30,8 +30,9 @@
   ],
   "license": "MIT",
   "scripts": {
-    "start": "npm run dev",
-    "dev": "father doc dev",
+    "start": "npm run docz:dev",
+    "docz:dev": "docz dev",
+    "docz:build": "docz build",
     "build:doc": "father doc build",
     "build:css": "webpack --config config/webpack.config.js",
     "build": "father build && node packCss.js && npm run build:css",
