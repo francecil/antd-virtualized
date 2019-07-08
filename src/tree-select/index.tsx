@@ -100,7 +100,9 @@ class TreeSelect extends Component<TreeSelectProps, IState> {
   };
 
   handleSelect = (v: any, { node }: any) => {
-    const { onSelect, keyField, titleField, onChange } = this.props;
+    const { onSelect, onChange } = this.props;
+    const keyField = this.props.keyField!;
+    const titleField = this.props.titleField!;
     if (!node) {
       return;
     }
