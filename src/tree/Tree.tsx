@@ -32,15 +32,15 @@ const storeEvents: Array<keyof IEventNames> = [
 export interface TreeProps extends Omit<AntdTreeProps, 'value'> {
   value?: any;
   /** 下拉菜单高度，当值为-1时为列表全展开 */
-  height: number;
+  height?: number;
   /** 元素高度 */
-  optionHeight: number;
+  optionHeight?: number;
   /** 代表 label 的 option 属性  */
-  titleField: string;
+  titleField?: string;
   /** 代表 value 的 option 属性  */
-  keyField: string;
+  keyField?: string;
   /** 树形数据 */
-  treeData: Array<object>;
+  treeData?: Array<object>;
   onChange?: (v: any, store: any) => any;
   prefixCls?: string;
   /** 忽略模式 */
@@ -97,7 +97,7 @@ class Tree extends Component<TreeProps, IState> {
     this.store.on('selected-change', this.emitSelectableInput);
     // this.attachStoreEvents()
     const { treeData } = this.props;
-    this.store.setData(treeData);
+    this.store.setData(treeData!);
   }
 
   // 更新renderNodes
@@ -123,7 +123,7 @@ class Tree extends Component<TreeProps, IState> {
     this.avList = React.createRef();
     const { keyField, ignoreMode, defaultExpandAll } = this.props;
     this.store = new TreeStore({
-      keyField,
+      keyField: keyField!,
       ignoreMode,
       defaultExpandAll,
     });
@@ -151,7 +151,7 @@ class Tree extends Component<TreeProps, IState> {
     const { optionHeight } = this.props;
     this.setState({
       blockLength: this.blockNodes.length,
-      blockAreaHeight: optionHeight * this.blockNodes.length,
+      blockAreaHeight: optionHeight! * this.blockNodes.length,
     });
   };
 
@@ -222,9 +222,9 @@ class Tree extends Component<TreeProps, IState> {
     //   key: option[keyField],
     //   label: option[titleField],
     // };
-    this.setSelected((data as Indexable)[keyField], !data.selected);
+    this.setSelected((data as Indexable)[keyField!], !data.selected);
     if (onChange) {
-      onChange((data as Indexable)[keyField], data);
+      onChange((data as Indexable)[keyField!], data);
     }
     // this.setState({
     //   value,
@@ -234,7 +234,7 @@ class Tree extends Component<TreeProps, IState> {
   handleNodeExpand = (nodeKey: string): void => {
     const node = this.getNode(nodeKey) as TN;
     const { keyField } = this.props;
-    this.store.setExpand((node as Indexable)[keyField], !node.expand);
+    this.store.setExpand((node as Indexable)[keyField!], !node.expand);
   };
 
   // 清空的时候触发 v为 undefined
@@ -252,7 +252,7 @@ class Tree extends Component<TreeProps, IState> {
 
   getRrenderHeight = (): number => {
     const { blockAreaHeight } = this.state;
-    const { height } = this.props;
+    const height = this.props.height!;
     if (height === -1) {
       return blockAreaHeight;
     }
@@ -288,7 +288,7 @@ class Tree extends Component<TreeProps, IState> {
         keyField,
         prefixCls,
         render,
-        fullData: this.getNode((data as Indexable)[keyField]),
+        fullData: this.getNode((data as Indexable)[keyField!]),
         // selected: valueArray && valueArray.some((v: any) => v.key === (data as Indexable)[keyField]),
       };
       // console.log('props:', props)
@@ -302,7 +302,7 @@ class Tree extends Component<TreeProps, IState> {
             className={`${prefixCls}-menu`}
             height={this.getRrenderHeight()}
             itemCount={blockLength}
-            itemSize={() => optionHeight}
+            itemSize={() => optionHeight!}
             width=""
           >
             {wrappedRowRenderer}
@@ -317,7 +317,7 @@ class Tree extends Component<TreeProps, IState> {
   filter(keyword: string, filterMethod?: FilterFunctionType): void {
     const { titleField, filterMethod: mFilterMethod } = this.props;
     const defaultFilterMethod = (mKeyword: string, node: TN) => {
-      const title = (node as Indexable)[titleField];
+      const title = (node as Indexable)[titleField!];
       if (title == null || !title.toString) return false;
       return (title.toString() as string).toLowerCase().indexOf(mKeyword.toLowerCase()) > -1;
     };

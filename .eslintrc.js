@@ -29,6 +29,8 @@ const eslintrc = {
     'no-return-assign': 0,
     // 只有一个export的时候要要默认导出:x
     'import/prefer-default-export': 0,
+    // props state context 必须用解构赋值:x
+    'react/destructuring-assignment': 0,
     // 方法排序
     'react/sort-comp': 0,
     'react/prop-types': 0,

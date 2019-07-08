@@ -8,10 +8,10 @@ export interface TreeNodeProps {
   /** 节点数据，注意！！为了性能，不让 Vue 监听过多属性，这个 data 不是完整的 TreeNode ，不包括 _parent 和 children 属性 */
   data: TN;
   /** 节点标题字段 */
-  titleField: string;
+  titleField?: string;
 
   /** 节点唯一标识字段 */
-  keyField: string;
+  keyField?: string;
 
   /** 节点渲染 render 函数 */
   render?: RenderTreeNodeType;
@@ -33,7 +33,7 @@ export interface TreeNodeProps {
   /** 自定义图标 */
   icon?: ReactNode | ((props: TreeNodeProps) => ReactNode);
   /** 完整数据，带children 和 parent等 */
-  fullData: TN | null;
+  fullData?: TN | null;
   // onSelect: (e: any, node: NodeData) => any;
   [customProp: string]: any;
 }
@@ -89,7 +89,7 @@ class TreeNode extends React.Component<TreeNodeProps, {}> {
   onExpand = () => {
     const { data, onNodeExpand, keyField } = this.props;
     if (data.isLeaf) return;
-    onNodeExpand((data as any)[keyField]);
+    onNodeExpand((data as any)[keyField!]);
   };
 
   isDisabled = () => {};
@@ -157,8 +157,8 @@ class TreeNode extends React.Component<TreeNodeProps, {}> {
     return (
       <div style={style} className={nodeClassname}>
         {this.renderSwitcher()}
-        <span {...events} className={className} title={(data as any)[titleField]}>
-          {renderFunction && fullData ? renderFunction(fullData) : (data as any)[titleField]}
+        <span {...events} className={className} title={(data as any)[titleField!]}>
+          {renderFunction && fullData ? renderFunction(fullData) : (data as any)[titleField!]}
         </span>
       </div>
     );

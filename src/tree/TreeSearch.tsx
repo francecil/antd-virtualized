@@ -5,7 +5,7 @@ import Tree, { TreeProps } from './Tree';
 const { Search } = Input;
 export interface TreeSearchProps extends TreeProps {
   /** 支持搜索 */
-  showSearch: boolean;
+  showSearch?: boolean;
 }
 export interface IState {}
 
