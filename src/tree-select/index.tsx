@@ -45,7 +45,7 @@ class TreeSelect extends Component<TreeSelectProps, IState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      open: false,
+      open: props.defaultOpen as boolean,
       selectValue: undefined,
     };
     this.tree = React.createRef();
