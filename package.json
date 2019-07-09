@@ -1,6 +1,6 @@
 {
   "name": "antd-virtualized",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "long list resolution version of the antd's component",
   "main": "lib/index.js",
   "module": "es/index.js",
