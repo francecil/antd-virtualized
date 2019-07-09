@@ -81,7 +81,7 @@ class TreeSelect extends Component<TreeSelectProps, IState> {
     if (onChange) {
       onChange(null, '', null);
     }
-    console.log('selectValue', selectValue);
+    // console.log('selectValue', selectValue);
     if (selectValue) {
       this.tree.current.setSelected(selectValue.key, false);
     }
@@ -93,6 +93,10 @@ class TreeSelect extends Component<TreeSelectProps, IState> {
 
   handleDropdownVisibleChange = (open: boolean) => {
     this.setState({ open });
+    const { onDropdownVisibleChange } = this.props;
+    if (onDropdownVisibleChange) {
+      onDropdownVisibleChange(open);
+    }
   };
 
   handleBlur = () => {
@@ -116,10 +120,10 @@ class TreeSelect extends Component<TreeSelectProps, IState> {
       key: node[keyField],
       label: node[titleField],
     };
+    this.handleDropdownVisibleChange(false);
     this.setState(
       {
         selectValue: value,
-        open: false,
       },
       () => {
         this.avSelect.rcSelect.setInputValue('');

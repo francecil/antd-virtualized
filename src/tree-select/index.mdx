@@ -67,6 +67,7 @@ import { TreeSelect } from 'antd-virtualized';
       return (<span><Icon type={icon}/> {node.title}</span>)
     }
   }}
+  onDropdownVisibleChange={(visible)=>console.log('visible',visible)}
 />
 </Playground>
 

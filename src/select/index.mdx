@@ -24,7 +24,9 @@ import { Select } from 'antd-virtualized';
 
 <OriginalSelect
   style={{ width: 120 }}
+  onDropdownVisibleChange={(visible)=>console.log('visible',visible)}
 >
+{Array.from({ length: 20 }).map((v, i) => (<OriginalSelect.Option key={i}>test</OriginalSelect.Option>))}
 </OriginalSelect>
 
 ## 代码演示
@@ -38,6 +40,7 @@ import { Select } from 'antd-virtualized';
   options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
   keyField='id'
   style={{ width: 120 }}
+  onDropdownVisibleChange={(visible)=>console.log('visible',visible)}
 />
 <Select
   placeholder="支持大数据的Select"

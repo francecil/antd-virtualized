@@ -85,7 +85,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     this.state = {
       value: getOption(),
       searchValue: '',
-      open: false,
+      open: props.defaultOpen as boolean,
     };
     this.avList = React.createRef();
   }
@@ -121,11 +121,11 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     if (onChange) {
       onChange(option[keyField as string]);
     }
+    this.handleDropdownVisibleChange(false);
     this.setState(
       {
         value,
         searchValue: '',
-        open: false,
       },
       () => {
         this.avSelect.rcSelect.setInputValue('');
@@ -149,6 +149,10 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
 
   handleDropdownVisibleChange = (open: boolean) => {
     this.setState({ open });
+    const { onDropdownVisibleChange } = this.props;
+    if (onDropdownVisibleChange) {
+      onDropdownVisibleChange(open);
+    }
   };
 
   handleBlur = () => {
