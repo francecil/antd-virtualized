@@ -4,8 +4,9 @@ import { SelectProps as AntdSelectProps } from 'antd/lib/select';
 import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
 import omit from 'omit.js';
+import { ConfigConsumer, ConfigConsumerProps } from '../config-provider';
 import { defaultFilterFn } from './util';
-import getPrefixCls from '../_util/getPrefixCls';
+// import getPrefixCls from '../_util/getPrefixCls';
 
 export interface SelectProps extends Omit<AntdSelectProps, 'defaultValue' | 'value'> {
   value?: string | number;
@@ -240,7 +241,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     return true;
   };
 
-  renderMenu = (menu: any) => {
+  renderMenu = (menu: any, getPrefixCls: any) => {
     const {
       keyField,
       titleField,
@@ -259,7 +260,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     }
     const height = this._calculateListHeight(options);
 
-    const prefixCls = getPrefixCls.call(this, 'select', customizePrefixCls);
+    const prefixCls = getPrefixCls('select', customizePrefixCls);
     const wrappedRowRenderer = ({ index, style }: any) => {
       const option = options[index];
 
@@ -290,7 +291,10 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     );
   };
 
-  render() {
+  renderSelect = ({
+    // getPopupContainer: getContextPopupContainer,
+    getPrefixCls,
+  }: ConfigConsumerProps) => {
     const { value, open } = this.state;
     const { titleField, ...restProps } = this.props;
     // 去除 antdSelect 中会影响 VirtualizedSelect 的prop
@@ -308,9 +312,13 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
         labelInValue
         optionLabelProp={titleField}
         onDropdownVisibleChange={this.handleDropdownVisibleChange}
-        dropdownRender={this.renderMenu}
+        dropdownRender={menu => this.renderMenu(menu, getPrefixCls)}
         dropdownStyle={{ overflow: 'hidden' }}
       />
     );
+  };
+
+  render() {
+    return <ConfigConsumer>{this.renderSelect}</ConfigConsumer>;
   }
 }

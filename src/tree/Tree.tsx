@@ -3,7 +3,8 @@ import { TreeProps as AntdTreeProps } from 'antd/lib/tree';
 import { VariableSizeList as List } from 'react-window';
 // import memoize from 'memoize-one';
 import defaultRenderEmpty, { RenderEmptyHandler } from 'antd/lib/config-provider/renderEmpty';
-import getPrefixCls from '../_util/getPrefixCls';
+import { ConfigConsumer, ConfigConsumerProps } from '../config-provider';
+// import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
 import TreeSearch from './TreeSearch';
 import TreeStore, { TreeNode as TN } from './store';
@@ -260,7 +261,10 @@ class Tree extends Component<TreeProps, IState> {
     return blockAreaHeight > height ? height : blockAreaHeight;
   };
 
-  render() {
+  renderTree = ({
+    // getPopupContainer: getContextPopupContainer,
+    getPrefixCls,
+  }: ConfigConsumerProps) => {
     // console.log('render...');
     const {
       keyField,
@@ -275,7 +279,7 @@ class Tree extends Component<TreeProps, IState> {
     // const nodeList = this.store.flatData;
     // const nodeList = this.visibleNodes(this.store.flatData)
 
-    const prefixCls = getPrefixCls.call(this, 'tree', customizePrefixCls);
+    const prefixCls = getPrefixCls('tree', customizePrefixCls);
     const wrappedRowRenderer = ({ index, style }: any) => {
       const data = renderNodes[index];
       const props = {
@@ -312,6 +316,10 @@ class Tree extends Component<TreeProps, IState> {
         )}
       </div>
     );
+  };
+
+  render() {
+    return <ConfigConsumer>{this.renderTree}</ConfigConsumer>;
   }
 
   filter(keyword: string, filterMethod?: FilterFunctionType): void {

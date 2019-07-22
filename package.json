@@ -92,6 +92,7 @@
     "webpack-cli": "^3.3.4"
   },
   "dependencies": {
+    "@ant-design/create-react-context": "^0.2.4",
     "classnames": "^2.2.6",
     "memoize-one": "^5.0.4",
     "omit.js": "^1.0.2",
