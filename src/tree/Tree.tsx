@@ -4,7 +4,6 @@ import { VariableSizeList as List } from 'react-window';
 // import memoize from 'memoize-one';
 import defaultRenderEmpty, { RenderEmptyHandler } from 'antd/lib/config-provider/renderEmpty';
 import { ConfigConsumer, ConfigConsumerProps } from '../config-provider';
-// import getPrefixCls from '../_util/getPrefixCls';
 import TreeNode from './TreeNode';
 import TreeSearch from './TreeSearch';
 import TreeStore, { TreeNode as TN } from './store';

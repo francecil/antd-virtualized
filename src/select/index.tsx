@@ -6,7 +6,6 @@ import { VariableSizeList as List } from 'react-window';
 import omit from 'omit.js';
 import { ConfigConsumer, ConfigConsumerProps } from '../config-provider';
 import { defaultFilterFn } from './util';
-// import getPrefixCls from '../_util/getPrefixCls';
 
 export interface SelectProps extends Omit<AntdSelectProps, 'defaultValue' | 'value'> {
   value?: string | number;
