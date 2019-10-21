@@ -40,7 +40,7 @@ import { Select } from 'antd-virtualized';
   options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
   keyField='id'
   style={{ width: 120 }}
-  defaultOpen
+  mode="multiple"
   onDropdownVisibleChange={(visible)=>console.log('visible',visible)}
 />
 <Select

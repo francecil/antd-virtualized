@@ -41,7 +41,7 @@ export interface TreeProps extends Omit<AntdTreeProps, 'value'> {
   /** 代表 value 的 option 属性  */
   keyField?: string;
   /** 树形数据 */
-  treeData?: Array<object>;
+  treeData?: Array<any>;
   onChange?: (v: any, store: any) => any;
   prefixCls?: string;
   /** 忽略模式 */
