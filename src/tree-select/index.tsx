@@ -153,7 +153,7 @@ class TreeSelect extends Component<TreeSelectProps, IState> {
     const rest = omit(restProps, ['onSelect', 'labelInValue']);
     return (
       <Select
-        {...rest}
+        {...(rest as any)}
         value={selectValue}
         ref={this.saveSelect}
         open={open}

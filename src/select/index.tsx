@@ -7,9 +7,16 @@ import omit from 'omit.js';
 import { ConfigConsumer, ConfigConsumerProps } from '../config-provider';
 import { defaultFilterFn } from './util';
 
-export interface SelectProps extends Omit<AntdSelectProps, 'defaultValue' | 'value'> {
-  value?: string | number;
-  defaultValue?: string | number;
+export interface Option {
+  [key: string]: React.ReactNode;
+}
+
+export type ValueType = string | number | string[] | number[];
+
+export interface SelectProps
+  extends Omit<AntdSelectProps, 'defaultValue' | 'value' | 'filterOption'> {
+  value?: ValueType;
+  defaultValue?: ValueType;
   /** 下拉菜单高度 */
   height?: number;
   /** 元素高度 */
@@ -18,12 +25,13 @@ export interface SelectProps extends Omit<AntdSelectProps, 'defaultValue' | 'val
   titleField?: string;
   /** 代表 value 的 属性  */
   keyField?: string;
-  filterOption?: boolean | ((inputValue: string, option: object) => any);
-  options?: Array<object>;
+  filterOption?: boolean | ((inputValue: string, option: Option) => boolean);
+  options?: Option[];
   onChange?: (v: any) => void;
 }
+
 export interface IState {
-  value: any;
+  value?: Option | Option[];
   open: boolean;
   searchValue: string;
 }
@@ -38,6 +46,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     titleField: 'title',
     keyField: 'id',
     options: [],
+    mode: 'default',
   };
 
   // public static getDerivedStateFromProps(nextProps: any) {
@@ -66,18 +75,31 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
 
   private avList: any;
 
+  private wrapValue = (value: Option | Option[]): Option | Option[] => {
+    if (this.props.mode !== 'default' && !Array.isArray(value)) {
+      return [value].filter(v => v && v.key !== undefined);
+    }
+    return value;
+  };
+
+  private toArray<T>(value: T | T[]): NonNullable<T>[] {
+    return (Array.isArray(value) ? value : [value]).filter(
+      (v): v is NonNullable<T> => v !== undefined,
+    );
+  }
+
   constructor(props: SelectProps) {
     super(props);
     const key = props.value || props.defaultValue;
     const options = props.options || [];
     const getOption = (): any => {
       if (options.length > 0 && key) {
-        const nodes = options.filter((option: any) => option[props.keyField as string] === key);
+        const nodes = options.filter(option => option[props.keyField!] === key);
         if (nodes[0]) {
-          return {
+          return this.wrapValue({
             key,
-            label: (nodes[0] as any)[props.titleField as string],
-          };
+            label: nodes[0][props.titleField!],
+          });
         }
       }
       return undefined;
@@ -85,7 +107,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     this.state = {
       value: getOption(),
       searchValue: '',
-      open: props.defaultOpen as boolean,
+      open: !!props.defaultOpen,
     };
     this.avList = React.createRef();
   }
@@ -98,58 +120,77 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     // console.log('scrollActiveItemToView')
     const { options = [], keyField } = this.props;
     const { value } = this.state;
-    const focusedOptionIndex = options.findIndex(
-      (option: any) => option[keyField as string] === (value || {}).key,
+    const arrayValue = this.toArray(value);
+    // find one option
+    const focusedOptionIndex = options.findIndex(option =>
+      arrayValue.some(val => val.key === option[keyField!]),
     );
     if (this.avList.current) {
       this.avList.current.scrollToItem(focusedOptionIndex);
     }
   };
 
-  handleSearch = (v: any) => {
+  handleSearch = (v: string) => {
     this.setState({
       searchValue: v,
     });
   };
 
-  handleSelect = (option: any) => {
-    const { onChange, keyField, titleField } = this.props;
-    const value = {
-      key: option[keyField as string],
-      label: option[titleField as string],
+  handleSelect = (option: Option) => {
+    const { mode, onChange, keyField, titleField } = this.props;
+    const currentValue = {
+      key: option[keyField!],
+      label: option[titleField!],
     };
-    if (onChange) {
-      onChange(option[keyField as string]);
-    }
-    this.handleDropdownVisibleChange(false);
+
     this.setState(
-      {
-        value,
-        searchValue: '',
+      state => {
+        if (mode === 'default') {
+          if (onChange) onChange(currentValue.key);
+          return {
+            value: currentValue,
+            searchValue: '',
+          };
+        }
+        const value = [...this.toArray(state.value)];
+        const index = value.findIndex(item => item.key === currentValue.key);
+
+        if (index === -1) {
+          value.push(currentValue);
+        } else {
+          value.splice(index, 1);
+        }
+        if (onChange) {
+          onChange(value.map(item => item.key));
+        }
+        return { value, searchValue: '' };
       },
       () => {
         this.avSelect.rcSelect.setInputValue('');
         // console.log(this.select.rcSelect)
         this.avSelect.focus();
+        if (mode === 'default') {
+          this.handleDropdownVisibleChange(false);
+        }
       },
     );
   };
 
   // 清空的时候触发 v为 undefined
-  handleChange = (v: any) => {
+  handleChange = (v: Option | Option[]) => {
     const { onChange } = this.props;
     if (onChange) {
-      onChange(v);
+      onChange(Array.isArray(v) ? v.map(vv => vv.key) : v.key);
     }
     this.setState({
-      value: undefined,
+      value: v,
       searchValue: '',
     });
   };
 
   handleDropdownVisibleChange = (open: boolean) => {
-    this.setState({ open });
     const { onDropdownVisibleChange } = this.props;
+    this.setState({ open });
     if (onDropdownVisibleChange) {
       onDropdownVisibleChange(open);
     }
@@ -187,7 +228,9 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     return height;
   };
 
-  handleEventPrevent = (e: any) => e.preventDefault();
+  handleEventPrevent = (e: React.MouseEvent) => {
+    e.preventDefault();
+  };
 
   _optionRenderer = ({
     handleSelect,
@@ -268,7 +311,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
         titleField,
         option,
         style,
-        valueArray: value ? [value] : null,
+        valueArray: this.toArray(value),
         keyField,
         prefixCls,
       });
@@ -301,7 +344,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     const rest = omit(restProps, ['defaultValue', 'value']);
     return (
       <Select
-        {...rest}
+        {...(rest as any)}
         value={value}
         ref={this.saveSelect}
         open={open}
