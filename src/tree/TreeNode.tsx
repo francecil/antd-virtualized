@@ -5,7 +5,7 @@ import { TreeNode as TN } from './store';
 import { RenderTreeNodeType } from './const';
 
 export interface TreeNodeProps {
-  /** 节点数据，注意！！为了性能，不让 Vue 监听过多属性，这个 data 不是完整的 TreeNode ，不包括 _parent 和 children 属性 */
+  /** 节点数据 ，不包括 _parent 和 children 属性 */
   data: TN;
   /** 节点标题字段 */
   titleField?: string;

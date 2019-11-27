@@ -36,12 +36,8 @@ import { Select } from 'antd-virtualized';
 <Playground>
 <Select
   placeholder="支持大数据的Select"
-  titleField='name'
-  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
-  keyField='id'
+  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, title: 'test' + i }))}
   style={{ width: 120 }}
-  mode="multiple"
-  onDropdownVisibleChange={(visible)=>console.log('visible',visible)}
 />
 <Select
   placeholder="支持大数据的Select"
@@ -49,6 +45,23 @@ import { Select } from 'antd-virtualized';
   options={[{id:1,name:'1'},{id:'2',name:'2',disabled:true},{id:'3',name:'3'}]}
   keyField='id'
   style={{ width: 120 }}
+  onDropdownVisibleChange={(visible)=>console.log('visible',visible)}
+  defaultOpen
+/>
+</Playground>
+
+### 多选
+
+<Playground>
+<Select
+  placeholder="支持大数据的Select"
+  titleField='name'
+  options={Array.from({ length: 2000 }).map((v, i) => ({ id: i, name: 'test' + i }))}
+  keyField='id'
+  style={{ width: 120 }}
+  mode="multiple"
+  value={[2,4]}
+  onDropdownVisibleChange={(visible)=>console.log('visible',visible)}
 />
 </Playground>
 
@@ -88,7 +101,7 @@ import { Select } from 'antd-virtualized';
 </Playground>
 
 
-
+**注意**：其他 Ant Design Select 原生的功能，大部分支持，可以用参考 Select 文档
 
 ## API
 

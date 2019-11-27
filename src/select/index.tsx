@@ -5,18 +5,25 @@ import classnames from 'classnames';
 import { VariableSizeList as List } from 'react-window';
 import omit from 'omit.js';
 import { ConfigConsumer, ConfigConsumerProps } from '../config-provider';
-import { defaultFilterFn } from './util';
+import { defaultFilterFn, toArray } from './util';
 
 export interface Option {
-  [key: string]: React.ReactNode;
+  [customProp: string]: React.ReactNode;
 }
 
-export type ValueType = string | number | string[] | number[];
+export interface LabeledValue {
+  key: string;
+  label: React.ReactNode;
+}
 
-export interface SelectProps
-  extends Omit<AntdSelectProps, 'defaultValue' | 'value' | 'filterOption'> {
-  value?: ValueType;
-  defaultValue?: ValueType;
+export type SelectValue = string | number | string[] | number[];
+
+// 与 AntdSelectProps 冲突的属性需要手动 Omit
+export interface SelectProps<T = SelectValue>
+  extends Omit<AntdSelectProps, 'defaultValue' | 'value' | 'filterOption' | 'mode' | 'onChange'> {
+  value?: T;
+  defaultValue?: T;
+  mode?: 'default' | 'multiple';
   /** 下拉菜单高度 */
   height?: number;
   /** 元素高度 */
@@ -27,16 +34,18 @@ export interface SelectProps
   keyField?: string;
   filterOption?: boolean | ((inputValue: string, option: Option) => boolean);
   options?: Option[];
-  onChange?: (v: any) => void;
+  onChange?: (value: string | string[], option?: Option | Option[]) => void;
 }
 
 export interface IState {
-  value?: Option | Option[];
+  value?: LabeledValue | LabeledValue[];
   open: boolean;
   searchValue: string;
 }
 
-export default class VirtualizedSelect extends Component<SelectProps, IState> {
+const hiddenStyle = { overflow: 'hidden' };
+
+export default class VirtualizedSelect<T = SelectValue> extends Component<SelectProps<T>, IState> {
   // lock = null;
 
   static defaultProps = {
@@ -48,15 +57,6 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     options: [],
     mode: 'default',
   };
-
-  // public static getDerivedStateFromProps(nextProps: any) {
-  //   if ('value' in nextProps) {
-  //     return {
-  //       value: nextProps.value || undefined,
-  //     };
-  //   }
-  //   return null;
-  // }
 
   public componentDidMount() {
     // console.log('componentDidMount....')
@@ -75,37 +75,41 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
 
   private avList: any;
 
-  private wrapValue = (value: Option | Option[]): Option | Option[] => {
-    if (this.props.mode !== 'default' && !Array.isArray(value)) {
-      return [value].filter(v => v && v.key !== undefined);
+  private wrapValue = (value: LabeledValue | LabeledValue[]): LabeledValue | LabeledValue[] => {
+    if (this.props.mode === 'default' && Array.isArray(value)) {
+      return value[0];
     }
     return value;
   };
 
-  private toArray<T>(value: T | T[]): NonNullable<T>[] {
-    return (Array.isArray(value) ? value : [value]).filter(
-      (v): v is NonNullable<T> => v !== undefined,
-    );
-  }
-
-  constructor(props: SelectProps) {
-    super(props);
+  private getValueFromProps = (props: Partial<SelectProps<T>>) => {
     const key = props.value || props.defaultValue;
-    const options = props.options || [];
-    const getOption = (): any => {
-      if (options.length > 0 && key) {
-        const nodes = options.filter(option => option[props.keyField!] === key);
-        if (nodes[0]) {
-          return this.wrapValue({
-            key,
-            label: nodes[0][props.titleField!],
-          });
-        }
+    const { options = [], titleField, keyField } = props;
+
+    if (options.length > 0 && key !== undefined) {
+      const keys = toArray(key);
+      // 单选时传入数组value只返回第一个
+      // O(m*n) TODO 算法优化
+      const nodes = options
+        .filter(option => keys.some(k => k === option[props.keyField!]))
+        .map(
+          option =>
+            ({
+              key: option[keyField!],
+              label: option[titleField!],
+            } as LabeledValue),
+        );
+      if (nodes.length > 0) {
+        return this.wrapValue(nodes);
       }
-      return undefined;
-    };
+    }
+    return undefined;
+  };
+
+  constructor(props: SelectProps<T>) {
+    super(props);
     this.state = {
-      value: getOption(),
+      value: this.getValueFromProps(props),
       searchValue: '',
       open: !!props.defaultOpen,
     };
@@ -120,7 +124,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     // console.log('scrollActiveItemToView')
     const { options = [], keyField } = this.props;
     const { value } = this.state;
-    const arrayValue = this.toArray(value);
+    const arrayValue = toArray(value);
     // find one option
     const focusedOptionIndex = options.findIndex(option =>
       arrayValue.some(val => val.key === option[keyField!]),
@@ -130,16 +134,16 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
     }
   };
 
-  handleSearch = (v: string) => {
+  handleSearch = (searchValue: string) => {
     this.setState({
-      searchValue: v,
+      searchValue,
     });
   };
 
   handleSelect = (option: Option) => {
     const { mode, onChange, keyField, titleField } = this.props;
     const currentValue = {
-      key: option[keyField!],
+      key: option[keyField!] as string,
       label: option[titleField!],
     };
 
@@ -152,7 +156,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
             searchValue: '',
           };
         }
-        const value = [...this.toArray(state.value)];
+        const value = [...toArray(state.value)];
         const index = value.findIndex(item => item.key === currentValue.key);
 
         if (index === -1) {
@@ -177,7 +181,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
   };
 
   // 清空的时候触发 v为 undefined
-  handleChange = (v: Option | Option[]) => {
+  handleChange = (v: LabeledValue | LabeledValue[]) => {
     const { onChange } = this.props;
     if (onChange) {
       onChange(Array.isArray(v) ? v.map(vv => vv.key) : v.key);
@@ -311,7 +315,7 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
         titleField,
         option,
         style,
-        valueArray: this.toArray(value),
+        valueArray: toArray(value),
         keyField,
         prefixCls,
       });
@@ -348,14 +352,14 @@ export default class VirtualizedSelect extends Component<SelectProps, IState> {
         value={value}
         ref={this.saveSelect}
         open={open}
-        onSearch={(v: string) => this.handleSearch(v)}
+        onSearch={this.handleSearch}
         onChange={this.handleChange}
-        onBlur={() => this.handleBlur()}
+        onBlur={this.handleBlur}
         labelInValue
         optionLabelProp={titleField}
         onDropdownVisibleChange={this.handleDropdownVisibleChange}
         dropdownRender={menu => this.renderMenu(menu, getPrefixCls)}
-        dropdownStyle={{ overflow: 'hidden' }}
+        dropdownStyle={hiddenStyle}
       />
     );
   };
