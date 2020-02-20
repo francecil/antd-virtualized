@@ -4,6 +4,7 @@
 /.doc
 /.docz
 /node_modules
+/coverage
 
 lib
 es

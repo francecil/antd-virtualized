@@ -32,6 +32,9 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "father doc dev",
+    "test": "father test --no-cache",
+    "test:coverage": "father test --no-cache --coverage",
+    "test:update": "father test --no-cache --update-snapshot",
     "build:doc": "father doc build",
     "build:css": "webpack --config config/webpack.config.js",
     "build": "father build && node packCss.js && npm run build:css",
