@@ -73,8 +73,8 @@ export default class TreeNode implements Indexable {
   constructor(
     options: ITreeNodeOptions,
     parent: null | TreeNode = null,
-    readonly _keyField: string = 'id',
-    readonly _remote: boolean = false,
+    _keyField: string = 'id',
+    _remote: boolean = false,
   ) {
     for (const option in options) {
       if (notAllowOverrideList.indexOf(option) === -1) {

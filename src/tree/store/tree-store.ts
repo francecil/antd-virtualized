@@ -73,9 +73,11 @@ export default class TreeStore {
 
   // #endregion Properties
 
-  constructor(private readonly options: ITreeStoreOptions) {
+  private options: ITreeStoreOptions;
+
+  constructor(options: ITreeStoreOptions) {
     // eslint-disable-next-line
-    console.log('tree-store init');
+    this.options = options;
   }
 
   // Todo 对于大量（巨量总数）数据考虑用 Web worker 开个新线程计算，包括 Check, Expand, Filter 等这些需要遍历全部节点的耗时操作，通过 use-web-worker Prop 由开发者决定要不要使用
