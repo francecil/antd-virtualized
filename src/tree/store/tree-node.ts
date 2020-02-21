@@ -68,6 +68,10 @@ export default class TreeNode implements Indexable {
 
   render?: RenderTreeNodeType;
 
+  _keyField: string = 'id';
+
+  _remote: boolean = false;
+
   // #endregion Properties
 
   constructor(
@@ -81,6 +85,8 @@ export default class TreeNode implements Indexable {
         (this as Indexable)[option] = options[option];
       }
     }
+    this._keyField = _keyField;
+    this._remote = _remote;
 
     if ((this as Indexable)[_keyField] == null) {
       // 如果没有 id 字段，随机赋值一个
