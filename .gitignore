@@ -5,6 +5,7 @@
 /.docz
 /node_modules
 /coverage
+.vscode
 
 lib
 es
