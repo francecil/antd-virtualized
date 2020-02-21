@@ -11,8 +11,7 @@ if (
 ) {
   // eslint-disable-next-line
   console.warn(
-    'You are using a whole package of antd virtualized, ' +
-      'please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.',
+    'You are using a whole package of antd virtualized, please use https://www.npmjs.com/package/babel-plugin-import to reduce app bundle size.',
   );
 }
 /* @remove-on-es-build-end */

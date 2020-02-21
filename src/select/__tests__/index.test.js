@@ -39,7 +39,6 @@ describe('Select', () => {
         .instance()
         .getComponent(),
     );
-    console.info(JSON.stringify(dropdownWrapper));
     // 连默认的 No Data menu-item 也不出现
     expect(dropdownWrapper.find('MenuItem').length).toBe(0);
   });

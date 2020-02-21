@@ -1,0 +1,1223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select.Basic render renders correctly 1`] = `
+initialize {
+  "0": Object {
+    "attribs": Object {
+      "class": "ant-select-show-arrow select-test ant-select ant-select-enabled ant-select-allow-clear",
+      "style": "width:120px",
+    },
+    "children": Array [
+      Object {
+        "attribs": Object {
+          "aria-autocomplete": "list",
+          "aria-controls": "",
+          "aria-expanded": "false",
+          "aria-haspopup": "true",
+          "class": "ant-select-selection
+            ant-select-selection--single",
+          "role": "combobox",
+          "tabindex": "0",
+        },
+        "children": Array [
+          Object {
+            "attribs": Object {
+              "class": "ant-select-selection__rendered",
+            },
+            "children": Array [
+              Object {
+                "attribs": Object {
+                  "class": "ant-select-search ant-select-search--inline",
+                  "style": "display:none",
+                },
+                "children": Array [
+                  Object {
+                    "attribs": Object {
+                      "class": "ant-select-search__field__wrap",
+                    },
+                    "children": Array [
+                      Object {
+                        "attribs": Object {
+                          "autocomplete": "off",
+                          "class": "ant-select-search__field",
+                          "value": "",
+                        },
+                        "children": Array [],
+                        "name": "input",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": Object {
+                          "attribs": Object {
+                            "class": "ant-select-search__field__mirror",
+                          },
+                          "children": Array [
+                            Object {
+                              "data": " ",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "text",
+                            },
+                          ],
+                          "name": "span",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": [Circular],
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "class": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "class": undefined,
+                          },
+                        },
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "autocomplete": undefined,
+                          "class": undefined,
+                          "value": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "autocomplete": undefined,
+                          "class": undefined,
+                          "value": undefined,
+                        },
+                      },
+                      Object {
+                        "attribs": Object {
+                          "class": "ant-select-search__field__mirror",
+                        },
+                        "children": Array [
+                          Object {
+                            "data": " ",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                        ],
+                        "name": "span",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": Object {
+                          "attribs": Object {
+                            "autocomplete": "off",
+                            "class": "ant-select-search__field",
+                            "value": "",
+                          },
+                          "children": Array [],
+                          "name": "input",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": [Circular],
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                        },
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "class": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "class": undefined,
+                        },
+                      },
+                    ],
+                    "name": "div",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "class": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "class": undefined,
+                    },
+                  },
+                ],
+                "name": "div",
+                "namespace": "http://www.w3.org/1999/xhtml",
+                "next": null,
+                "parent": [Circular],
+                "prev": null,
+                "type": "tag",
+                "x-attribsNamespace": Object {
+                  "class": undefined,
+                  "style": undefined,
+                },
+                "x-attribsPrefix": Object {
+                  "class": undefined,
+                  "style": undefined,
+                },
+              },
+            ],
+            "name": "div",
+            "namespace": "http://www.w3.org/1999/xhtml",
+            "next": Object {
+              "attribs": Object {
+                "class": "ant-select-arrow",
+                "style": "user-select:none;-webkit-user-select:none",
+                "unselectable": "on",
+              },
+              "children": Array [
+                Object {
+                  "attribs": Object {
+                    "aria-label": "icon: down",
+                    "class": "anticon anticon-down ant-select-arrow-icon",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "aria-hidden": "true",
+                        "class": "",
+                        "data-icon": "down",
+                        "fill": "currentColor",
+                        "focusable": "false",
+                        "height": "1em",
+                        "viewBox": "64 64 896 896",
+                        "width": "1em",
+                      },
+                      "children": Array [
+                        Object {
+                          "attribs": Object {
+                            "d": "M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z",
+                          },
+                          "children": Array [],
+                          "name": "path",
+                          "namespace": "http://www.w3.org/2000/svg",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "d": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "d": undefined,
+                          },
+                        },
+                      ],
+                      "name": "svg",
+                      "namespace": "http://www.w3.org/2000/svg",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "aria-hidden": undefined,
+                        "class": undefined,
+                        "data-icon": undefined,
+                        "fill": undefined,
+                        "focusable": undefined,
+                        "height": undefined,
+                        "viewBox": undefined,
+                        "width": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "aria-hidden": undefined,
+                        "class": undefined,
+                        "data-icon": undefined,
+                        "fill": undefined,
+                        "focusable": undefined,
+                        "height": undefined,
+                        "viewBox": undefined,
+                        "width": undefined,
+                      },
+                    },
+                  ],
+                  "name": "i",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "aria-label": undefined,
+                    "class": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "aria-label": undefined,
+                    "class": undefined,
+                  },
+                },
+              ],
+              "name": "span",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "next": null,
+              "parent": [Circular],
+              "prev": [Circular],
+              "type": "tag",
+              "x-attribsNamespace": Object {
+                "class": undefined,
+                "style": undefined,
+                "unselectable": undefined,
+              },
+              "x-attribsPrefix": Object {
+                "class": undefined,
+                "style": undefined,
+                "unselectable": undefined,
+              },
+            },
+            "parent": [Circular],
+            "prev": null,
+            "type": "tag",
+            "x-attribsNamespace": Object {
+              "class": undefined,
+            },
+            "x-attribsPrefix": Object {
+              "class": undefined,
+            },
+          },
+          Object {
+            "attribs": Object {
+              "class": "ant-select-arrow",
+              "style": "user-select:none;-webkit-user-select:none",
+              "unselectable": "on",
+            },
+            "children": Array [
+              Object {
+                "attribs": Object {
+                  "aria-label": "icon: down",
+                  "class": "anticon anticon-down ant-select-arrow-icon",
+                },
+                "children": Array [
+                  Object {
+                    "attribs": Object {
+                      "aria-hidden": "true",
+                      "class": "",
+                      "data-icon": "down",
+                      "fill": "currentColor",
+                      "focusable": "false",
+                      "height": "1em",
+                      "viewBox": "64 64 896 896",
+                      "width": "1em",
+                    },
+                    "children": Array [
+                      Object {
+                        "attribs": Object {
+                          "d": "M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z",
+                        },
+                        "children": Array [],
+                        "name": "path",
+                        "namespace": "http://www.w3.org/2000/svg",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "d": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "d": undefined,
+                        },
+                      },
+                    ],
+                    "name": "svg",
+                    "namespace": "http://www.w3.org/2000/svg",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "aria-hidden": undefined,
+                      "class": undefined,
+                      "data-icon": undefined,
+                      "fill": undefined,
+                      "focusable": undefined,
+                      "height": undefined,
+                      "viewBox": undefined,
+                      "width": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "aria-hidden": undefined,
+                      "class": undefined,
+                      "data-icon": undefined,
+                      "fill": undefined,
+                      "focusable": undefined,
+                      "height": undefined,
+                      "viewBox": undefined,
+                      "width": undefined,
+                    },
+                  },
+                ],
+                "name": "i",
+                "namespace": "http://www.w3.org/1999/xhtml",
+                "next": null,
+                "parent": [Circular],
+                "prev": null,
+                "type": "tag",
+                "x-attribsNamespace": Object {
+                  "aria-label": undefined,
+                  "class": undefined,
+                },
+                "x-attribsPrefix": Object {
+                  "aria-label": undefined,
+                  "class": undefined,
+                },
+              },
+            ],
+            "name": "span",
+            "namespace": "http://www.w3.org/1999/xhtml",
+            "next": null,
+            "parent": [Circular],
+            "prev": Object {
+              "attribs": Object {
+                "class": "ant-select-selection__rendered",
+              },
+              "children": Array [
+                Object {
+                  "attribs": Object {
+                    "class": "ant-select-search ant-select-search--inline",
+                    "style": "display:none",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "class": "ant-select-search__field__wrap",
+                      },
+                      "children": Array [
+                        Object {
+                          "attribs": Object {
+                            "autocomplete": "off",
+                            "class": "ant-select-search__field",
+                            "value": "",
+                          },
+                          "children": Array [],
+                          "name": "input",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": Object {
+                            "attribs": Object {
+                              "class": "ant-select-search__field__mirror",
+                            },
+                            "children": Array [
+                              Object {
+                                "data": " ",
+                                "next": null,
+                                "parent": [Circular],
+                                "prev": null,
+                                "type": "text",
+                              },
+                            ],
+                            "name": "span",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": [Circular],
+                            "type": "tag",
+                            "x-attribsNamespace": Object {
+                              "class": undefined,
+                            },
+                            "x-attribsPrefix": Object {
+                              "class": undefined,
+                            },
+                          },
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                        },
+                        Object {
+                          "attribs": Object {
+                            "class": "ant-select-search__field__mirror",
+                          },
+                          "children": Array [
+                            Object {
+                              "data": " ",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "text",
+                            },
+                          ],
+                          "name": "span",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": Object {
+                            "attribs": Object {
+                              "autocomplete": "off",
+                              "class": "ant-select-search__field",
+                              "value": "",
+                            },
+                            "children": Array [],
+                            "name": "input",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "next": [Circular],
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "tag",
+                            "x-attribsNamespace": Object {
+                              "autocomplete": undefined,
+                              "class": undefined,
+                              "value": undefined,
+                            },
+                            "x-attribsPrefix": Object {
+                              "autocomplete": undefined,
+                              "class": undefined,
+                              "value": undefined,
+                            },
+                          },
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "class": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "class": undefined,
+                          },
+                        },
+                      ],
+                      "name": "div",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "class": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "class": undefined,
+                      },
+                    },
+                  ],
+                  "name": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "class": undefined,
+                    "style": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "class": undefined,
+                    "style": undefined,
+                  },
+                },
+              ],
+              "name": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "next": [Circular],
+              "parent": [Circular],
+              "prev": null,
+              "type": "tag",
+              "x-attribsNamespace": Object {
+                "class": undefined,
+              },
+              "x-attribsPrefix": Object {
+                "class": undefined,
+              },
+            },
+            "type": "tag",
+            "x-attribsNamespace": Object {
+              "class": undefined,
+              "style": undefined,
+              "unselectable": undefined,
+            },
+            "x-attribsPrefix": Object {
+              "class": undefined,
+              "style": undefined,
+              "unselectable": undefined,
+            },
+          },
+        ],
+        "name": "div",
+        "namespace": "http://www.w3.org/1999/xhtml",
+        "next": null,
+        "parent": [Circular],
+        "prev": null,
+        "type": "tag",
+        "x-attribsNamespace": Object {
+          "aria-autocomplete": undefined,
+          "aria-controls": undefined,
+          "aria-expanded": undefined,
+          "aria-haspopup": undefined,
+          "class": undefined,
+          "role": undefined,
+          "tabindex": undefined,
+        },
+        "x-attribsPrefix": Object {
+          "aria-autocomplete": undefined,
+          "aria-controls": undefined,
+          "aria-expanded": undefined,
+          "aria-haspopup": undefined,
+          "class": undefined,
+          "role": undefined,
+          "tabindex": undefined,
+        },
+      },
+    ],
+    "name": "div",
+    "namespace": "http://www.w3.org/1999/xhtml",
+    "next": null,
+    "parent": null,
+    "prev": null,
+    "root": Object {
+      "attribs": Object {},
+      "children": Array [
+        [Circular],
+      ],
+      "name": "root",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "next": null,
+      "parent": null,
+      "prev": null,
+      "type": "root",
+      "x-attribsNamespace": Object {},
+      "x-attribsPrefix": Object {},
+    },
+    "type": "tag",
+    "x-attribsNamespace": Object {
+      "class": undefined,
+      "style": undefined,
+    },
+    "x-attribsPrefix": Object {
+      "class": undefined,
+      "style": undefined,
+    },
+  },
+  "_root": [Circular],
+  "length": 1,
+  "options": Object {
+    "decodeEntities": true,
+    "normalizeWhitespace": false,
+    "withDomLvl1": true,
+    "xml": false,
+  },
+}
+`;
+
+exports[`Select.Basic render renders dropdown correctly 1`] = `
+initialize {
+  "0": Object {
+    "attribs": Object {
+      "class": "ant-select-show-arrow select-test ant-select ant-select-open ant-select-focused ant-select-enabled ant-select-allow-clear",
+      "style": "width:120px",
+    },
+    "children": Array [
+      Object {
+        "attribs": Object {
+          "aria-autocomplete": "list",
+          "aria-controls": "",
+          "aria-expanded": "true",
+          "aria-haspopup": "true",
+          "class": "ant-select-selection
+            ant-select-selection--single",
+          "role": "combobox",
+          "tabindex": "0",
+        },
+        "children": Array [
+          Object {
+            "attribs": Object {
+              "class": "ant-select-selection__rendered",
+            },
+            "children": Array [
+              Object {
+                "attribs": Object {
+                  "class": "ant-select-search ant-select-search--inline",
+                  "style": "display:block",
+                },
+                "children": Array [
+                  Object {
+                    "attribs": Object {
+                      "class": "ant-select-search__field__wrap",
+                    },
+                    "children": Array [
+                      Object {
+                        "attribs": Object {
+                          "autocomplete": "off",
+                          "class": "ant-select-search__field",
+                          "value": "",
+                        },
+                        "children": Array [],
+                        "name": "input",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": Object {
+                          "attribs": Object {
+                            "class": "ant-select-search__field__mirror",
+                          },
+                          "children": Array [
+                            Object {
+                              "data": " ",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "text",
+                            },
+                          ],
+                          "name": "span",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": [Circular],
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "class": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "class": undefined,
+                          },
+                        },
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "autocomplete": undefined,
+                          "class": undefined,
+                          "value": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "autocomplete": undefined,
+                          "class": undefined,
+                          "value": undefined,
+                        },
+                      },
+                      Object {
+                        "attribs": Object {
+                          "class": "ant-select-search__field__mirror",
+                        },
+                        "children": Array [
+                          Object {
+                            "data": " ",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "text",
+                          },
+                        ],
+                        "name": "span",
+                        "namespace": "http://www.w3.org/1999/xhtml",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": Object {
+                          "attribs": Object {
+                            "autocomplete": "off",
+                            "class": "ant-select-search__field",
+                            "value": "",
+                          },
+                          "children": Array [],
+                          "name": "input",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": [Circular],
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                        },
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "class": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "class": undefined,
+                        },
+                      },
+                    ],
+                    "name": "div",
+                    "namespace": "http://www.w3.org/1999/xhtml",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "class": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "class": undefined,
+                    },
+                  },
+                ],
+                "name": "div",
+                "namespace": "http://www.w3.org/1999/xhtml",
+                "next": null,
+                "parent": [Circular],
+                "prev": null,
+                "type": "tag",
+                "x-attribsNamespace": Object {
+                  "class": undefined,
+                  "style": undefined,
+                },
+                "x-attribsPrefix": Object {
+                  "class": undefined,
+                  "style": undefined,
+                },
+              },
+            ],
+            "name": "div",
+            "namespace": "http://www.w3.org/1999/xhtml",
+            "next": Object {
+              "attribs": Object {
+                "class": "ant-select-arrow",
+                "style": "user-select:none;-webkit-user-select:none",
+                "unselectable": "on",
+              },
+              "children": Array [
+                Object {
+                  "attribs": Object {
+                    "aria-label": "icon: down",
+                    "class": "anticon anticon-down ant-select-arrow-icon",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "aria-hidden": "true",
+                        "class": "",
+                        "data-icon": "down",
+                        "fill": "currentColor",
+                        "focusable": "false",
+                        "height": "1em",
+                        "viewBox": "64 64 896 896",
+                        "width": "1em",
+                      },
+                      "children": Array [
+                        Object {
+                          "attribs": Object {
+                            "d": "M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z",
+                          },
+                          "children": Array [],
+                          "name": "path",
+                          "namespace": "http://www.w3.org/2000/svg",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "d": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "d": undefined,
+                          },
+                        },
+                      ],
+                      "name": "svg",
+                      "namespace": "http://www.w3.org/2000/svg",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "aria-hidden": undefined,
+                        "class": undefined,
+                        "data-icon": undefined,
+                        "fill": undefined,
+                        "focusable": undefined,
+                        "height": undefined,
+                        "viewBox": undefined,
+                        "width": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "aria-hidden": undefined,
+                        "class": undefined,
+                        "data-icon": undefined,
+                        "fill": undefined,
+                        "focusable": undefined,
+                        "height": undefined,
+                        "viewBox": undefined,
+                        "width": undefined,
+                      },
+                    },
+                  ],
+                  "name": "i",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "aria-label": undefined,
+                    "class": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "aria-label": undefined,
+                    "class": undefined,
+                  },
+                },
+              ],
+              "name": "span",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "next": null,
+              "parent": [Circular],
+              "prev": [Circular],
+              "type": "tag",
+              "x-attribsNamespace": Object {
+                "class": undefined,
+                "style": undefined,
+                "unselectable": undefined,
+              },
+              "x-attribsPrefix": Object {
+                "class": undefined,
+                "style": undefined,
+                "unselectable": undefined,
+              },
+            },
+            "parent": [Circular],
+            "prev": null,
+            "type": "tag",
+            "x-attribsNamespace": Object {
+              "class": undefined,
+            },
+            "x-attribsPrefix": Object {
+              "class": undefined,
+            },
+          },
+          Object {
+            "attribs": Object {
+              "class": "ant-select-arrow",
+              "style": "user-select:none;-webkit-user-select:none",
+              "unselectable": "on",
+            },
+            "children": Array [
+              Object {
+                "attribs": Object {
+                  "aria-label": "icon: down",
+                  "class": "anticon anticon-down ant-select-arrow-icon",
+                },
+                "children": Array [
+                  Object {
+                    "attribs": Object {
+                      "aria-hidden": "true",
+                      "class": "",
+                      "data-icon": "down",
+                      "fill": "currentColor",
+                      "focusable": "false",
+                      "height": "1em",
+                      "viewBox": "64 64 896 896",
+                      "width": "1em",
+                    },
+                    "children": Array [
+                      Object {
+                        "attribs": Object {
+                          "d": "M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z",
+                        },
+                        "children": Array [],
+                        "name": "path",
+                        "namespace": "http://www.w3.org/2000/svg",
+                        "next": null,
+                        "parent": [Circular],
+                        "prev": null,
+                        "type": "tag",
+                        "x-attribsNamespace": Object {
+                          "d": undefined,
+                        },
+                        "x-attribsPrefix": Object {
+                          "d": undefined,
+                        },
+                      },
+                    ],
+                    "name": "svg",
+                    "namespace": "http://www.w3.org/2000/svg",
+                    "next": null,
+                    "parent": [Circular],
+                    "prev": null,
+                    "type": "tag",
+                    "x-attribsNamespace": Object {
+                      "aria-hidden": undefined,
+                      "class": undefined,
+                      "data-icon": undefined,
+                      "fill": undefined,
+                      "focusable": undefined,
+                      "height": undefined,
+                      "viewBox": undefined,
+                      "width": undefined,
+                    },
+                    "x-attribsPrefix": Object {
+                      "aria-hidden": undefined,
+                      "class": undefined,
+                      "data-icon": undefined,
+                      "fill": undefined,
+                      "focusable": undefined,
+                      "height": undefined,
+                      "viewBox": undefined,
+                      "width": undefined,
+                    },
+                  },
+                ],
+                "name": "i",
+                "namespace": "http://www.w3.org/1999/xhtml",
+                "next": null,
+                "parent": [Circular],
+                "prev": null,
+                "type": "tag",
+                "x-attribsNamespace": Object {
+                  "aria-label": undefined,
+                  "class": undefined,
+                },
+                "x-attribsPrefix": Object {
+                  "aria-label": undefined,
+                  "class": undefined,
+                },
+              },
+            ],
+            "name": "span",
+            "namespace": "http://www.w3.org/1999/xhtml",
+            "next": null,
+            "parent": [Circular],
+            "prev": Object {
+              "attribs": Object {
+                "class": "ant-select-selection__rendered",
+              },
+              "children": Array [
+                Object {
+                  "attribs": Object {
+                    "class": "ant-select-search ant-select-search--inline",
+                    "style": "display:block",
+                  },
+                  "children": Array [
+                    Object {
+                      "attribs": Object {
+                        "class": "ant-select-search__field__wrap",
+                      },
+                      "children": Array [
+                        Object {
+                          "attribs": Object {
+                            "autocomplete": "off",
+                            "class": "ant-select-search__field",
+                            "value": "",
+                          },
+                          "children": Array [],
+                          "name": "input",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": Object {
+                            "attribs": Object {
+                              "class": "ant-select-search__field__mirror",
+                            },
+                            "children": Array [
+                              Object {
+                                "data": " ",
+                                "next": null,
+                                "parent": [Circular],
+                                "prev": null,
+                                "type": "text",
+                              },
+                            ],
+                            "name": "span",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "next": null,
+                            "parent": [Circular],
+                            "prev": [Circular],
+                            "type": "tag",
+                            "x-attribsNamespace": Object {
+                              "class": undefined,
+                            },
+                            "x-attribsPrefix": Object {
+                              "class": undefined,
+                            },
+                          },
+                          "parent": [Circular],
+                          "prev": null,
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "autocomplete": undefined,
+                            "class": undefined,
+                            "value": undefined,
+                          },
+                        },
+                        Object {
+                          "attribs": Object {
+                            "class": "ant-select-search__field__mirror",
+                          },
+                          "children": Array [
+                            Object {
+                              "data": " ",
+                              "next": null,
+                              "parent": [Circular],
+                              "prev": null,
+                              "type": "text",
+                            },
+                          ],
+                          "name": "span",
+                          "namespace": "http://www.w3.org/1999/xhtml",
+                          "next": null,
+                          "parent": [Circular],
+                          "prev": Object {
+                            "attribs": Object {
+                              "autocomplete": "off",
+                              "class": "ant-select-search__field",
+                              "value": "",
+                            },
+                            "children": Array [],
+                            "name": "input",
+                            "namespace": "http://www.w3.org/1999/xhtml",
+                            "next": [Circular],
+                            "parent": [Circular],
+                            "prev": null,
+                            "type": "tag",
+                            "x-attribsNamespace": Object {
+                              "autocomplete": undefined,
+                              "class": undefined,
+                              "value": undefined,
+                            },
+                            "x-attribsPrefix": Object {
+                              "autocomplete": undefined,
+                              "class": undefined,
+                              "value": undefined,
+                            },
+                          },
+                          "type": "tag",
+                          "x-attribsNamespace": Object {
+                            "class": undefined,
+                          },
+                          "x-attribsPrefix": Object {
+                            "class": undefined,
+                          },
+                        },
+                      ],
+                      "name": "div",
+                      "namespace": "http://www.w3.org/1999/xhtml",
+                      "next": null,
+                      "parent": [Circular],
+                      "prev": null,
+                      "type": "tag",
+                      "x-attribsNamespace": Object {
+                        "class": undefined,
+                      },
+                      "x-attribsPrefix": Object {
+                        "class": undefined,
+                      },
+                    },
+                  ],
+                  "name": "div",
+                  "namespace": "http://www.w3.org/1999/xhtml",
+                  "next": null,
+                  "parent": [Circular],
+                  "prev": null,
+                  "type": "tag",
+                  "x-attribsNamespace": Object {
+                    "class": undefined,
+                    "style": undefined,
+                  },
+                  "x-attribsPrefix": Object {
+                    "class": undefined,
+                    "style": undefined,
+                  },
+                },
+              ],
+              "name": "div",
+              "namespace": "http://www.w3.org/1999/xhtml",
+              "next": [Circular],
+              "parent": [Circular],
+              "prev": null,
+              "type": "tag",
+              "x-attribsNamespace": Object {
+                "class": undefined,
+              },
+              "x-attribsPrefix": Object {
+                "class": undefined,
+              },
+            },
+            "type": "tag",
+            "x-attribsNamespace": Object {
+              "class": undefined,
+              "style": undefined,
+              "unselectable": undefined,
+            },
+            "x-attribsPrefix": Object {
+              "class": undefined,
+              "style": undefined,
+              "unselectable": undefined,
+            },
+          },
+        ],
+        "name": "div",
+        "namespace": "http://www.w3.org/1999/xhtml",
+        "next": null,
+        "parent": [Circular],
+        "prev": null,
+        "type": "tag",
+        "x-attribsNamespace": Object {
+          "aria-autocomplete": undefined,
+          "aria-controls": undefined,
+          "aria-expanded": undefined,
+          "aria-haspopup": undefined,
+          "class": undefined,
+          "role": undefined,
+          "tabindex": undefined,
+        },
+        "x-attribsPrefix": Object {
+          "aria-autocomplete": undefined,
+          "aria-controls": undefined,
+          "aria-expanded": undefined,
+          "aria-haspopup": undefined,
+          "class": undefined,
+          "role": undefined,
+          "tabindex": undefined,
+        },
+      },
+    ],
+    "name": "div",
+    "namespace": "http://www.w3.org/1999/xhtml",
+    "next": null,
+    "parent": null,
+    "prev": null,
+    "root": Object {
+      "attribs": Object {},
+      "children": Array [
+        [Circular],
+      ],
+      "name": "root",
+      "namespace": "http://www.w3.org/1999/xhtml",
+      "next": null,
+      "parent": null,
+      "prev": null,
+      "type": "root",
+      "x-attribsNamespace": Object {},
+      "x-attribsPrefix": Object {},
+    },
+    "type": "tag",
+    "x-attribsNamespace": Object {
+      "class": undefined,
+      "style": undefined,
+    },
+    "x-attribsPrefix": Object {
+      "class": undefined,
+      "style": undefined,
+    },
+  },
+  "_root": [Circular],
+  "length": 1,
+  "options": Object {
+    "decodeEntities": true,
+    "normalizeWhitespace": false,
+    "withDomLvl1": true,
+    "xml": false,
+  },
+}
+`;
