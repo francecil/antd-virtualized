@@ -10,10 +10,9 @@
     "baseUrl": ".",
     "strict": true,
     "resolveJsonModule": true,
+    "noImplicitAny": false,
     "paths": {
-      "@/*": [
-        "src/*"
-      ]
+      "@/*": ["src/*"]
     },
     "declaration": true,
     "allowSyntheticDefaultImports": true
